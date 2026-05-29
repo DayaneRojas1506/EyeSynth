@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datos experimentales y resultados (no versionar)
+analysis/sessions/
+results/figures/
+
+# Pesos de modelos
+models/npr/*
+models/univfd/*
+!models/npr/.gitkeep
+!models/univfd/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.h5
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs y temporales
+*.log
+*.tmp
+*.bak

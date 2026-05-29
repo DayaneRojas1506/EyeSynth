@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EyeSynth — Eye Tracking</title>
+<style>
+  :root {
+    --bg: #07090f;
+    --bg-soft: #0d1119;
+    --panel: #11161f;
+    --accent: #00d4f0;
+    --accent-dim: #0a7a8a;
+    --text: #d8e2ec;
+    --text-dim: #7d8a99;
+    --warn: #ff4d5e;
+    --ok: #2fe089;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+  #app { width: 100vw; height: 100vh; position: relative; }
+
+  .screen {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .screen.active { display: flex; }
+
+  h1 {
+    font-size: 2.6rem; letter-spacing: 0.18em; font-weight: 700;
+    color: var(--accent); text-transform: uppercase;
+  }
+  h1 .sub { color: var(--text); }
+  .tagline { color: var(--text-dim); margin-top: 0.6rem; font-size: 1rem; letter-spacing: 0.06em; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid #1c2530;
+    border-radius: 14px;
+    padding: 2.2rem 2.6rem;
+    max-width: 640px;
+    margin-top: 2rem;
+  }
+  .card ol { text-align: left; color: var(--text-dim); line-height: 1.9; padding-left: 1.2rem; }
+  .card ol b { color: var(--text); }
+
+  button {
+    margin-top: 1.8rem;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+    color: #04181c; font-weight: 700; letter-spacing: 0.08em;
+    border: none; border-radius: 10px;
+    padding: 0.95rem 2.4rem; font-size: 1rem;
+    cursor: pointer; text-transform: uppercase;
+    transition: transform 0.08s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 0 0 rgba(0,212,240,0.0);
+  }
+  button:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(0,212,240,0.25); }
+  button:active { transform: translateY(0); }
+  button.secondary {
+    background: transparent; color: var(--accent);
+    border: 1px solid var(--accent-dim); box-shadow: none;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* ---- Calibración ---- */
+  #calibScreen { background: var(--bg); }
+  .calib-hud {
+    position: absolute; top: 24px; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    pointer-events: none;
+  }
+  .calib-hud .big { font-size: 1.1rem; letter-spacing: 0.1em; color: var(--text); }
+  .calib-hud .small { color: var(--text-dim); font-size: 0.85rem; }
+  .calib-progress {
+    width: 320px; height: 6px; background: #1c2530; border-radius: 4px; overflow: hidden;
+  }
+  .calib-progress > i { display: block; height: 100%; width: 0%; background: var(--accent); transition: width 0.2s; }
+
+    .calib-point {
+    position: absolute; width: 34px; height: 34px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 9999;          /* <-- AÑADIR: que quede por encima del video */
+  }
+  .calib-point .ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid var(--warn);
+    opacity: 0.5;
+  }
+  .calib-point .core {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--warn); transition: background 0.2s, transform 0.2s;
+  }
+  .calib-point.locked .core { transform: scale(0.7); }
+  .calib-point.active .ring { border-color: var(--accent); opacity: 1; }
+  .calib-point.active .core { background: var(--accent); }
+  /* relleno radial de progreso de clics */
+  .calib-point .fill {
+    position: absolute; inset: -6px; border-radius: 50%;
+    background: conic-gradient(var(--accent) var(--p,0deg), transparent 0deg);
+    opacity: 0.35;
+  }
+
+  /* ---- Tracking ---- */
+  #trackScreen { background: var(--bg); }
+  #heatCanvas, #gazeLayer {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  #gazeDot {
+    position: absolute; width: 22px; height: 22px;
+    border-radius: 50%; transform: translate(-50%,-50%);
+    border: 2px solid var(--accent);
+    background: rgba(0,212,240,0.15);
+    box-shadow: 0 0 14px rgba(0,212,240,0.6);
+    pointer-events: none; transition: left 0.05s linear, top 0.05s linear;
+  }
+  .track-hud {
+    position: absolute; top: 18px; left: 18px; right: 18px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    pointer-events: none; z-index: 5;
+  }
+  .stat-box {
+    background: rgba(13,17,25,0.82); border: 1px solid #1c2530;
+    border-radius: 10px; padding: 12px 16px; backdrop-filter: blur(4px);
+    text-align: left; font-size: 0.85rem; line-height: 1.7;
+  }
+  .stat-box .k { color: var(--text-dim); }
+  .stat-box .v { color: var(--accent); font-weight: 700; }
+  .quality {
+    border-radius: 10px; padding: 12px 18px; font-weight: 700; letter-spacing: 0.05em;
+    border: 1px solid var(--ok); color: var(--ok); background: rgba(47,224,137,0.08);
+    text-align: center; min-width: 260px;
+  }
+  .quality.bad { border-color: var(--warn); color: var(--warn); background: rgba(255,77,94,0.1); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+  .track-controls {
+    position: absolute; bottom: 22px; left: 0; right: 0;
+    display: flex; gap: 14px; justify-content: center; z-index: 6;
+  }
+  .track-controls button { margin-top: 0; }
+
+  .toast {
+    position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%);
+    background: var(--panel); border: 1px solid var(--accent-dim);
+    color: var(--text); padding: 12px 20px; border-radius: 10px;
+    opacity: 0; transition: opacity 0.3s; z-index: 20; pointer-events: none;
+    max-width: 80vw;
+  }
+  .toast.show { opacity: 1; }
+  .toast.err { border-color: var(--warn); color: var(--warn); }
+
+  /* preview de cámara pequeño durante tracking */
+  #webgazerVideoContainer { z-index: 2 !important; }
+
+  .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 420px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== INTRO ===== -->
+  <section id="introScreen" class="screen active">
+    <h1>Eye<span class="sub">Synth</span></h1>
+    <div class="tagline">Seguimiento ocular en el navegador · WebGazer.js</div>
+    <div class="card">
+      <ol>
+        <li>Permite el acceso a la <b>cámara web</b> cuando el navegador lo pida.</li>
+        <li>Realiza la <b>calibración de 9 puntos</b>: mira cada punto y haz clic.</li>
+        <li>Pasa a la fase de <b>seguimiento</b> y observa el estímulo.</li>
+        <li>Pulsa <b>GUARDAR SESIÓN</b> para registrar los datos.</li>
+      </ol>
+      <button id="btnStart">Iniciar calibración</button>
+      <div class="hint">Usa buena iluminación frontal y mantén la cabeza estable.</div>
+    </div>
+  </section>
+
+  <!-- ===== CALIBRACIÓN ===== -->
+  <section id="calibScreen" class="screen">
+    <div class="calib-hud">
+      <div class="big" id="calibTitle">Calibración — punto 1 / 9</div>
+      <div class="small" id="calibMsg">Fija la mirada en el punto y haz clic 5 veces</div>
+      <div class="calib-progress"><i id="calibBar"></i></div>
+    </div>
+    <!-- los 9 puntos se generan por JS -->
+  </section>
+
+  <!-- ===== TRACKING ===== -->
+  <section id="trackScreen" class="screen">
+    <canvas id="heatCanvas"></canvas>
+    <div id="gazeLayer"><div id="gazeDot"></div></div>
+
+    <div class="track-hud">
+      <div class="stat-box">
+        <div><span class="k">Muestras: </span><span class="v" id="stSamples">0</span></div>
+        <div><span class="k">Duración: </span><span class="v" id="stTime">0.0 s</span></div>
+        <div><span class="k">Frecuencia: </span><span class="v" id="stHz">0 Hz</span></div>
+      </div>
+      <div class="quality" id="quality">SEÑAL OK</div>
+    </div>
+
+    <div class="track-controls">
+      <button id="btnSave">Guardar sesión</button>
+      <button id="btnRecalib" class="secondary">Recalibrar</button>
+      <button id="btnFinish" class="secondary">Finalizar</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/webgazer@2.1.0/dist/webgazer.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Configuración ----------
+  const GRID = 64;                  // heatmap_64x64
+  const CLICKS_PER_POINT = 5;       // clics necesarios por punto
+  const LOCK_MS = 1200;             // bloqueo de 1.2 s antes de permitir clic
+  const CALIB_POINTS = [
+    [0.10, 0.12], [0.50, 0.12], [0.90, 0.12],
+    [0.10, 0.50], [0.50, 0.50], [0.90, 0.50],
+    [0.10, 0.88], [0.50, 0.88], [0.90, 0.88],
+  ];
+
+  // ---------- Estado ----------
+  const state = {
+    phase: "intro",                 // intro | calib | track
+    calibIndex: 0,
+    calibLocked: true,
+    calibClicks: 0,
+    calibration: { n_points: CALIB_POINTS.length, points: [], completed: false },
+    samples: [],                    // {t, x, y, x_norm, y_norm}
+    heatmap: makeGrid(GRID),
+    recent: [],                     // últimas muestras para control de calidad
+    startTime: 0,
+    lastGaze: null,
+  };
+
+  // ---------- Utilidades ----------
+  function makeGrid(n) {
+    return Array.from({ length: n }, () => new Array(n).fill(0));
+  }
+  function $(id) { return document.getElementById(id); }
+  function show(screenId) {
+    document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+    $(screenId).classList.add("active");
+  }
+  let toastTimer = null;
+  function toast(msg, isErr) {
+    const el = $("toast");
+    el.textContent = msg;
+    el.classList.toggle("err", !!isErr);
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 3200);
+  }
+
+  // ---------- WebGazer ----------
+  function startWebgazer() {
+    if (typeof webgazer === "undefined") {
+      toast("No se pudo cargar WebGazer.js (revisa tu conexión).", true);
+      return;
+    }
+    webgazer
+      .setRegression("ridge")
+      .setTracker("TFFacemesh")
+      .setGazeListener(onGaze)
+      .begin()
+      .catch((e) => toast("Error al iniciar la cámara: " + e, true));
+    webgazer.showVideoPreview(true).showPredictionPoints(false);
+    webgazer.applyKalmanFilter(true);
+  }
+
+  function onGaze(data, clock) {
+    if (!data) return;
+    const w = window.innerWidth, h = window.innerHeight;
+    const x = data.x, y = data.y;
+    const xn = x / w, yn = y / h;
+
+    if (state.phase === "track") {
+      // mover cursor de gaze
+      const dot = $("gazeDot");
+      dot.style.left = x + "px";
+      dot.style.top = y + "px";
+
+      const sample = {
+        t: +( (performance.now() - state.startTime) / 1000 ).toFixed(3),
+        x: Math.round(x), y: Math.round(y),
+        x_norm: +xn.toFixed(4), y_norm: +yn.toFixed(4),
+      };
+      state.samples.push(sample);
+      accumulateHeat(xn, yn);
+      pushQuality(xn, yn);
+      updateStats();
+    }
+    state.lastGaze = { x, y, xn, yn };
+  }
+
+  function accumulateHeat(xn, yn) {
+    if (xn < 0 || xn > 1 || yn < 0 || yn > 1) return;
+    const gx = Math.min(GRID - 1, Math.max(0, Math.floor(xn * GRID)));
+    const gy = Math.min(GRID - 1, Math.max(0, Math.floor(yn * GRID)));
+    state.heatmap[gy][gx] += 1;
+  }
+
+  // ---------- Control de calidad ----------
+  function pushQuality(xn, yn) {
+    state.recent.push({ xn, yn });
+    if (state.recent.length > 10) state.recent.shift();
+    // advertir si las últimas 10 muestras están fuera de rango (x_norm > 0.95)
+    if (state.recent.length === 10) {
+      const allOut = state.recent.every(
+        (s) => s.xn > 0.95 || s.xn < 0.05 || s.yn > 0.95 || s.yn < 0.05
+      );
+      const q = $("quality");
+      if (allOut) {
+        q.textContent = "GAZE FUERA DE RANGO · RECALIBRA";
+        q.classList.add("bad");
+      } else {
+        q.textContent = "SEÑAL OK";
+        q.classList.remove("bad");
+      }
+    }
+  }
+
+  function updateStats() {
+    $("stSamples").textContent = state.samples.length;
+    const secs = (performance.now() - state.startTime) / 1000;
+    $("stTime").textContent = secs.toFixed(1) + " s";
+    const hz = secs > 0 ? state.samples.length / secs : 0;
+    $("stHz").textContent = hz.toFixed(0) + " Hz";
+  }
+
+  // ---------- Render del heatmap en vivo ----------
+  let heatCtx = null;
+  function setupCanvas() {
+    const c = $("heatCanvas");
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    heatCtx = c.getContext("2d");
+  }
+  function renderHeat() {
+    if (state.phase !== "track" || !heatCtx) return;
+    const c = $("heatCanvas");
+    const w = c.width, h = c.height;
+    heatCtx.clearRect(0, 0, w, h);
+    let max = 1;
+    for (let r = 0; r < GRID; r++)
+      for (let col = 0; col < GRID; col++)
+        if (state.heatmap[r][col] > max) max = state.heatmap[r][col];
+    const cw = w / GRID, ch = h / GRID;
+    for (let r = 0; r < GRID; r++) {
+      for (let col = 0; col < GRID; col++) {
+        const v = state.heatmap[r][col];
+        if (v === 0) continue;
+        const t = v / max;
+        heatCtx.fillStyle = heatColor(t);
+        heatCtx.globalAlpha = Math.min(0.75, 0.18 + t * 0.7);
+        heatCtx.fillRect(col * cw, r * ch, cw + 1, ch + 1);
+      }
+    }
+    heatCtx.globalAlpha = 1;
+  }
+  function heatColor(t) {
+    // azul/cian -> magenta -> rojo
+    const r = Math.round(255 * Math.min(1, t * 1.6));
+    const g = Math.round(180 * Math.max(0, 1 - Math.abs(t - 0.4) * 2.2));
+    const b = Math.round(240 * Math.max(0, 1 - t * 1.8));
+    return `rgb(${r},${g},${b})`;
+  }
+  setInterval(renderHeat, 400);
+
+  // ---------- Calibración ----------
+  function buildCalibPoints() {
+    const scr = $("calibScreen");
+    scr.querySelectorAll(".calib-point").forEach((n) => n.remove());
+    CALIB_POINTS.forEach((p, i) => {
+      const el = document.createElement("div");
+      el.className = "calib-point";
+      el.dataset.idx = i;
+      el.style.left = p[0] * 100 + "%";
+      el.style.top = p[1] * 100 + "%";
+      el.innerHTML = '<div class="fill"></div><div class="ring"></div><div class="core"></div>';
+      el.addEventListener("click", () => onCalibClick(i, el));
+      scr.appendChild(el);
+    });
+  }
+
+  function startCalibration() {
+    state.phase = "calib";
+    state.calibIndex = 0;
+    state.calibration.points = [];
+    state.calibration.completed = false;
+    show("calibScreen");
+    buildCalibPoints();
+    showCalibPoint(0);
+  }
+
+  function showCalibPoint(i) {
+    document.querySelectorAll(".calib-point").forEach((n) => (n.style.display = "none"));
+    const el = document.querySelector('.calib-point[data-idx="' + i + '"]');
+    if (!el) return;
+    state.calibClicks = 0;
+    state.calibLocked = true;
+    el.style.display = "flex";
+    el.classList.add("locked");
+    el.classList.remove("active");
+    el.querySelector(".fill").style.setProperty("--p", "0deg");
+
+    $("calibTitle").textContent = `Calibración — punto ${i + 1} / ${CALIB_POINTS.length}`;
+    $("calibMsg").textContent = "Fija la mirada en el punto…";
+    $("calibBar").style.width = (i / CALIB_POINTS.length) * 100 + "%";
+
+    setTimeout(() => {
+      state.calibLocked = false;
+      el.classList.remove("locked");
+      el.classList.add("active");
+      $("calibMsg").textContent = `Haz clic ${CLICKS_PER_POINT} veces mirando el punto`;
+    }, LOCK_MS);
+  }
+
+  function onCalibClick(i, el) {
+    if (state.calibLocked || i !== state.calibIndex) return;
+    state.calibClicks++;
+    const px = el.getBoundingClientRect().left + el.offsetWidth / 2;
+    const py = el.getBoundingClientRect().top + el.offsetHeight / 2;
+    if (typeof webgazer !== "undefined") {
+      webgazer.recordScreenPosition(px, py, "click");
+    }
+    const deg = (state.calibClicks / CLICKS_PER_POINT) * 360;
+    el.querySelector(".fill").style.setProperty("--p", deg + "deg");
+
+    if (state.calibClicks >= CLICKS_PER_POINT) {
+      const p = CALIB_POINTS[i];
+      state.calibration.points.push({ x_norm: p[0], y_norm: p[1], clicks: state.calibClicks });
+      el.style.display = "none";
+      state.calibIndex++;
+      if (state.calibIndex >= CALIB_POINTS.length) {
+        finishCalibration();
+      } else {
+        showCalibPoint(state.calibIndex);
+      }
+    }
+  }
+
+  function finishCalibration() {
+    state.calibration.completed = true;
+    $("calibBar").style.width = "100%";
+    toast("Calibración completada");
+    startTracking();
+  }
+
+  // ---------- Tracking ----------
+  function startTracking() {
+    state.phase = "track";
+    state.samples = [];
+    state.heatmap = makeGrid(GRID);
+    state.recent = [];
+    state.startTime = performance.now();
+    show("trackScreen");
+    setupCanvas();
+    if (typeof webgazer !== "undefined") webgazer.showPredictionPoints(false);
+    $("quality").textContent = "SEÑAL OK";
+    $("quality").classList.remove("bad");
+    updateStats();
+  }
+
+  // ---------- Guardado ----------
+  function filterSamples(samples) {
+    // descarta muestras pegadas a los bordes (gaze fuera de pantalla / inválido)
+    return samples.filter(
+      (s) =>
+        s.x_norm < 0.99 && s.y_norm < 0.99 &&
+        s.x_norm > 0.01 && s.y_norm > 0.01
+    );
+  }
+
+  function buildPayload() {
+    const filtered = filterSamples(state.samples);
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    const stamp =
+      now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + "_" +
+      pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds());
+    return {
+      session_id: "session_" + stamp,
+      timestamp: now.toISOString(),
+      screen: { width: window.innerWidth, height: window.innerHeight },
+      calibration: state.calibration,
+      duration_s: +((performance.now() - state.startTime) / 1000).toFixed(2),
+      n_samples_raw: state.samples.length,
+      n_samples_filtered: filtered.length,
+      gaze_samples: filtered,
+      heatmap_64x64: state.heatmap,
+    };
+  }
+
+  async function saveSession() {
+    if (state.samples.length === 0) {
+      toast("No hay muestras para guardar todavía.", true);
+      return;
+    }
+    const btn = $("btnSave");
+    btn.disabled = true;
+    const payload = buildPayload();
+    try {
+      const res = await fetch("/save-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        toast("Sesión guardada: " + json.filename + " (" + json.samples + " muestras)");
+      } else {
+        toast("Error del servidor: " + (json.error || "desconocido"), true);
+      }
+    } catch (e) {
+      // sin servidor: descarga local como respaldo
+      downloadLocal(payload);
+      toast("Sin servidor: se descargó el JSON localmente.", true);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function downloadLocal(payload) {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = payload.session_id + ".json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // ---------- Eventos UI ----------
+  $("btnStart").addEventListener("click", () => {
+    startWebgazer();
+    // breve espera para que la cámara arranque antes de calibrar
+    $("btnStart").disabled = true;
+    toast("Iniciando cámara…");
+    setTimeout(() => { startCalibration(); $("btnStart").disabled = false; }, 1500);
+  });
+  $("btnSave").addEventListener("click", saveSession);
+  $("btnRecalib").addEventListener("click", startCalibration);
+  $("btnFinish").addEventListener("click", () => {
+    if (typeof webgazer !== "undefined") webgazer.end();
+    state.phase = "intro";
+    show("introScreen");
+    toast("Sesión finalizada.");
+  });
+
+  window.addEventListener("resize", () => { if (state.phase === "track") setupCanvas(); });
+})();
+</script>
+</body>
+</html>
