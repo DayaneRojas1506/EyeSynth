@@ -21,8 +21,10 @@ SERVER_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SERVER_DIR)
 FRONTEND_DIR = os.path.join(PROJECT_ROOT, "frontend")
 SESSIONS_DIR = os.path.join(PROJECT_ROOT, "analysis", "sessions")
+EXPERIMENT_SESSIONS_DIR = os.path.join(PROJECT_ROOT, "analysis", "experiment_sessions")
 
 os.makedirs(SESSIONS_DIR, exist_ok=True)
+os.makedirs(EXPERIMENT_SESSIONS_DIR, exist_ok=True)
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -30,8 +32,14 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    """Sirve la aplicación web de eye-tracking."""
+    """Sirve la aplicación web de eye-tracking (estímulo único)."""
     return send_from_directory(FRONTEND_DIR, "index.html")
+
+
+@app.route("/experiment")
+def experiment():
+    """Sirve la app del experimento (grilla 2x2 de detección)."""
+    return send_from_directory(FRONTEND_DIR, "experiment.html")
 
 
 @app.route("/save-session", methods=["POST"])
@@ -57,6 +65,31 @@ def save_session():
 
     return jsonify({"ok": True, "filename": filename, "samples": n_samples})
 
+
+@app.route("/save-experiment", methods=["POST"])
+def save_experiment():
+    """Recibe el JSON de una sesión del experimento (grilla 2x2) y lo guarda."""
+    data = request.get_json(silent=True)
+    if data is None:
+        return jsonify({"ok": False, "error": "JSON inválido o ausente"}), 400
+
+    pid = (data.get("participant_id") or "anon").replace(" ", "_")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"exp_{pid}_{timestamp}.json"
+    path = os.path.join(EXPERIMENT_SESSIONS_DIR, filename)
+
+    data.setdefault("session_id", filename.replace(".json", ""))
+    data.setdefault("timestamp", datetime.now().isoformat())
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    n_sets = len(data.get("sets", []))
+    print(f"[EyeSynth] Experimento guardado: {filename} ({n_sets} sets)")
+
+    return jsonify({"ok": True, "filename": filename, "sets": n_sets})
+
+
 @app.route("/stimuli")
 def list_stimuli():
     """Lista las imágenes disponibles en frontend/stimuli/."""
@@ -65,6 +98,7 @@ def list_stimuli():
     os.makedirs(stim_dir, exist_ok=True)
     files = [n for n in sorted(os.listdir(stim_dir)) if n.lower().endswith(exts)]
     return jsonify({"ok": True, "files": files})
+
 
 @app.route("/sessions", methods=["GET"])
 def list_sessions():
@@ -92,10 +126,38 @@ def list_sessions():
     return jsonify({"ok": True, "count": len(sessions), "sessions": sessions})
 
 
+@app.route("/experiment-sessions", methods=["GET"])
+def list_experiment_sessions():
+    """Lista las sesiones del experimento guardadas con metadatos básicos."""
+    sessions = []
+    for name in sorted(os.listdir(EXPERIMENT_SESSIONS_DIR)):
+        if not name.endswith(".json"):
+            continue
+        path = os.path.join(EXPERIMENT_SESSIONS_DIR, name)
+        meta = {
+            "filename": name,
+            "size_bytes": os.path.getsize(path),
+            "modified": datetime.fromtimestamp(os.path.getmtime(path)).isoformat(),
+        }
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            meta["participant_id"] = data.get("participant_id")
+            meta["timestamp"] = data.get("timestamp")
+            meta["n_sets"] = len(data.get("sets", []))
+        except (json.JSONDecodeError, OSError) as exc:
+            meta["error"] = str(exc)
+        sessions.append(meta)
+
+    return jsonify({"ok": True, "count": len(sessions), "sessions": sessions})
+
+
 if __name__ == "__main__":
     print("=" * 56)
     print("  EyeSynth - servidor de eye-tracking")
-    print("  Frontend : http://localhost:5000")
-    print(f"  Sesiones : {SESSIONS_DIR}")
+    print("  Estímulo único : http://localhost:5000/")
+    print("  Experimento    : http://localhost:5000/experiment")
+    print(f"  Sesiones        : {SESSIONS_DIR}")
+    print(f"  Experimentos    : {EXPERIMENT_SESSIONS_DIR}")
     print("=" * 56)
     app.run(host="0.0.0.0", port=5000, debug=False)
