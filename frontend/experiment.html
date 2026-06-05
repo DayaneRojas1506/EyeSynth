@@ -14,13 +14,13 @@
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif; overflow: hidden; }
   #app { width: 100vw; height: 100vh; position: relative; }
   .screen { position: absolute; inset: 0; display: none; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center; }
+    align-items: center; justify-content: center; text-align: center; padding: 20px; }
   .screen.active { display: flex; }
   h1 { font-size: 2.2rem; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; }
   h1 .sub { color: var(--text); }
   .tagline { color: var(--text-dim); margin-top: 0.5rem; }
   .card { background: var(--panel); border: 1px solid #1c2530; border-radius: 14px;
-    padding: 2rem 2.4rem; max-width: 640px; margin-top: 1.6rem; }
+    padding: 2rem 2.4rem; max-width: 680px; margin-top: 1.6rem; }
   .card ol, .card ul { text-align: left; color: var(--text-dim); line-height: 1.8; padding-left: 1.2rem; }
   .card b { color: var(--text); }
   input[type=text] { margin-top: 1rem; padding: 0.7rem 1rem; border-radius: 8px;
@@ -32,7 +32,22 @@
   button:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(0,212,240,0.25); }
   button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent-dim); box-shadow: none; }
   button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-  .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 440px; }
+  .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 460px; }
+
+  /* Consentimiento */
+  .consent-text { text-align: left; color: var(--text-dim); line-height: 1.7; font-size: 0.92rem;
+    max-height: 38vh; overflow-y: auto; padding-right: 8px; }
+  .consent-text b { color: var(--text); }
+  .consent-check { display: flex; align-items: center; gap: 10px; margin-top: 1.2rem;
+    color: var(--text); cursor: pointer; justify-content: center; }
+  .consent-check input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+
+  /* Encuadre */
+  .frame-status { margin-top: 1.2rem; font-size: 1.05rem; letter-spacing: 0.04em; color: var(--text-dim); }
+  .frame-status.ok { color: var(--ok); }
+  .frame-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--warn); margin-right: 8px; vertical-align: middle; }
+  .frame-dot.ok { background: var(--ok); }
 
   /* Calibración */
   #calibScreen { background: var(--bg); }
@@ -54,14 +69,17 @@
   /* Experimento: grilla 2x2 */
   #expScreen { background: var(--bg); }
   .exp-top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between;
-    align-items: center; padding: 12px 20px; z-index: 5; }
+    align-items: center; padding: 12px 24px; z-index: 5; }
   .progress { color: var(--text-dim); letter-spacing: 0.08em; font-size: 0.95rem; }
   .progress b { color: var(--accent); }
-  .timer { font-size: 1.4rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .timer.low { color: var(--warn); }
   .question { color: var(--text); font-size: 0.95rem; letter-spacing: 0.04em; }
+  /* Reloj: grande, tranquilo; parpadea solo en los ultimos segundos */
+  .timer { font-size: 2.8rem; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums;
+    line-height: 1; min-width: 70px; text-align: right; }
+  .timer.low { color: var(--warn); animation: blink 0.7s steps(1, end) infinite; }
+  @keyframes blink { 50% { opacity: 0.2; } }
   .grid2x2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-    gap: 12px; width: min(86vh, 92vw); height: min(86vh, 92vw); margin-top: 12px; }
+    gap: 12px; width: min(84vh, 92vw); height: min(84vh, 92vw); margin-top: 16px; }
   .cell { position: relative; border: 2px solid #1c2530; border-radius: 10px; overflow: hidden;
     cursor: pointer; background: #000; transition: border-color 0.15s, box-shadow 0.15s; }
   .cell:hover { border-color: var(--accent); box-shadow: 0 0 16px rgba(0,212,240,0.3); }
@@ -75,9 +93,8 @@
   #expandOverlay { position: absolute; inset: 0; background: #000; display: none; z-index: 30; }
   #expandImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
     background: #000; pointer-events: none; }
-  #gazeDot { position: absolute; width: 20px; height: 20px; border-radius: 50%; transform: translate(-50%,-50%);
-    border: 2px solid var(--accent); background: rgba(0,212,240,0.15); box-shadow: 0 0 12px rgba(0,212,240,0.5);
-    pointer-events: none; z-index: 33; transition: left 0.05s linear, top 0.05s linear; }
+  /* El punto de mirada permanece OCULTO al participante (los datos se registran igual) */
+  #gazeDot { display: none; }
   .expand-controls { position: absolute; bottom: 22px; left: 0; right: 0; display: flex; gap: 14px;
     justify-content: center; z-index: 34; }
   .expand-controls button { margin-top: 0; }
@@ -109,8 +126,34 @@
 <body>
 <div id="app">
 
+  <!-- CONSENTIMIENTO (primera pantalla, antes de la camara) -->
+  <section id="consentScreen" class="screen active">
+    <h1 style="font-size:1.8rem;">Consentimiento informado</h1>
+    <div class="card">
+      <div class="consent-text" id="consentText">
+        <!-- TEXTO DE EJEMPLO — reemplazar por el aprobado por tu asesor / comite de etica -->
+        <p>Te invitamos a participar en un estudio que forma parte de un <b>proyecto de tesis</b> sobre
+        la percepción humana de imágenes editadas por inteligencia artificial.</p>
+        <p style="margin-top:0.7rem;">Durante la sesión, la <b>cámara</b> de tu dispositivo se usará para
+        estimar hacia qué zonas de la pantalla diriges la mirada mientras observas imágenes.
+        <b>No se graba ni se almacena video ni fotografías de tu rostro</b>: el procesamiento ocurre
+        localmente en tu navegador y solo se guardan coordenadas de mirada, tus respuestas y los tiempos.</p>
+        <p style="margin-top:0.7rem;">Los datos se tratarán con fines <b>académicos</b> y de forma
+        <b>anónima</b>. Tu participación es <b>voluntaria</b> y puedes <b>detenerte en cualquier momento</b>
+        sin consecuencia alguna.</p>
+        <p style="margin-top:0.7rem; color:var(--warn);">[Texto de ejemplo. Debe ser validado y completado
+        por tu asesor o el comité de ética antes del testeo real.]</p>
+      </div>
+      <label class="consent-check">
+        <input type="checkbox" id="consentChk" />
+        He leído y acepto participar voluntariamente
+      </label>
+      <button id="btnConsent" disabled>Acepto y continúo</button>
+    </div>
+  </section>
+
   <!-- INTRO -->
-  <section id="introScreen" class="screen active">
+  <section id="introScreen" class="screen">
     <h1>Eye<span class="sub">Synth</span></h1>
     <div class="tagline">Experimento de detección de imágenes editadas</div>
     <div class="card">
@@ -122,15 +165,24 @@
       </ul>
       <div><input id="pid" type="text" placeholder="Tu nombre o código" autocomplete="off" /></div>
       <button id="btnStart">Comenzar</button>
-      <div class="hint">Permite el acceso a la cámara. Buena luz frontal y cabeza estable.</div>
+      <div class="hint">Al continuar se pedirá acceso a la cámara. Usa buena luz frontal.</div>
     </div>
+  </section>
+
+  <!-- ENCUADRE (colocarse en el recuadro antes de calibrar) -->
+  <section id="frameScreen" class="screen">
+    <h1 style="font-size:1.6rem;">Colócate bien</h1>
+    <div class="tagline">Ubica tu rostro dentro del recuadro verde de la cámara y mantente quieto</div>
+    <div class="frame-status" id="frameStatus"><span class="frame-dot" id="frameDot"></span>Buscando rostro…</div>
+    <button id="btnFrameGo" disabled>Calibrar</button>
+    <div class="hint">Si no aparece tu cámara, revisa el permiso del navegador (candado junto a la URL).</div>
   </section>
 
   <!-- CALIBRACIÓN -->
   <section id="calibScreen" class="screen">
     <div class="calib-hud">
       <div class="big" id="calibTitle">Calibración — punto 1 / 9</div>
-      <div class="small" id="calibMsg">Fija la mirada en el punto y haz clic 5 veces</div>
+      <div class="small" id="calibMsg">Fija la mirada en el punto y haz clic</div>
       <div class="calib-progress"><i id="calibBar"></i></div>
     </div>
   </section>
@@ -164,8 +216,8 @@
     <div class="card">
       <h1 style="font-size:1.5rem;">Recalibremos rápido</h1>
       <p style="color:var(--text-dim);margin-top:0.8rem;line-height:1.6;">
-        Para mantener la precisión de la cámara, repetiremos la calibración de 9 puntos.</p>
-      <button id="btnRecalibGo">Calibrar de nuevo</button>
+        Una calibración corta para mantener la precisión. Solo unos pocos puntos.</p>
+      <button id="btnRecalibGo">Calibrar (rápido)</button>
     </div>
   </section>
 
@@ -184,6 +236,17 @@
     <div class="hint" id="saveMsg"></div>
   </section>
 
+  <!-- CIERRE -->
+  <section id="doneScreen" class="screen">
+    <h1 style="font-size:1.8rem;">¡Gracias!</h1>
+    <div class="tagline">El experimento ha finalizado y tus datos quedaron guardados.</div>
+    <div class="card" style="text-align:center;">
+      <p style="color:var(--text-dim);line-height:1.6;">Ya puedes cerrar esta pestaña.
+      La cámara ha sido desactivada.</p>
+      <button id="btnNew" class="secondary">Nueva sesión</button>
+    </div>
+  </section>
+
   <div class="toast" id="toast"></div>
 </div>
 
@@ -198,29 +261,40 @@
   const SELECTION_SEED = 42;       // seed para elegir QUÉ sets (mismos para todos)
   const RECALIB_EVERY = 5;         // recalibrar cada N sets (0 = nunca)
   const SET_TIME_S = 60;           // límite por set
-  const CLICKS_PER_POINT = 5;
+  const TIMER_LOW_S = 10;          // a partir de aquí el reloj parpadea
+  const CLICKS_FULL = 5;           // clics por punto en calibración inicial (completa)
+  const CLICKS_SHORT = 3;          // clics por punto en recalibración (rápida)
   const LOCK_MS = 1200;
-  const CALIB_POINTS = [
+  const FRAME_STABLE_MS = 1500;    // tiempo de rostro detectado estable para permitir avanzar
+  // calibración completa: 9 puntos
+  const CALIB_FULL = [
     [0.10,0.12],[0.50,0.12],[0.90,0.12],
     [0.10,0.50],[0.50,0.50],[0.90,0.50],
     [0.10,0.88],[0.50,0.88],[0.90,0.88],
   ];
+  // recalibración rápida: 5 puntos (esquinas + centro)
+  const CALIB_SHORT = [
+    [0.12,0.12],[0.88,0.12],[0.50,0.50],[0.12,0.88],[0.88,0.88],
+  ];
 
   // ===================== ESTADO =====================
   const state = {
-    phase: "intro",
+    phase: "consent",
     participant: "",
     manifest: null,
-    sessionSets: [],     // sets elegidos para esta sesión (en orden de presentación)
+    sessionSets: [],
     setIndex: 0,
-    current: null,       // datos del set en curso
+    current: null,
     expandVersion: null,
     expandStart: 0,
+    calibPoints: CALIB_FULL,
+    calibClicksNeeded: CLICKS_FULL,
     calibIndex: 0, calibLocked: true, calibClicks: 0,
-    calibration: { n_points: CALIB_POINTS.length, points: [], completed: false },
-    afterCalib: null,    // callback al terminar calibración
-    results: [],         // un objeto por set
+    calibration: { n_points: 0, points: [], completed: false },
+    afterCalib: null,
+    results: [],
     lastGaze: null,
+    lastGazeTime: 0,
   };
 
   // ===================== UTILIDADES =====================
@@ -229,7 +303,6 @@
   let toastTimer=null;
   function toast(msg,isErr){ const e=$("toast"); e.textContent=msg; e.classList.toggle("err",!!isErr);
     e.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>e.classList.remove("show"),3200); }
-  // RNG determinista (mulberry32) para elegir los mismos sets siempre
   function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a);
     t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
   function shuffle(arr, rnd){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
@@ -244,10 +317,10 @@
   }
   function onGaze(data){
     if(!data) return;
+    state.lastGazeTime = performance.now();
     const w=window.innerWidth,h=window.innerHeight, x=data.x,y=data.y, xn=x/w, yn=y/h;
     state.lastGaze={x,y,xn,yn};
     if(state.phase==="expanded" && state.expandVersion){
-      const dot=$("gazeDot"); dot.style.left=x+"px"; dot.style.top=y+"px";
       const img=state.current.images[state.expandVersion];
       if(img && img.rect){
         const r=img.rect; const u=(xn-r.x_norm)/r.w_norm, v=(yn-r.y_norm)/r.h_norm;
@@ -261,15 +334,36 @@
     }
   }
 
+  // ===================== ENCUADRE =====================
+  let frameInt=null, frameStreak=0;
+  function startFraming(){
+    state.phase="frame"; show("frameScreen");
+    const dot=$("frameDot"), st=$("frameStatus"), btn=$("btnFrameGo");
+    btn.disabled=true; frameStreak=0;
+    dot.classList.remove("ok"); st.classList.remove("ok"); st.lastChild.textContent="Buscando rostro…";
+    clearInterval(frameInt);
+    frameInt=setInterval(()=>{
+      const fresh = (performance.now()-state.lastGazeTime) < 400;  // rostro detectado hace poco
+      if(fresh) frameStreak += 250; else frameStreak = 0;
+      if(frameStreak>=FRAME_STABLE_MS){
+        dot.classList.add("ok"); st.classList.add("ok"); st.lastChild.textContent="✓ Bien encuadrado, puedes calibrar";
+        btn.disabled=false; clearInterval(frameInt);
+      }
+    },250);
+  }
+
   // ===================== CALIBRACIÓN =====================
-  function startCalibration(after){
+  function startCalibration(after, short){
     state.phase="calib"; state.afterCalib=after||null;
-    state.calibIndex=0; state.calibration={ n_points:CALIB_POINTS.length, points:[], completed:false };
+    state.calibPoints = short ? CALIB_SHORT : CALIB_FULL;
+    state.calibClicksNeeded = short ? CLICKS_SHORT : CLICKS_FULL;
+    state.calibIndex=0;
+    state.calibration={ n_points:state.calibPoints.length, points:[], completed:false, short:!!short };
     show("calibScreen"); buildCalibPoints(); showCalibPoint(0);
   }
   function buildCalibPoints(){
     const scr=$("calibScreen"); scr.querySelectorAll(".calib-point").forEach(n=>n.remove());
-    CALIB_POINTS.forEach((p,i)=>{ const el=document.createElement("div"); el.className="calib-point"; el.dataset.idx=i;
+    state.calibPoints.forEach((p,i)=>{ const el=document.createElement("div"); el.className="calib-point"; el.dataset.idx=i;
       el.style.left=p[0]*100+"%"; el.style.top=p[1]*100+"%";
       el.innerHTML='<div class="fill"></div><div class="ring"></div><div class="core"></div>';
       el.addEventListener("click",()=>onCalibClick(i,el)); scr.appendChild(el); });
@@ -277,24 +371,25 @@
   function showCalibPoint(i){
     document.querySelectorAll(".calib-point").forEach(n=>n.style.display="none");
     const el=document.querySelector('.calib-point[data-idx="'+i+'"]'); if(!el) return;
+    const total=state.calibPoints.length, need=state.calibClicksNeeded;
     state.calibClicks=0; state.calibLocked=true; el.style.display="flex"; el.classList.remove("active");
     el.querySelector(".fill").style.setProperty("--p","0deg");
-    $("calibTitle").textContent=`Calibración — punto ${i+1} / ${CALIB_POINTS.length}`;
+    $("calibTitle").textContent=`Calibración — punto ${i+1} / ${total}`;
     $("calibMsg").textContent="Fija la mirada en el punto…";
-    $("calibBar").style.width=(i/CALIB_POINTS.length)*100+"%";
+    $("calibBar").style.width=(i/total)*100+"%";
     setTimeout(()=>{ state.calibLocked=false; el.classList.add("active");
-      $("calibMsg").textContent=`Haz clic ${CLICKS_PER_POINT} veces mirando el punto`; }, LOCK_MS);
+      $("calibMsg").textContent=`Haz clic ${need} veces mirando el punto`; }, LOCK_MS);
   }
   function onCalibClick(i,el){
     if(state.calibLocked || i!==state.calibIndex) return;
     state.calibClicks++;
     const px=el.getBoundingClientRect().left+el.offsetWidth/2, py=el.getBoundingClientRect().top+el.offsetHeight/2;
     if(typeof webgazer!=="undefined") webgazer.recordScreenPosition(px,py,"click");
-    el.querySelector(".fill").style.setProperty("--p",(state.calibClicks/CLICKS_PER_POINT)*360+"deg");
-    if(state.calibClicks>=CLICKS_PER_POINT){
-      const p=CALIB_POINTS[i]; state.calibration.points.push({x_norm:p[0],y_norm:p[1],clicks:state.calibClicks});
+    el.querySelector(".fill").style.setProperty("--p",(state.calibClicks/state.calibClicksNeeded)*360+"deg");
+    if(state.calibClicks>=state.calibClicksNeeded){
+      const p=state.calibPoints[i]; state.calibration.points.push({x_norm:p[0],y_norm:p[1],clicks:state.calibClicks});
       el.style.display="none"; state.calibIndex++;
-      if(state.calibIndex>=CALIB_POINTS.length){ state.calibration.completed=true; $("calibBar").style.width="100%";
+      if(state.calibIndex>=state.calibPoints.length){ state.calibration.completed=true; $("calibBar").style.width="100%";
         const cb=state.afterCalib; state.afterCalib=null; if(cb) cb(); }
       else showCalibPoint(state.calibIndex);
     }
@@ -308,12 +403,10 @@
     const all=state.manifest.sets.slice();
     let chosen;
     if(SAME_FOR_ALL){
-      // mismos sets para todos: shuffle determinista con seed fijo, tomar N
       chosen = shuffle(all, mulberry32(SELECTION_SEED)).slice(0, SETS_PER_SESSION);
     } else {
       chosen = shuffle(all, mulberry32((Math.random()*1e9)|0)).slice(0, SETS_PER_SESSION);
     }
-    // orden de PRESENTACIÓN aleatorio por participante (distinto cada sesión)
     state.sessionSets = shuffle(chosen, mulberry32((Date.now()&0x7fffffff)));
   }
 
@@ -328,15 +421,12 @@
     if(idx>=state.sessionSets.length){ endExperiment(); return; }
     state.setIndex=idx;
     const s=state.sessionSets[idx];
-    // orden aleatorio de las 4 versiones en la grilla
     const versions=shuffle(Object.keys(s.images), mulberry32((Date.now()+idx)&0x7fffffff));
     state.current={
       set_id:s.set_id, image_id:s.image_id, source:s.source,
-      grid_order:versions, startTime:performance.now(), answered:false,
-      images:{}
+      grid_order:versions, startTime:performance.now(), answered:false, images:{}
     };
     versions.forEach(v=>{ state.current.images[v]={version:v, url:s.images[v], rect:null, view_duration_s:0, gaze_samples:[]}; });
-
     $("setNum").textContent=idx+1;
     const grid=$("grid"); grid.innerHTML="";
     versions.forEach((v,pos)=>{
@@ -352,12 +442,10 @@
     clearInterval(timerInt); timerLeft=SET_TIME_S;
     const t=$("timer"); t.textContent=timerLeft; t.classList.remove("low");
     timerInt=setInterval(()=>{
-      timerLeft--; t.textContent=timerLeft; if(timerLeft<=10) t.classList.add("low");
+      timerLeft--; t.textContent=timerLeft; if(timerLeft<=TIMER_LOW_S) t.classList.add("low");
       if(timerLeft<=0){ clearInterval(timerInt); timeoutSet(); }
     },1000);
   }
-
-  // ---- vista expandida ----
   function computeRect(img){
     const EW=window.innerWidth,EH=window.innerHeight, nw=img.naturalWidth,nh=img.naturalHeight;
     if(!nw||!nh) return null;
@@ -371,7 +459,6 @@
     img.src=state.current.images[v].url;
     if(img.complete && img.naturalWidth){ const r=computeRect(img); if(r) state.current.images[v].rect=r; }
     $("expandOverlay").style.display="block";
-    // pequeño cronómetro de observación (informativo)
     const vt=$("viewTimer"); let secs=0; vt.textContent="observando 0.0 s";
     clearInterval(openExpand._vt); openExpand._vt=setInterval(()=>{ secs+=0.1; vt.textContent="observando "+secs.toFixed(1)+" s"; },100);
   }
@@ -384,17 +471,14 @@
   }
   function chooseOriginal(){
     if(state.phase!=="expanded") return;
-    const v=state.expandVersion; closeExpand();
-    recordAnswer(v, false);
+    const v=state.expandVersion; closeExpand(); recordAnswer(v, false);
   }
   function timeoutSet(){ recordAnswer(null, true); }
-
   function recordAnswer(answerVersion, timedOut){
     if(state.current.answered) return;
     state.current.answered=true; clearInterval(timerInt);
     const correct = answerVersion===null ? null : (answerVersion===state.sessionSets[state.setIndex].correct);
     const rt = +((performance.now()-state.current.startTime)/1000).toFixed(2);
-    // empaquetar imágenes (array)
     const imagesArr=state.current.grid_order.map(v=>{
       const im=state.current.images[v];
       return { version:v, url:im.url, rect:im.rect, view_duration_s:im.view_duration_s,
@@ -419,9 +503,7 @@
     const next=state.setIndex+1;
     if(RECALIB_EVERY>0 && next<state.sessionSets.length && next%RECALIB_EVERY===0){
       state.phase="recalib"; show("recalibScreen");
-    } else {
-      loadSet(next);
-    }
+    } else { loadSet(next); }
   }
 
   // ===================== FIN / EXPORTACIÓN =====================
@@ -434,13 +516,13 @@
     $("sumAcc").textContent=acc+"%";
     $("sumTime").textContent=avgT.toFixed(1)+" s";
     $("sumDone").textContent=answered.length+" / "+state.results.length;
-    show("endScreen");
-    saveExperiment();
+    show("endScreen"); saveExperiment();
   }
   function buildPayload(){
     return {
       participant_id: state.participant,
       timestamp: new Date().toISOString(),
+      consent: true,
       screen: { width: window.innerWidth, height: window.innerHeight },
       config: { sets_per_session:SETS_PER_SESSION, same_for_all:SAME_FOR_ALL,
                 selection_seed:SELECTION_SEED, set_time_s:SET_TIME_S, recalib_every:RECALIB_EVERY },
@@ -467,8 +549,8 @@
                  "dur_original","dur_semantic_aware","dur_semantic_agnostic","dur_pix2pix_magicbrush"]];
     state.results.forEach(r=>{
       const d=v=>{ const im=r.images.find(x=>x.version===v); return im?im.view_duration_s:0; };
-      rows.push([ state.participant, r.set_id, r.image_id, r.source, r.answer_version??"",
-        r.correct===null?"":(r.correct?1:0), r.response_time_s??"", r.timed_out?1:0,
+      rows.push([ state.participant, r.set_id, r.image_id, r.source, r.answer_version==null?"":r.answer_version,
+        r.correct===null?"":(r.correct?1:0), r.response_time_s==null?"":r.response_time_s, r.timed_out?1:0,
         d("original"), d("semantic_aware"), d("semantic_agnostic"), d("pix2pix_magicbrush") ]);
     });
     const csv=rows.map(r=>r.join(",")).join("\n");
@@ -477,6 +559,9 @@
   }
 
   // ===================== EVENTOS =====================
+  $("consentChk").addEventListener("change", e=>{ $("btnConsent").disabled = !e.target.checked; });
+  $("btnConsent").addEventListener("click", ()=>{ state.phase="intro"; show("introScreen"); });
+
   $("btnStart").addEventListener("click", async ()=>{
     const pid=$("pid").value.trim();
     if(!pid){ toast("Escribe tu nombre o código primero.",true); return; }
@@ -485,14 +570,23 @@
     try{ await loadManifest(); }catch(e){ toast("No se pudo cargar sets_manifest.json",true); $("btnStart").disabled=false; return; }
     pickSessionSets();
     startWebgazer();
-    setTimeout(()=>{ startCalibration(startExperiment); $("btnStart").disabled=false; }, 1500);
+    setTimeout(()=>{ startFraming(); $("btnStart").disabled=false; }, 1200);
   });
+  $("btnFrameGo").addEventListener("click", ()=> startCalibration(startExperiment, false) );
   $("btnClose").addEventListener("click", closeExpand);
   $("btnChoose").addEventListener("click", chooseOriginal);
-  $("btnRecalibGo").addEventListener("click", ()=> startCalibration(()=> loadSet(state.setIndex+1)) );
+  $("btnRecalibGo").addEventListener("click", ()=> startCalibration(()=> loadSet(state.setIndex+1), true) );
   $("btnCSV").addEventListener("click", downloadCSV);
-  $("btnFinish").addEventListener("click", ()=>{ if(typeof webgazer!=="undefined") webgazer.end();
-    state.phase="intro"; show("introScreen"); toast("Experimento finalizado."); });
+  function finishAll(){
+    // detener todo: temporizadores, cronómetro de vista, encuadre y cámara
+    clearInterval(timerInt); clearInterval(frameInt); clearInterval(openExpand._vt);
+    try { if(typeof webgazer!=="undefined") webgazer.end(); } catch(e) {}
+    $("expandOverlay").style.display="none";
+    state.phase="done";
+    show("doneScreen");
+  }
+  $("btnFinish").addEventListener("click", finishAll);
+  $("btnNew").addEventListener("click", ()=> location.reload());
 
   window.addEventListener("resize", ()=>{
     if(state.phase==="expanded" && state.expandVersion){

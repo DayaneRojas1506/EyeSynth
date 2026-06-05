@@ -1,0 +1,2043 @@
+{
+  "participant_id": "B",
+  "timestamp": "2026-06-05T18:38:56.790Z",
+  "consent": true,
+  "screen": {
+    "width": 1528,
+    "height": 779
+  },
+  "config": {
+    "sets_per_session": 10,
+    "same_for_all": true,
+    "selection_seed": 42,
+    "set_time_s": 60,
+    "recalib_every": 5
+  },
+  "calibration": {
+    "n_points": 5,
+    "points": [
+      {
+        "x_norm": 0.12,
+        "y_norm": 0.12,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.88,
+        "y_norm": 0.12,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.5,
+        "y_norm": 0.5,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.12,
+        "y_norm": 0.88,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.88,
+        "y_norm": 0.88,
+        "clicks": 3
+      }
+    ],
+    "completed": true,
+    "short": true
+  },
+  "sets": [
+    {
+      "set_id": "set_051",
+      "image_id": "COCO_000000162589",
+      "source": "COCO",
+      "grid_order": [
+        "pix2pix_magicbrush",
+        "semantic_agnostic",
+        "original",
+        "semantic_aware"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 5.8,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000162589.jpg",
+          "rect": {
+            "x_norm": 0.3088,
+            "y_norm": 0,
+            "w_norm": 0.3824,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.31,
+          "n_samples": 12,
+          "gaze_samples": [
+            {
+              "t": 4.587,
+              "x": 713,
+              "y": 206,
+              "x_norm": 0.4665,
+              "y_norm": 0.2647,
+              "u": 0.4124,
+              "v": 0.2647,
+              "on_image": true
+            },
+            {
+              "t": 4.671,
+              "x": 684,
+              "y": 225,
+              "x_norm": 0.4479,
+              "y_norm": 0.2892,
+              "u": 0.3637,
+              "v": 0.2892,
+              "on_image": true
+            },
+            {
+              "t": 4.749,
+              "x": 607,
+              "y": 269,
+              "x_norm": 0.3973,
+              "y_norm": 0.3447,
+              "u": 0.2314,
+              "v": 0.3447,
+              "on_image": true
+            },
+            {
+              "t": 4.853,
+              "x": 523,
+              "y": 286,
+              "x_norm": 0.3424,
+              "y_norm": 0.3678,
+              "u": 0.0878,
+              "v": 0.3678,
+              "on_image": true
+            },
+            {
+              "t": 4.961,
+              "x": 511,
+              "y": 332,
+              "x_norm": 0.3347,
+              "y_norm": 0.4267,
+              "u": 0.0678,
+              "v": 0.4267,
+              "on_image": true
+            },
+            {
+              "t": 5.076,
+              "x": 463,
+              "y": 431,
+              "x_norm": 0.3029,
+              "y_norm": 0.553,
+              "u": -0.0154,
+              "v": 0.553,
+              "on_image": false
+            },
+            {
+              "t": 5.193,
+              "x": 448,
+              "y": 597,
+              "x_norm": 0.293,
+              "y_norm": 0.7658,
+              "u": -0.0413,
+              "v": 0.7658,
+              "on_image": false
+            },
+            {
+              "t": 5.316,
+              "x": 449,
+              "y": 694,
+              "x_norm": 0.2941,
+              "y_norm": 0.8914,
+              "u": -0.0384,
+              "v": 0.8914,
+              "on_image": false
+            },
+            {
+              "t": 5.433,
+              "x": 417,
+              "y": 728,
+              "x_norm": 0.2732,
+              "y_norm": 0.935,
+              "u": -0.093,
+              "v": 0.935,
+              "on_image": false
+            },
+            {
+              "t": 5.534,
+              "x": 467,
+              "y": 798,
+              "x_norm": 0.3056,
+              "y_norm": 1.0243,
+              "u": -0.0083,
+              "v": 1.0243,
+              "on_image": false
+            },
+            {
+              "t": 5.642,
+              "x": 461,
+              "y": 851,
+              "x_norm": 0.3019,
+              "y_norm": 1.0928,
+              "u": -0.0181,
+              "v": 1.0928,
+              "on_image": false
+            },
+            {
+              "t": 5.77,
+              "x": 523,
+              "y": 909,
+              "x_norm": 0.342,
+              "y_norm": 1.167,
+              "u": 0.0867,
+              "v": 1.167,
+              "on_image": false
+            }
+          ]
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_009",
+      "image_id": "ADE_00004217",
+      "source": "ADE",
+      "grid_order": [
+        "semantic_aware",
+        "semantic_agnostic",
+        "pix2pix_magicbrush",
+        "original"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 3.96,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00004217.jpg",
+          "rect": {
+            "x_norm": 0.1176,
+            "y_norm": 0,
+            "w_norm": 0.7647,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.77,
+          "n_samples": 12,
+          "gaze_samples": [
+            {
+              "t": 2.258,
+              "x": 1059,
+              "y": 631,
+              "x_norm": 0.6929,
+              "y_norm": 0.81,
+              "u": 0.7524,
+              "v": 0.81,
+              "on_image": true
+            },
+            {
+              "t": 2.335,
+              "x": 1020,
+              "y": 552,
+              "x_norm": 0.6674,
+              "y_norm": 0.7088,
+              "u": 0.7189,
+              "v": 0.7088,
+              "on_image": true
+            },
+            {
+              "t": 2.419,
+              "x": 955,
+              "y": 494,
+              "x_norm": 0.6249,
+              "y_norm": 0.6347,
+              "u": 0.6633,
+              "v": 0.6347,
+              "on_image": true
+            },
+            {
+              "t": 2.612,
+              "x": 921,
+              "y": 445,
+              "x_norm": 0.6026,
+              "y_norm": 0.5707,
+              "u": 0.6342,
+              "v": 0.5707,
+              "on_image": true
+            },
+            {
+              "t": 2.793,
+              "x": 937,
+              "y": 461,
+              "x_norm": 0.6132,
+              "y_norm": 0.5921,
+              "u": 0.6481,
+              "v": 0.5921,
+              "on_image": true
+            },
+            {
+              "t": 2.981,
+              "x": 777,
+              "y": 555,
+              "x_norm": 0.5085,
+              "y_norm": 0.7127,
+              "u": 0.5112,
+              "v": 0.7127,
+              "on_image": true
+            },
+            {
+              "t": 3.17,
+              "x": 662,
+              "y": 658,
+              "x_norm": 0.433,
+              "y_norm": 0.8446,
+              "u": 0.4125,
+              "v": 0.8446,
+              "on_image": true
+            },
+            {
+              "t": 3.357,
+              "x": 640,
+              "y": 723,
+              "x_norm": 0.4191,
+              "y_norm": 0.9281,
+              "u": 0.3942,
+              "v": 0.9281,
+              "on_image": true
+            },
+            {
+              "t": 3.531,
+              "x": 532,
+              "y": 722,
+              "x_norm": 0.3481,
+              "y_norm": 0.9265,
+              "u": 0.3015,
+              "v": 0.9265,
+              "on_image": true
+            },
+            {
+              "t": 3.689,
+              "x": 488,
+              "y": 726,
+              "x_norm": 0.3193,
+              "y_norm": 0.9313,
+              "u": 0.2637,
+              "v": 0.9313,
+              "on_image": true
+            },
+            {
+              "t": 3.835,
+              "x": 504,
+              "y": 764,
+              "x_norm": 0.3301,
+              "y_norm": 0.9809,
+              "u": 0.2778,
+              "v": 0.9809,
+              "on_image": true
+            },
+            {
+              "t": 3.937,
+              "x": 526,
+              "y": 738,
+              "x_norm": 0.3443,
+              "y_norm": 0.9477,
+              "u": 0.2965,
+              "v": 0.9477,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_066",
+      "image_id": "COCO_000000511002",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_agnostic",
+        "original",
+        "semantic_aware",
+        "pix2pix_magicbrush"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 14.4,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000511002.jpg",
+          "rect": {
+            "x_norm": 0.1601,
+            "y_norm": 0,
+            "w_norm": 0.6798,
+            "h_norm": 1
+          },
+          "view_duration_s": 3.1,
+          "n_samples": 20,
+          "gaze_samples": [
+            {
+              "t": 7.82,
+              "x": 730,
+              "y": 457,
+              "x_norm": 0.4775,
+              "y_norm": 0.5869,
+              "u": 0.4669,
+              "v": 0.5869,
+              "on_image": true
+            },
+            {
+              "t": 7.913,
+              "x": 735,
+              "y": 518,
+              "x_norm": 0.4813,
+              "y_norm": 0.6647,
+              "u": 0.4725,
+              "v": 0.6647,
+              "on_image": true
+            },
+            {
+              "t": 8.005,
+              "x": 699,
+              "y": 544,
+              "x_norm": 0.4576,
+              "y_norm": 0.6988,
+              "u": 0.4377,
+              "v": 0.6988,
+              "on_image": true
+            },
+            {
+              "t": 8.102,
+              "x": 685,
+              "y": 546,
+              "x_norm": 0.4484,
+              "y_norm": 0.7013,
+              "u": 0.4241,
+              "v": 0.7013,
+              "on_image": true
+            },
+            {
+              "t": 8.197,
+              "x": 674,
+              "y": 548,
+              "x_norm": 0.4412,
+              "y_norm": 0.704,
+              "u": 0.4136,
+              "v": 0.704,
+              "on_image": true
+            },
+            {
+              "t": 8.313,
+              "x": 667,
+              "y": 541,
+              "x_norm": 0.4364,
+              "y_norm": 0.6939,
+              "u": 0.4064,
+              "v": 0.6939,
+              "on_image": true
+            },
+            {
+              "t": 8.411,
+              "x": 659,
+              "y": 535,
+              "x_norm": 0.4311,
+              "y_norm": 0.687,
+              "u": 0.3987,
+              "v": 0.687,
+              "on_image": true
+            },
+            {
+              "t": 8.506,
+              "x": 587,
+              "y": 547,
+              "x_norm": 0.3845,
+              "y_norm": 0.7026,
+              "u": 0.33,
+              "v": 0.7026,
+              "on_image": true
+            },
+            {
+              "t": 8.687,
+              "x": 582,
+              "y": 518,
+              "x_norm": 0.381,
+              "y_norm": 0.6653,
+              "u": 0.3249,
+              "v": 0.6653,
+              "on_image": true
+            },
+            {
+              "t": 8.911,
+              "x": 554,
+              "y": 538,
+              "x_norm": 0.3627,
+              "y_norm": 0.6907,
+              "u": 0.2981,
+              "v": 0.6907,
+              "on_image": true
+            },
+            {
+              "t": 9.114,
+              "x": 522,
+              "y": 574,
+              "x_norm": 0.3413,
+              "y_norm": 0.7373,
+              "u": 0.2666,
+              "v": 0.7373,
+              "on_image": true
+            },
+            {
+              "t": 9.346,
+              "x": 587,
+              "y": 559,
+              "x_norm": 0.3844,
+              "y_norm": 0.7179,
+              "u": 0.3299,
+              "v": 0.7179,
+              "on_image": true
+            },
+            {
+              "t": 9.529,
+              "x": 623,
+              "y": 496,
+              "x_norm": 0.4079,
+              "y_norm": 0.6372,
+              "u": 0.3645,
+              "v": 0.6372,
+              "on_image": true
+            },
+            {
+              "t": 9.703,
+              "x": 646,
+              "y": 530,
+              "x_norm": 0.4227,
+              "y_norm": 0.6805,
+              "u": 0.3863,
+              "v": 0.6805,
+              "on_image": true
+            },
+            {
+              "t": 9.873,
+              "x": 705,
+              "y": 556,
+              "x_norm": 0.4613,
+              "y_norm": 0.7135,
+              "u": 0.4431,
+              "v": 0.7135,
+              "on_image": true
+            },
+            {
+              "t": 10.055,
+              "x": 699,
+              "y": 603,
+              "x_norm": 0.4575,
+              "y_norm": 0.7741,
+              "u": 0.4375,
+              "v": 0.7741,
+              "on_image": true
+            },
+            {
+              "t": 10.243,
+              "x": 663,
+              "y": 594,
+              "x_norm": 0.4337,
+              "y_norm": 0.7631,
+              "u": 0.4025,
+              "v": 0.7631,
+              "on_image": true
+            },
+            {
+              "t": 10.425,
+              "x": 665,
+              "y": 694,
+              "x_norm": 0.4353,
+              "y_norm": 0.8906,
+              "u": 0.4048,
+              "v": 0.8906,
+              "on_image": true
+            },
+            {
+              "t": 10.615,
+              "x": 669,
+              "y": 710,
+              "x_norm": 0.4381,
+              "y_norm": 0.9118,
+              "u": 0.409,
+              "v": 0.9118,
+              "on_image": true
+            },
+            {
+              "t": 10.791,
+              "x": 706,
+              "y": 721,
+              "x_norm": 0.4619,
+              "y_norm": 0.9253,
+              "u": 0.4439,
+              "v": 0.9253,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000511002.jpg",
+          "rect": {
+            "x_norm": 0.1601,
+            "y_norm": 0,
+            "w_norm": 0.6798,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.77,
+          "n_samples": 10,
+          "gaze_samples": [
+            {
+              "t": 12.821,
+              "x": 660,
+              "y": 534,
+              "x_norm": 0.432,
+              "y_norm": 0.6861,
+              "u": 0.3999,
+              "v": 0.6861,
+              "on_image": true
+            },
+            {
+              "t": 13.004,
+              "x": 643,
+              "y": 475,
+              "x_norm": 0.4209,
+              "y_norm": 0.6102,
+              "u": 0.3836,
+              "v": 0.6102,
+              "on_image": true
+            },
+            {
+              "t": 13.199,
+              "x": 643,
+              "y": 486,
+              "x_norm": 0.4207,
+              "y_norm": 0.6236,
+              "u": 0.3833,
+              "v": 0.6236,
+              "on_image": true
+            },
+            {
+              "t": 13.36,
+              "x": 669,
+              "y": 503,
+              "x_norm": 0.4378,
+              "y_norm": 0.646,
+              "u": 0.4085,
+              "v": 0.646,
+              "on_image": true
+            },
+            {
+              "t": 13.546,
+              "x": 750,
+              "y": 520,
+              "x_norm": 0.491,
+              "y_norm": 0.6678,
+              "u": 0.4868,
+              "v": 0.6678,
+              "on_image": true
+            },
+            {
+              "t": 13.726,
+              "x": 689,
+              "y": 551,
+              "x_norm": 0.4506,
+              "y_norm": 0.7073,
+              "u": 0.4273,
+              "v": 0.7073,
+              "on_image": true
+            },
+            {
+              "t": 13.916,
+              "x": 736,
+              "y": 626,
+              "x_norm": 0.4818,
+              "y_norm": 0.8037,
+              "u": 0.4733,
+              "v": 0.8037,
+              "on_image": true
+            },
+            {
+              "t": 14.084,
+              "x": 732,
+              "y": 674,
+              "x_norm": 0.4791,
+              "y_norm": 0.8654,
+              "u": 0.4693,
+              "v": 0.8654,
+              "on_image": true
+            },
+            {
+              "t": 14.23,
+              "x": 697,
+              "y": 742,
+              "x_norm": 0.4563,
+              "y_norm": 0.9527,
+              "u": 0.4357,
+              "v": 0.9527,
+              "on_image": true
+            },
+            {
+              "t": 14.367,
+              "x": 633,
+              "y": 721,
+              "x_norm": 0.4146,
+              "y_norm": 0.9258,
+              "u": 0.3744,
+              "v": 0.9258,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000511002.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000511002.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_069",
+      "image_id": "COCO_000000567093",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_aware",
+        "original",
+        "pix2pix_magicbrush",
+        "semantic_agnostic"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 6.67,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000567093.jpg",
+          "rect": {
+            "x_norm": 0.3088,
+            "y_norm": 0,
+            "w_norm": 0.3824,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.32,
+          "n_samples": 7,
+          "gaze_samples": [
+            {
+              "t": 5.557,
+              "x": 846,
+              "y": 293,
+              "x_norm": 0.5538,
+              "y_norm": 0.3757,
+              "u": 0.6406,
+              "v": 0.3757,
+              "on_image": true
+            },
+            {
+              "t": 5.749,
+              "x": 910,
+              "y": 449,
+              "x_norm": 0.5958,
+              "y_norm": 0.5759,
+              "u": 0.7505,
+              "v": 0.5759,
+              "on_image": true
+            },
+            {
+              "t": 5.934,
+              "x": 769,
+              "y": 495,
+              "x_norm": 0.5031,
+              "y_norm": 0.6348,
+              "u": 0.5082,
+              "v": 0.6348,
+              "on_image": true
+            },
+            {
+              "t": 6.121,
+              "x": 717,
+              "y": 593,
+              "x_norm": 0.4695,
+              "y_norm": 0.7615,
+              "u": 0.4203,
+              "v": 0.7615,
+              "on_image": true
+            },
+            {
+              "t": 6.312,
+              "x": 674,
+              "y": 698,
+              "x_norm": 0.441,
+              "y_norm": 0.8954,
+              "u": 0.3457,
+              "v": 0.8954,
+              "on_image": true
+            },
+            {
+              "t": 6.478,
+              "x": 663,
+              "y": 688,
+              "x_norm": 0.4341,
+              "y_norm": 0.8833,
+              "u": 0.3276,
+              "v": 0.8833,
+              "on_image": true
+            },
+            {
+              "t": 6.637,
+              "x": 672,
+              "y": 680,
+              "x_norm": 0.4397,
+              "y_norm": 0.8726,
+              "u": 0.3422,
+              "v": 0.8726,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_004",
+      "image_id": "ADE_00003333",
+      "source": "ADE",
+      "grid_order": [
+        "semantic_agnostic",
+        "pix2pix_magicbrush",
+        "original",
+        "semantic_aware"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 13.5,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00003333.jpg",
+          "rect": {
+            "x_norm": 0.3081,
+            "y_norm": 0,
+            "w_norm": 0.3839,
+            "h_norm": 1
+          },
+          "view_duration_s": 3.03,
+          "n_samples": 23,
+          "gaze_samples": [
+            {
+              "t": 8.839,
+              "x": 355,
+              "y": 555,
+              "x_norm": 0.2321,
+              "y_norm": 0.7129,
+              "u": -0.198,
+              "v": 0.7129,
+              "on_image": false
+            },
+            {
+              "t": 9.007,
+              "x": 424,
+              "y": 569,
+              "x_norm": 0.2776,
+              "y_norm": 0.7299,
+              "u": -0.0796,
+              "v": 0.7299,
+              "on_image": false
+            },
+            {
+              "t": 9.243,
+              "x": 498,
+              "y": 522,
+              "x_norm": 0.3259,
+              "y_norm": 0.6706,
+              "u": 0.0463,
+              "v": 0.6706,
+              "on_image": true
+            },
+            {
+              "t": 9.447,
+              "x": 661,
+              "y": 511,
+              "x_norm": 0.4327,
+              "y_norm": 0.6557,
+              "u": 0.3246,
+              "v": 0.6557,
+              "on_image": true
+            },
+            {
+              "t": 9.633,
+              "x": 631,
+              "y": 515,
+              "x_norm": 0.413,
+              "y_norm": 0.6608,
+              "u": 0.2732,
+              "v": 0.6608,
+              "on_image": true
+            },
+            {
+              "t": 9.825,
+              "x": 644,
+              "y": 542,
+              "x_norm": 0.4214,
+              "y_norm": 0.6961,
+              "u": 0.2952,
+              "v": 0.6961,
+              "on_image": true
+            },
+            {
+              "t": 10.02,
+              "x": 685,
+              "y": 539,
+              "x_norm": 0.4484,
+              "y_norm": 0.692,
+              "u": 0.3655,
+              "v": 0.692,
+              "on_image": true
+            },
+            {
+              "t": 10.182,
+              "x": 741,
+              "y": 532,
+              "x_norm": 0.4851,
+              "y_norm": 0.6831,
+              "u": 0.4609,
+              "v": 0.6831,
+              "on_image": true
+            },
+            {
+              "t": 10.322,
+              "x": 843,
+              "y": 535,
+              "x_norm": 0.5515,
+              "y_norm": 0.6864,
+              "u": 0.6341,
+              "v": 0.6864,
+              "on_image": true
+            },
+            {
+              "t": 10.401,
+              "x": 862,
+              "y": 508,
+              "x_norm": 0.564,
+              "y_norm": 0.6527,
+              "u": 0.6667,
+              "v": 0.6527,
+              "on_image": true
+            },
+            {
+              "t": 10.487,
+              "x": 875,
+              "y": 466,
+              "x_norm": 0.5728,
+              "y_norm": 0.5981,
+              "u": 0.6896,
+              "v": 0.5981,
+              "on_image": true
+            },
+            {
+              "t": 10.577,
+              "x": 834,
+              "y": 482,
+              "x_norm": 0.5457,
+              "y_norm": 0.6182,
+              "u": 0.619,
+              "v": 0.6182,
+              "on_image": true
+            },
+            {
+              "t": 10.656,
+              "x": 894,
+              "y": 520,
+              "x_norm": 0.5848,
+              "y_norm": 0.6677,
+              "u": 0.7208,
+              "v": 0.6677,
+              "on_image": true
+            },
+            {
+              "t": 10.744,
+              "x": 840,
+              "y": 526,
+              "x_norm": 0.5496,
+              "y_norm": 0.6757,
+              "u": 0.629,
+              "v": 0.6757,
+              "on_image": true
+            },
+            {
+              "t": 10.82,
+              "x": 787,
+              "y": 503,
+              "x_norm": 0.515,
+              "y_norm": 0.6455,
+              "u": 0.5389,
+              "v": 0.6455,
+              "on_image": true
+            },
+            {
+              "t": 10.909,
+              "x": 776,
+              "y": 541,
+              "x_norm": 0.5078,
+              "y_norm": 0.6944,
+              "u": 0.5203,
+              "v": 0.6944,
+              "on_image": true
+            },
+            {
+              "t": 10.994,
+              "x": 690,
+              "y": 597,
+              "x_norm": 0.4518,
+              "y_norm": 0.7659,
+              "u": 0.3743,
+              "v": 0.7659,
+              "on_image": true
+            },
+            {
+              "t": 11.094,
+              "x": 657,
+              "y": 653,
+              "x_norm": 0.4297,
+              "y_norm": 0.8387,
+              "u": 0.3168,
+              "v": 0.8387,
+              "on_image": true
+            },
+            {
+              "t": 11.194,
+              "x": 653,
+              "y": 673,
+              "x_norm": 0.4276,
+              "y_norm": 0.8638,
+              "u": 0.3112,
+              "v": 0.8638,
+              "on_image": true
+            },
+            {
+              "t": 11.289,
+              "x": 638,
+              "y": 682,
+              "x_norm": 0.4177,
+              "y_norm": 0.875,
+              "u": 0.2856,
+              "v": 0.875,
+              "on_image": true
+            },
+            {
+              "t": 11.389,
+              "x": 635,
+              "y": 698,
+              "x_norm": 0.4158,
+              "y_norm": 0.8961,
+              "u": 0.2806,
+              "v": 0.8961,
+              "on_image": true
+            },
+            {
+              "t": 11.517,
+              "x": 718,
+              "y": 703,
+              "x_norm": 0.4702,
+              "y_norm": 0.9022,
+              "u": 0.4222,
+              "v": 0.9022,
+              "on_image": true
+            },
+            {
+              "t": 11.646,
+              "x": 703,
+              "y": 725,
+              "x_norm": 0.4598,
+              "y_norm": 0.9302,
+              "u": 0.3953,
+              "v": 0.9302,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00003333.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00003333.jpg",
+          "rect": {
+            "x_norm": 0.3081,
+            "y_norm": 0,
+            "w_norm": 0.3839,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.15,
+          "n_samples": 10,
+          "gaze_samples": [
+            {
+              "t": 12.504,
+              "x": 637,
+              "y": 777,
+              "x_norm": 0.417,
+              "y_norm": 0.9978,
+              "u": 0.2836,
+              "v": 0.9978,
+              "on_image": true
+            },
+            {
+              "t": 12.598,
+              "x": 594,
+              "y": 750,
+              "x_norm": 0.3888,
+              "y_norm": 0.9624,
+              "u": 0.2101,
+              "v": 0.9624,
+              "on_image": true
+            },
+            {
+              "t": 12.693,
+              "x": 597,
+              "y": 710,
+              "x_norm": 0.3904,
+              "y_norm": 0.9117,
+              "u": 0.2143,
+              "v": 0.9117,
+              "on_image": true
+            },
+            {
+              "t": 12.796,
+              "x": 586,
+              "y": 670,
+              "x_norm": 0.3835,
+              "y_norm": 0.8604,
+              "u": 0.1964,
+              "v": 0.8604,
+              "on_image": true
+            },
+            {
+              "t": 12.886,
+              "x": 549,
+              "y": 629,
+              "x_norm": 0.3592,
+              "y_norm": 0.8077,
+              "u": 0.1332,
+              "v": 0.8077,
+              "on_image": true
+            },
+            {
+              "t": 12.974,
+              "x": 496,
+              "y": 636,
+              "x_norm": 0.3248,
+              "y_norm": 0.8159,
+              "u": 0.0436,
+              "v": 0.8159,
+              "on_image": true
+            },
+            {
+              "t": 13.06,
+              "x": 482,
+              "y": 670,
+              "x_norm": 0.3157,
+              "y_norm": 0.8603,
+              "u": 0.0198,
+              "v": 0.8603,
+              "on_image": true
+            },
+            {
+              "t": 13.143,
+              "x": 453,
+              "y": 668,
+              "x_norm": 0.2963,
+              "y_norm": 0.8576,
+              "u": -0.0308,
+              "v": 0.8576,
+              "on_image": false
+            },
+            {
+              "t": 13.286,
+              "x": 516,
+              "y": 674,
+              "x_norm": 0.3379,
+              "y_norm": 0.8652,
+              "u": 0.0775,
+              "v": 0.8652,
+              "on_image": true
+            },
+            {
+              "t": 13.46,
+              "x": 511,
+              "y": 671,
+              "x_norm": 0.3345,
+              "y_norm": 0.8617,
+              "u": 0.0688,
+              "v": 0.8617,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00003333.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_024",
+      "image_id": "ADE_00011244",
+      "source": "ADE",
+      "grid_order": [
+        "pix2pix_magicbrush",
+        "original",
+        "semantic_aware",
+        "semantic_agnostic"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 5.71,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00011244.jpg",
+          "rect": {
+            "x_norm": 0.1614,
+            "y_norm": 0,
+            "w_norm": 0.6771,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.91,
+          "n_samples": 11,
+          "gaze_samples": [
+            {
+              "t": 3.964,
+              "x": 751,
+              "y": 202,
+              "x_norm": 0.4915,
+              "y_norm": 0.2589,
+              "u": 0.4875,
+              "v": 0.2589,
+              "on_image": true
+            },
+            {
+              "t": 4.125,
+              "x": 729,
+              "y": 297,
+              "x_norm": 0.4774,
+              "y_norm": 0.3816,
+              "u": 0.4667,
+              "v": 0.3816,
+              "on_image": true
+            },
+            {
+              "t": 4.297,
+              "x": 665,
+              "y": 370,
+              "x_norm": 0.435,
+              "y_norm": 0.4743,
+              "u": 0.404,
+              "v": 0.4743,
+              "on_image": true
+            },
+            {
+              "t": 4.471,
+              "x": 669,
+              "y": 444,
+              "x_norm": 0.438,
+              "y_norm": 0.5706,
+              "u": 0.4085,
+              "v": 0.5706,
+              "on_image": true
+            },
+            {
+              "t": 4.654,
+              "x": 663,
+              "y": 502,
+              "x_norm": 0.4336,
+              "y_norm": 0.6439,
+              "u": 0.402,
+              "v": 0.6439,
+              "on_image": true
+            },
+            {
+              "t": 4.85,
+              "x": 670,
+              "y": 559,
+              "x_norm": 0.4385,
+              "y_norm": 0.7181,
+              "u": 0.4093,
+              "v": 0.7181,
+              "on_image": true
+            },
+            {
+              "t": 5.016,
+              "x": 687,
+              "y": 649,
+              "x_norm": 0.4498,
+              "y_norm": 0.8326,
+              "u": 0.4259,
+              "v": 0.8326,
+              "on_image": true
+            },
+            {
+              "t": 5.173,
+              "x": 660,
+              "y": 684,
+              "x_norm": 0.4321,
+              "y_norm": 0.8775,
+              "u": 0.3998,
+              "v": 0.8775,
+              "on_image": true
+            },
+            {
+              "t": 5.334,
+              "x": 569,
+              "y": 709,
+              "x_norm": 0.3725,
+              "y_norm": 0.9101,
+              "u": 0.3117,
+              "v": 0.9101,
+              "on_image": true
+            },
+            {
+              "t": 5.523,
+              "x": 667,
+              "y": 750,
+              "x_norm": 0.4364,
+              "y_norm": 0.9624,
+              "u": 0.4061,
+              "v": 0.9624,
+              "on_image": true
+            },
+            {
+              "t": 5.693,
+              "x": 670,
+              "y": 760,
+              "x_norm": 0.4385,
+              "y_norm": 0.9752,
+              "u": 0.4092,
+              "v": 0.9752,
+              "on_image": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set_id": "set_046",
+      "image_id": "COCO_000000087593",
+      "source": "COCO",
+      "grid_order": [
+        "original",
+        "semantic_aware",
+        "semantic_agnostic",
+        "pix2pix_magicbrush"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 10.76,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000087593.jpg",
+          "rect": {
+            "x_norm": 0.1601,
+            "y_norm": 0,
+            "w_norm": 0.6798,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.42,
+          "n_samples": 8,
+          "gaze_samples": [
+            {
+              "t": 9.508,
+              "x": 583,
+              "y": 241,
+              "x_norm": 0.3813,
+              "y_norm": 0.3089,
+              "u": 0.3254,
+              "v": 0.3089,
+              "on_image": true
+            },
+            {
+              "t": 9.68,
+              "x": 560,
+              "y": 275,
+              "x_norm": 0.3663,
+              "y_norm": 0.3535,
+              "u": 0.3033,
+              "v": 0.3535,
+              "on_image": true
+            },
+            {
+              "t": 9.86,
+              "x": 532,
+              "y": 277,
+              "x_norm": 0.3483,
+              "y_norm": 0.3552,
+              "u": 0.2768,
+              "v": 0.3552,
+              "on_image": true
+            },
+            {
+              "t": 10.06,
+              "x": 584,
+              "y": 298,
+              "x_norm": 0.3823,
+              "y_norm": 0.3831,
+              "u": 0.3268,
+              "v": 0.3831,
+              "on_image": true
+            },
+            {
+              "t": 10.176,
+              "x": 636,
+              "y": 338,
+              "x_norm": 0.4164,
+              "y_norm": 0.434,
+              "u": 0.377,
+              "v": 0.434,
+              "on_image": true
+            },
+            {
+              "t": 10.339,
+              "x": 682,
+              "y": 391,
+              "x_norm": 0.4463,
+              "y_norm": 0.5019,
+              "u": 0.4211,
+              "v": 0.5019,
+              "on_image": true
+            },
+            {
+              "t": 10.534,
+              "x": 631,
+              "y": 431,
+              "x_norm": 0.4131,
+              "y_norm": 0.5528,
+              "u": 0.3721,
+              "v": 0.5528,
+              "on_image": true
+            },
+            {
+              "t": 10.692,
+              "x": 569,
+              "y": 507,
+              "x_norm": 0.3727,
+              "y_norm": 0.651,
+              "u": 0.3127,
+              "v": 0.651,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000087593.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000087593.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000087593.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_014",
+      "image_id": "ADE_00007141",
+      "source": "ADE",
+      "grid_order": [
+        "pix2pix_magicbrush",
+        "original",
+        "semantic_aware",
+        "semantic_agnostic"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 4.85,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00007141.jpg",
+          "rect": {
+            "x_norm": 0.1176,
+            "y_norm": 0,
+            "w_norm": 0.7647,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.38,
+          "n_samples": 12,
+          "gaze_samples": [
+            {
+              "t": 3.642,
+              "x": 781,
+              "y": 499,
+              "x_norm": 0.511,
+              "y_norm": 0.6401,
+              "u": 0.5144,
+              "v": 0.6401,
+              "on_image": true
+            },
+            {
+              "t": 3.793,
+              "x": 799,
+              "y": 507,
+              "x_norm": 0.5231,
+              "y_norm": 0.6503,
+              "u": 0.5302,
+              "v": 0.6503,
+              "on_image": true
+            },
+            {
+              "t": 3.944,
+              "x": 870,
+              "y": 508,
+              "x_norm": 0.5691,
+              "y_norm": 0.6518,
+              "u": 0.5904,
+              "v": 0.6518,
+              "on_image": true
+            },
+            {
+              "t": 4.079,
+              "x": 879,
+              "y": 508,
+              "x_norm": 0.5754,
+              "y_norm": 0.6525,
+              "u": 0.5987,
+              "v": 0.6525,
+              "on_image": true
+            },
+            {
+              "t": 4.161,
+              "x": 828,
+              "y": 510,
+              "x_norm": 0.5418,
+              "y_norm": 0.6544,
+              "u": 0.5548,
+              "v": 0.6544,
+              "on_image": true
+            },
+            {
+              "t": 4.237,
+              "x": 828,
+              "y": 480,
+              "x_norm": 0.5416,
+              "y_norm": 0.6166,
+              "u": 0.5545,
+              "v": 0.6166,
+              "on_image": true
+            },
+            {
+              "t": 4.316,
+              "x": 762,
+              "y": 487,
+              "x_norm": 0.4987,
+              "y_norm": 0.6251,
+              "u": 0.4984,
+              "v": 0.6251,
+              "on_image": true
+            },
+            {
+              "t": 4.4,
+              "x": 754,
+              "y": 484,
+              "x_norm": 0.4936,
+              "y_norm": 0.6219,
+              "u": 0.4917,
+              "v": 0.6219,
+              "on_image": true
+            },
+            {
+              "t": 4.472,
+              "x": 698,
+              "y": 513,
+              "x_norm": 0.4571,
+              "y_norm": 0.6586,
+              "u": 0.444,
+              "v": 0.6586,
+              "on_image": true
+            },
+            {
+              "t": 4.57,
+              "x": 652,
+              "y": 538,
+              "x_norm": 0.427,
+              "y_norm": 0.6907,
+              "u": 0.4046,
+              "v": 0.6907,
+              "on_image": true
+            },
+            {
+              "t": 4.685,
+              "x": 613,
+              "y": 544,
+              "x_norm": 0.4015,
+              "y_norm": 0.6986,
+              "u": 0.3713,
+              "v": 0.6986,
+              "on_image": true
+            },
+            {
+              "t": 4.789,
+              "x": 628,
+              "y": 550,
+              "x_norm": 0.4108,
+              "y_norm": 0.7058,
+              "u": 0.3834,
+              "v": 0.7058,
+              "on_image": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set_id": "set_056",
+      "image_id": "COCO_000000237390",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_agnostic",
+        "pix2pix_magicbrush",
+        "semantic_aware",
+        "original"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 7.69,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000237390.jpg",
+          "rect": {
+            "x_norm": 0.1601,
+            "y_norm": 0,
+            "w_norm": 0.6798,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.53,
+          "n_samples": 11,
+          "gaze_samples": [
+            {
+              "t": 6.351,
+              "x": 563,
+              "y": 490,
+              "x_norm": 0.3683,
+              "y_norm": 0.6287,
+              "u": 0.3063,
+              "v": 0.6287,
+              "on_image": true
+            },
+            {
+              "t": 6.503,
+              "x": 564,
+              "y": 514,
+              "x_norm": 0.3692,
+              "y_norm": 0.66,
+              "u": 0.3077,
+              "v": 0.66,
+              "on_image": true
+            },
+            {
+              "t": 6.631,
+              "x": 563,
+              "y": 512,
+              "x_norm": 0.3684,
+              "y_norm": 0.6566,
+              "u": 0.3065,
+              "v": 0.6566,
+              "on_image": true
+            },
+            {
+              "t": 6.78,
+              "x": 592,
+              "y": 483,
+              "x_norm": 0.3876,
+              "y_norm": 0.6198,
+              "u": 0.3346,
+              "v": 0.6198,
+              "on_image": true
+            },
+            {
+              "t": 6.946,
+              "x": 670,
+              "y": 478,
+              "x_norm": 0.4384,
+              "y_norm": 0.6137,
+              "u": 0.4093,
+              "v": 0.6137,
+              "on_image": true
+            },
+            {
+              "t": 7.095,
+              "x": 715,
+              "y": 496,
+              "x_norm": 0.4682,
+              "y_norm": 0.6373,
+              "u": 0.4532,
+              "v": 0.6373,
+              "on_image": true
+            },
+            {
+              "t": 7.181,
+              "x": 678,
+              "y": 490,
+              "x_norm": 0.4434,
+              "y_norm": 0.6284,
+              "u": 0.4168,
+              "v": 0.6284,
+              "on_image": true
+            },
+            {
+              "t": 7.279,
+              "x": 754,
+              "y": 552,
+              "x_norm": 0.4936,
+              "y_norm": 0.708,
+              "u": 0.4906,
+              "v": 0.708,
+              "on_image": true
+            },
+            {
+              "t": 7.385,
+              "x": 724,
+              "y": 579,
+              "x_norm": 0.474,
+              "y_norm": 0.7432,
+              "u": 0.4618,
+              "v": 0.7432,
+              "on_image": true
+            },
+            {
+              "t": 7.477,
+              "x": 665,
+              "y": 603,
+              "x_norm": 0.4354,
+              "y_norm": 0.7744,
+              "u": 0.4049,
+              "v": 0.7744,
+              "on_image": true
+            },
+            {
+              "t": 7.566,
+              "x": 632,
+              "y": 616,
+              "x_norm": 0.4139,
+              "y_norm": 0.7911,
+              "u": 0.3734,
+              "v": 0.7911,
+              "on_image": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "set_id": "set_035",
+      "image_id": "ADE_00019754",
+      "source": "ADE",
+      "grid_order": [
+        "original",
+        "semantic_aware",
+        "pix2pix_magicbrush",
+        "semantic_agnostic"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 6.23,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00019754.jpg",
+          "rect": {
+            "x_norm": 0.1614,
+            "y_norm": 0,
+            "w_norm": 0.6771,
+            "h_norm": 1
+          },
+          "view_duration_s": 1.22,
+          "n_samples": 7,
+          "gaze_samples": [
+            {
+              "t": 5.123,
+              "x": 918,
+              "y": 399,
+              "x_norm": 0.6009,
+              "y_norm": 0.5121,
+              "u": 0.6491,
+              "v": 0.5121,
+              "on_image": true
+            },
+            {
+              "t": 5.284,
+              "x": 980,
+              "y": 379,
+              "x_norm": 0.6412,
+              "y_norm": 0.4866,
+              "u": 0.7086,
+              "v": 0.4866,
+              "on_image": true
+            },
+            {
+              "t": 5.454,
+              "x": 1019,
+              "y": 361,
+              "x_norm": 0.6666,
+              "y_norm": 0.4634,
+              "u": 0.7461,
+              "v": 0.4634,
+              "on_image": true
+            },
+            {
+              "t": 5.634,
+              "x": 998,
+              "y": 441,
+              "x_norm": 0.6529,
+              "y_norm": 0.5659,
+              "u": 0.7259,
+              "v": 0.5659,
+              "on_image": true
+            },
+            {
+              "t": 5.826,
+              "x": 997,
+              "y": 482,
+              "x_norm": 0.6525,
+              "y_norm": 0.6189,
+              "u": 0.7252,
+              "v": 0.6189,
+              "on_image": true
+            },
+            {
+              "t": 6.023,
+              "x": 941,
+              "y": 478,
+              "x_norm": 0.6156,
+              "y_norm": 0.6141,
+              "u": 0.6708,
+              "v": 0.6141,
+              "on_image": true
+            },
+            {
+              "t": 6.195,
+              "x": 943,
+              "y": 462,
+              "x_norm": 0.6172,
+              "y_norm": 0.5925,
+              "u": 0.6732,
+              "v": 0.5925,
+              "on_image": true
+            }
+          ]
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    }
+  ],
+  "session_id": "exp_B_20260605_133856"
+}

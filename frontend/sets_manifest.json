@@ -1,5 +1,5 @@
 {
-  "n_sets": 100,
+  "n_sets": 33,
   "versions": [
     "original",
     "semantic_aware",
@@ -7,6 +7,10 @@
     "pix2pix_magicbrush"
   ],
   "correct_version": "original",
+  "note": "Doble filtrado: sin artefacto azul Y todas las ediciones <= 0.35 de cambio (sin reemplazos drasticos). Ver sets_finales.csv",
+  "filter": {
+    "max_change_threshold": 0.35
+  },
   "sets": [
     {
       "set_id": "set_001",
@@ -18,30 +22,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/ADE_00000823.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00000823.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00000823.jpg"
-      }
-    },
-    {
-      "set_id": "set_002",
-      "image_id": "ADE_00002560",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00002560.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00002560.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00002560.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00002560.jpg"
-      }
-    },
-    {
-      "set_id": "set_003",
-      "image_id": "ADE_00003323",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00003323.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00003323.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00003323.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00003323.jpg"
       }
     },
     {
@@ -57,54 +37,6 @@
       }
     },
     {
-      "set_id": "set_005",
-      "image_id": "ADE_00003730",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00003730.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00003730.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00003730.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00003730.jpg"
-      }
-    },
-    {
-      "set_id": "set_006",
-      "image_id": "ADE_00003796",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00003796.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00003796.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00003796.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00003796.jpg"
-      }
-    },
-    {
-      "set_id": "set_007",
-      "image_id": "ADE_00003949",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00003949.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00003949.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00003949.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00003949.jpg"
-      }
-    },
-    {
-      "set_id": "set_008",
-      "image_id": "ADE_00004113",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00004113.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00004113.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00004113.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00004113.jpg"
-      }
-    },
-    {
       "set_id": "set_009",
       "image_id": "ADE_00004217",
       "source": "ADE",
@@ -114,42 +46,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/ADE_00004217.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00004217.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00004217.jpg"
-      }
-    },
-    {
-      "set_id": "set_010",
-      "image_id": "ADE_00004479",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00004479.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00004479.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00004479.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00004479.jpg"
-      }
-    },
-    {
-      "set_id": "set_011",
-      "image_id": "ADE_00006896",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00006896.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00006896.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00006896.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00006896.jpg"
-      }
-    },
-    {
-      "set_id": "set_012",
-      "image_id": "ADE_00006897",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00006897.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00006897.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00006897.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00006897.jpg"
       }
     },
     {
@@ -177,30 +73,6 @@
       }
     },
     {
-      "set_id": "set_015",
-      "image_id": "ADE_00007147",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00007147.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00007147.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00007147.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00007147.jpg"
-      }
-    },
-    {
-      "set_id": "set_016",
-      "image_id": "ADE_00008672",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00008672.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00008672.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00008672.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00008672.jpg"
-      }
-    },
-    {
       "set_id": "set_017",
       "image_id": "ADE_00010020",
       "source": "ADE",
@@ -225,30 +97,6 @@
       }
     },
     {
-      "set_id": "set_019",
-      "image_id": "ADE_00010186",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00010186.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00010186.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00010186.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00010186.jpg"
-      }
-    },
-    {
-      "set_id": "set_020",
-      "image_id": "ADE_00010399",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00010399.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00010399.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00010399.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00010399.jpg"
-      }
-    },
-    {
       "set_id": "set_021",
       "image_id": "ADE_00010519",
       "source": "ADE",
@@ -258,30 +106,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/ADE_00010519.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00010519.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00010519.jpg"
-      }
-    },
-    {
-      "set_id": "set_022",
-      "image_id": "ADE_00010634",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00010634.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00010634.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00010634.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00010634.jpg"
-      }
-    },
-    {
-      "set_id": "set_023",
-      "image_id": "ADE_00010732",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00010732.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00010732.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00010732.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00010732.jpg"
       }
     },
     {
@@ -309,66 +133,6 @@
       }
     },
     {
-      "set_id": "set_026",
-      "image_id": "ADE_00016863",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00016863.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00016863.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00016863.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00016863.jpg"
-      }
-    },
-    {
-      "set_id": "set_027",
-      "image_id": "ADE_00016977",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00016977.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00016977.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00016977.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00016977.jpg"
-      }
-    },
-    {
-      "set_id": "set_028",
-      "image_id": "ADE_00017019",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00017019.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00017019.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00017019.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00017019.jpg"
-      }
-    },
-    {
-      "set_id": "set_029",
-      "image_id": "ADE_00017195",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00017195.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00017195.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00017195.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00017195.jpg"
-      }
-    },
-    {
-      "set_id": "set_030",
-      "image_id": "ADE_00017543",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00017543.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00017543.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00017543.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00017543.jpg"
-      }
-    },
-    {
       "set_id": "set_031",
       "image_id": "ADE_00017634",
       "source": "ADE",
@@ -378,30 +142,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/ADE_00017634.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00017634.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00017634.jpg"
-      }
-    },
-    {
-      "set_id": "set_032",
-      "image_id": "ADE_00017849",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00017849.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00017849.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00017849.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00017849.jpg"
-      }
-    },
-    {
-      "set_id": "set_033",
-      "image_id": "ADE_00018106",
-      "source": "ADE",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/ADE_00018106.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/ADE_00018106.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/ADE_00018106.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/ADE_00018106.jpg"
       }
     },
     {
@@ -453,30 +193,6 @@
       }
     },
     {
-      "set_id": "set_038",
-      "image_id": "COCO_000000050352",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000050352.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000050352.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000050352.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000050352.jpg"
-      }
-    },
-    {
-      "set_id": "set_039",
-      "image_id": "COCO_000000050485",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000050485.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000050485.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000050485.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000050485.jpg"
-      }
-    },
-    {
       "set_id": "set_040",
       "image_id": "COCO_000000053606",
       "source": "COCO",
@@ -486,30 +202,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/COCO_000000053606.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000053606.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000053606.jpg"
-      }
-    },
-    {
-      "set_id": "set_041",
-      "image_id": "COCO_000000056413",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000056413.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000056413.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000056413.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000056413.jpg"
-      }
-    },
-    {
-      "set_id": "set_042",
-      "image_id": "COCO_000000061052",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000061052.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000061052.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000061052.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000061052.jpg"
       }
     },
     {
@@ -537,18 +229,6 @@
       }
     },
     {
-      "set_id": "set_045",
-      "image_id": "COCO_000000080445",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000080445.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000080445.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000080445.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000080445.jpg"
-      }
-    },
-    {
       "set_id": "set_046",
       "image_id": "COCO_000000087593",
       "source": "COCO",
@@ -570,18 +250,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/COCO_000000099424.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000099424.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000099424.jpg"
-      }
-    },
-    {
-      "set_id": "set_048",
-      "image_id": "COCO_000000102210",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000102210.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000102210.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000102210.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000102210.jpg"
       }
     },
     {
@@ -645,30 +313,6 @@
       }
     },
     {
-      "set_id": "set_054",
-      "image_id": "COCO_000000226383",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000226383.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000226383.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000226383.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000226383.jpg"
-      }
-    },
-    {
-      "set_id": "set_055",
-      "image_id": "COCO_000000229478",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000229478.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000229478.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000229478.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000229478.jpg"
-      }
-    },
-    {
       "set_id": "set_056",
       "image_id": "COCO_000000237390",
       "source": "COCO",
@@ -690,42 +334,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/COCO_000000270211.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000270211.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000270211.jpg"
-      }
-    },
-    {
-      "set_id": "set_058",
-      "image_id": "COCO_000000275197",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000275197.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000275197.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000275197.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000275197.jpg"
-      }
-    },
-    {
-      "set_id": "set_059",
-      "image_id": "COCO_000000294475",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000294475.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000294475.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000294475.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000294475.jpg"
-      }
-    },
-    {
-      "set_id": "set_060",
-      "image_id": "COCO_000000300439",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000300439.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000300439.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000300439.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000300439.jpg"
       }
     },
     {
@@ -753,42 +361,6 @@
       }
     },
     {
-      "set_id": "set_063",
-      "image_id": "COCO_000000439423",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000439423.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000439423.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000439423.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000439423.jpg"
-      }
-    },
-    {
-      "set_id": "set_064",
-      "image_id": "COCO_000000456658",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000456658.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000456658.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000456658.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000456658.jpg"
-      }
-    },
-    {
-      "set_id": "set_065",
-      "image_id": "COCO_000000484171",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000484171.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000484171.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000484171.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000484171.jpg"
-      }
-    },
-    {
       "set_id": "set_066",
       "image_id": "COCO_000000511002",
       "source": "COCO",
@@ -798,30 +370,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/COCO_000000511002.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000511002.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000511002.jpg"
-      }
-    },
-    {
-      "set_id": "set_067",
-      "image_id": "COCO_000000533917",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000533917.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000533917.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000533917.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000533917.jpg"
-      }
-    },
-    {
-      "set_id": "set_068",
-      "image_id": "COCO_000000545849",
-      "source": "COCO",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/COCO_000000545849.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/COCO_000000545849.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/COCO_000000545849.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/COCO_000000545849.jpg"
       }
     },
     {
@@ -849,138 +397,6 @@
       }
     },
     {
-      "set_id": "set_071",
-      "image_id": "LHQ_0000046",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0000046.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0000046.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0000046.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0000046.jpg"
-      }
-    },
-    {
-      "set_id": "set_072",
-      "image_id": "LHQ_0006144",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0006144.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0006144.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0006144.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0006144.jpg"
-      }
-    },
-    {
-      "set_id": "set_073",
-      "image_id": "LHQ_0009967",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0009967.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0009967.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0009967.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0009967.jpg"
-      }
-    },
-    {
-      "set_id": "set_074",
-      "image_id": "LHQ_0012305",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0012305.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0012305.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0012305.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0012305.jpg"
-      }
-    },
-    {
-      "set_id": "set_075",
-      "image_id": "LHQ_0016558",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0016558.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0016558.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0016558.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0016558.jpg"
-      }
-    },
-    {
-      "set_id": "set_076",
-      "image_id": "LHQ_0018091",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0018091.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0018091.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0018091.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0018091.jpg"
-      }
-    },
-    {
-      "set_id": "set_077",
-      "image_id": "LHQ_0021041",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0021041.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0021041.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0021041.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0021041.jpg"
-      }
-    },
-    {
-      "set_id": "set_078",
-      "image_id": "LHQ_0024327",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0024327.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0024327.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0024327.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0024327.jpg"
-      }
-    },
-    {
-      "set_id": "set_079",
-      "image_id": "LHQ_0025465",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0025465.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0025465.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0025465.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0025465.jpg"
-      }
-    },
-    {
-      "set_id": "set_080",
-      "image_id": "LHQ_0029625",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0029625.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0029625.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0029625.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0029625.jpg"
-      }
-    },
-    {
-      "set_id": "set_081",
-      "image_id": "LHQ_0032343",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0032343.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0032343.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0032343.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0032343.jpg"
-      }
-    },
-    {
       "set_id": "set_082",
       "image_id": "LHQ_0032470",
       "source": "LHQ",
@@ -990,222 +406,6 @@
         "semantic_aware": "/dataset/images/semantic_aware/LHQ_0032470.jpg",
         "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0032470.jpg",
         "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0032470.jpg"
-      }
-    },
-    {
-      "set_id": "set_083",
-      "image_id": "LHQ_0036500",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0036500.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0036500.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0036500.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0036500.jpg"
-      }
-    },
-    {
-      "set_id": "set_084",
-      "image_id": "LHQ_0039193",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0039193.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0039193.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0039193.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0039193.jpg"
-      }
-    },
-    {
-      "set_id": "set_085",
-      "image_id": "LHQ_0040454",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0040454.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0040454.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0040454.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0040454.jpg"
-      }
-    },
-    {
-      "set_id": "set_086",
-      "image_id": "LHQ_0042472",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0042472.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0042472.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0042472.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0042472.jpg"
-      }
-    },
-    {
-      "set_id": "set_087",
-      "image_id": "LHQ_0045409",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0045409.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0045409.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0045409.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0045409.jpg"
-      }
-    },
-    {
-      "set_id": "set_088",
-      "image_id": "LHQ_0051060",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0051060.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0051060.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0051060.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0051060.jpg"
-      }
-    },
-    {
-      "set_id": "set_089",
-      "image_id": "LHQ_0053779",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0053779.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0053779.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0053779.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0053779.jpg"
-      }
-    },
-    {
-      "set_id": "set_090",
-      "image_id": "LHQ_0055637",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0055637.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0055637.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0055637.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0055637.jpg"
-      }
-    },
-    {
-      "set_id": "set_091",
-      "image_id": "LHQ_0060246",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0060246.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0060246.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0060246.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0060246.jpg"
-      }
-    },
-    {
-      "set_id": "set_092",
-      "image_id": "LHQ_0063574",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0063574.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0063574.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0063574.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0063574.jpg"
-      }
-    },
-    {
-      "set_id": "set_093",
-      "image_id": "LHQ_0068801",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0068801.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0068801.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0068801.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0068801.jpg"
-      }
-    },
-    {
-      "set_id": "set_094",
-      "image_id": "LHQ_0075457",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0075457.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0075457.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0075457.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0075457.jpg"
-      }
-    },
-    {
-      "set_id": "set_095",
-      "image_id": "LHQ_0078962",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0078962.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0078962.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0078962.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0078962.jpg"
-      }
-    },
-    {
-      "set_id": "set_096",
-      "image_id": "LHQ_0082852",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0082852.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0082852.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0082852.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0082852.jpg"
-      }
-    },
-    {
-      "set_id": "set_097",
-      "image_id": "LHQ_0083842",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0083842.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0083842.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0083842.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0083842.jpg"
-      }
-    },
-    {
-      "set_id": "set_098",
-      "image_id": "LHQ_0084399",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0084399.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0084399.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0084399.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0084399.jpg"
-      }
-    },
-    {
-      "set_id": "set_099",
-      "image_id": "LHQ_0085884",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0085884.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0085884.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0085884.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0085884.jpg"
-      }
-    },
-    {
-      "set_id": "set_100",
-      "image_id": "LHQ_0086923",
-      "source": "LHQ",
-      "correct": "original",
-      "images": {
-        "original": "/dataset/images/original/LHQ_0086923.jpg",
-        "semantic_aware": "/dataset/images/semantic_aware/LHQ_0086923.jpg",
-        "semantic_agnostic": "/dataset/images/semantic_agnostic/LHQ_0086923.jpg",
-        "pix2pix_magicbrush": "/dataset/images/pix2pix_magicbrush/LHQ_0086923.jpg"
       }
     }
   ]
