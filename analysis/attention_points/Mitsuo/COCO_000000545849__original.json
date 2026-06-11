@@ -1,0 +1,69 @@
+{
+  "participant_id": "Mitsuo",
+  "session_id": "exp_Mitsuo_20260603_173803",
+  "set_id": "set_068",
+  "image_id": "COCO_000000545849",
+  "version": "original",
+  "source": "COCO",
+  "url": "/dataset/images/original/COCO_000000545849.jpg",
+  "rect": {
+    "x_norm": 0.1601,
+    "y_norm": 0,
+    "w_norm": 0.6798,
+    "h_norm": 1
+  },
+  "view_duration_s": 0.95,
+  "n_points": 5,
+  "points": [
+    {
+      "t": 16.375,
+      "x": 761,
+      "y": 501,
+      "x_norm": 0.4981,
+      "y_norm": 0.643,
+      "u": 0.4972,
+      "v": 0.643,
+      "on_image": true
+    },
+    {
+      "t": 16.535,
+      "x": 753,
+      "y": 499,
+      "x_norm": 0.4928,
+      "y_norm": 0.6406,
+      "u": 0.4894,
+      "v": 0.6406,
+      "on_image": true
+    },
+    {
+      "t": 16.707,
+      "x": 726,
+      "y": 509,
+      "x_norm": 0.4749,
+      "y_norm": 0.654,
+      "u": 0.463,
+      "v": 0.654,
+      "on_image": true
+    },
+    {
+      "t": 16.894,
+      "x": 771,
+      "y": 553,
+      "x_norm": 0.5045,
+      "y_norm": 0.7096,
+      "u": 0.5067,
+      "v": 0.7096,
+      "on_image": true
+    },
+    {
+      "t": 17.068,
+      "x": 677,
+      "y": 596,
+      "x_norm": 0.4433,
+      "y_norm": 0.7653,
+      "u": 0.4166,
+      "v": 0.7653,
+      "on_image": true
+    }
+  ]
+}

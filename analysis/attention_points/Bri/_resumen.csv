@@ -1,0 +1,11 @@
+participant_id,session_id,set_id,image_id,version,source,n_points,n_on_image,n_off_image,archivo
+Bri,exp_Bri_20260604_203013,set_069,COCO_000000567093,original,COCO,37,37,0,Bri\COCO_000000567093__original.json
+Bri,exp_Bri_20260604_203013,set_031,ADE_00017634,pix2pix_magicbrush,ADE,16,15,1,Bri\ADE_00017634__pix2pix_magicbrush.json
+Bri,exp_Bri_20260604_203013,set_094,LHQ_0075457,original,LHQ,15,15,0,Bri\LHQ_0075457__original.json
+Bri,exp_Bri_20260604_203013,set_053,COCO_000000201770,semantic_agnostic,COCO,21,13,8,Bri\COCO_000000201770__semantic_agnostic.json
+Bri,exp_Bri_20260604_203013,set_016,ADE_00008672,original,ADE,27,25,2,Bri\ADE_00008672__original.json
+Bri,exp_Bri_20260604_203013,set_008,ADE_00004113,semantic_agnostic,ADE,17,17,0,Bri\ADE_00004113__semantic_agnostic.json
+Bri,exp_Bri_20260604_203013,set_071,LHQ_0000046,original,LHQ,21,19,2,Bri\LHQ_0000046__original.json
+Bri,exp_Bri_20260604_203013,set_068,COCO_000000545849,semantic_aware,COCO,20,20,0,Bri\COCO_000000545849__semantic_aware.json
+Bri,exp_Bri_20260604_203013,set_100,LHQ_0086923,semantic_agnostic,LHQ,19,19,0,Bri\LHQ_0086923__semantic_agnostic.json
+Bri,exp_Bri_20260604_203013,set_054,COCO_000000226383,pix2pix_magicbrush,COCO,22,19,3,Bri\COCO_000000226383__pix2pix_magicbrush.json

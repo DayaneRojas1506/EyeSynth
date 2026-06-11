@@ -17,7 +17,7 @@ echo [EyeSynth] Instalando dependencias ...
 python -m pip install --quiet --upgrade pip
 python -m pip install --quiet -r requirements.txt
 
-echo [EyeSynth] Arrancando servidor en http://localhost:5000
+echo [EyeSynth] Arrancando servidor en http://localhost:5000/experiment
 python server\server.py
 
 endlocal

@@ -1,0 +1,89 @@
+{
+  "participant_id": "B",
+  "session_id": "exp_B_20260605_133856",
+  "set_id": "set_069",
+  "image_id": "COCO_000000567093",
+  "version": "original",
+  "source": "COCO",
+  "url": "/dataset/images/original/COCO_000000567093.jpg",
+  "rect": {
+    "x_norm": 0.3088,
+    "y_norm": 0,
+    "w_norm": 0.3824,
+    "h_norm": 1
+  },
+  "view_duration_s": 1.32,
+  "n_points": 7,
+  "points": [
+    {
+      "t": 5.557,
+      "x": 846,
+      "y": 293,
+      "x_norm": 0.5538,
+      "y_norm": 0.3757,
+      "u": 0.6406,
+      "v": 0.3757,
+      "on_image": true
+    },
+    {
+      "t": 5.749,
+      "x": 910,
+      "y": 449,
+      "x_norm": 0.5958,
+      "y_norm": 0.5759,
+      "u": 0.7505,
+      "v": 0.5759,
+      "on_image": true
+    },
+    {
+      "t": 5.934,
+      "x": 769,
+      "y": 495,
+      "x_norm": 0.5031,
+      "y_norm": 0.6348,
+      "u": 0.5082,
+      "v": 0.6348,
+      "on_image": true
+    },
+    {
+      "t": 6.121,
+      "x": 717,
+      "y": 593,
+      "x_norm": 0.4695,
+      "y_norm": 0.7615,
+      "u": 0.4203,
+      "v": 0.7615,
+      "on_image": true
+    },
+    {
+      "t": 6.312,
+      "x": 674,
+      "y": 698,
+      "x_norm": 0.441,
+      "y_norm": 0.8954,
+      "u": 0.3457,
+      "v": 0.8954,
+      "on_image": true
+    },
+    {
+      "t": 6.478,
+      "x": 663,
+      "y": 688,
+      "x_norm": 0.4341,
+      "y_norm": 0.8833,
+      "u": 0.3276,
+      "v": 0.8833,
+      "on_image": true
+    },
+    {
+      "t": 6.637,
+      "x": 672,
+      "y": 680,
+      "x_norm": 0.4397,
+      "y_norm": 0.8726,
+      "u": 0.3422,
+      "v": 0.8726,
+      "on_image": true
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "participant_id": "B",
+  "session_id": "exp_B_20260605_133856",
+  "set_id": "set_035",
+  "image_id": "ADE_00019754",
+  "version": "original",
+  "source": "ADE",
+  "url": "/dataset/images/original/ADE_00019754.jpg",
+  "rect": {
+    "x_norm": 0.1614,
+    "y_norm": 0,
+    "w_norm": 0.6771,
+    "h_norm": 1
+  },
+  "view_duration_s": 1.22,
+  "n_points": 7,
+  "points": [
+    {
+      "t": 5.123,
+      "x": 918,
+      "y": 399,
+      "x_norm": 0.6009,
+      "y_norm": 0.5121,
+      "u": 0.6491,
+      "v": 0.5121,
+      "on_image": true
+    },
+    {
+      "t": 5.284,
+      "x": 980,
+      "y": 379,
+      "x_norm": 0.6412,
+      "y_norm": 0.4866,
+      "u": 0.7086,
+      "v": 0.4866,
+      "on_image": true
+    },
+    {
+      "t": 5.454,
+      "x": 1019,
+      "y": 361,
+      "x_norm": 0.6666,
+      "y_norm": 0.4634,
+      "u": 0.7461,
+      "v": 0.4634,
+      "on_image": true
+    },
+    {
+      "t": 5.634,
+      "x": 998,
+      "y": 441,
+      "x_norm": 0.6529,
+      "y_norm": 0.5659,
+      "u": 0.7259,
+      "v": 0.5659,
+      "on_image": true
+    },
+    {
+      "t": 5.826,
+      "x": 997,
+      "y": 482,
+      "x_norm": 0.6525,
+      "y_norm": 0.6189,
+      "u": 0.7252,
+      "v": 0.6189,
+      "on_image": true
+    },
+    {
+      "t": 6.023,
+      "x": 941,
+      "y": 478,
+      "x_norm": 0.6156,
+      "y_norm": 0.6141,
+      "u": 0.6708,
+      "v": 0.6141,
+      "on_image": true
+    },
+    {
+      "t": 6.195,
+      "x": 943,
+      "y": 462,
+      "x_norm": 0.6172,
+      "y_norm": 0.5925,
+      "u": 0.6732,
+      "v": 0.5925,
+      "on_image": true
+    }
+  ]
+}

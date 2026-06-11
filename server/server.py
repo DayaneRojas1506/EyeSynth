@@ -11,6 +11,8 @@ Luego abrir http://localhost:5000 en el navegador.
 
 import json
 import os
+import threading
+import webbrowser
 from datetime import datetime
 
 from flask import Flask, jsonify, request, send_from_directory
@@ -155,9 +157,17 @@ def list_experiment_sessions():
 if __name__ == "__main__":
     print("=" * 56)
     print("  EyeSynth - servidor de eye-tracking")
+    print("  >> Experimento : http://localhost:5000/experiment")
     print("  Estímulo único : http://localhost:5000/")
-    print("  Experimento    : http://localhost:5000/experiment")
     print(f"  Sesiones        : {SESSIONS_DIR}")
     print(f"  Experimentos    : {EXPERIMENT_SESSIONS_DIR}")
     print("=" * 56)
+
+    # Abre el navegador en el experimento tras un breve retraso, sin lanzar
+    # procesos externos (evita ventanas de consola y alertas de antivirus).
+    # Se usa localhost para que getUserMedia (cámara) tenga contexto seguro.
+    threading.Timer(
+        1.5, lambda: webbrowser.open("http://localhost:5000/experiment")
+    ).start()
+
     app.run(host="0.0.0.0", port=5000, debug=False)

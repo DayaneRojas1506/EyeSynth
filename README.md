@@ -24,7 +24,7 @@ eyesynth/
 
 **Windows:**
 ```bat
-run.bat
+./run.bat
 ```
 
 **Mac / Linux:**
@@ -39,7 +39,7 @@ chmod +x run.sh
 
 ### 2. Hacer la sesión de eye-tracking
 
-Abre **http://localhost:5000** en el navegador y:
+Abre **http://localhost:5000/experiment** en el navegador y:
 
 1. Permite el acceso a la **cámara web**.
 2. Completa la **calibración de 9 puntos** (mira cada punto y haz clic; hay un

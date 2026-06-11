@@ -1,0 +1,89 @@
+{
+  "participant_id": "Mitsuo",
+  "session_id": "exp_Mitsuo_20260603_173803",
+  "set_id": "set_008",
+  "image_id": "ADE_00004113",
+  "version": "original",
+  "source": "ADE",
+  "url": "/dataset/images/original/ADE_00004113.jpg",
+  "rect": {
+    "x_norm": 0.1614,
+    "y_norm": 0,
+    "w_norm": 0.6771,
+    "h_norm": 1
+  },
+  "view_duration_s": 1.45,
+  "n_points": 7,
+  "points": [
+    {
+      "t": 11.247,
+      "x": 888,
+      "y": 385,
+      "x_norm": 0.581,
+      "y_norm": 0.4942,
+      "u": 0.6197,
+      "v": 0.4942,
+      "on_image": true
+    },
+    {
+      "t": 11.418,
+      "x": 900,
+      "y": 420,
+      "x_norm": 0.5891,
+      "y_norm": 0.5397,
+      "u": 0.6317,
+      "v": 0.5397,
+      "on_image": true
+    },
+    {
+      "t": 11.589,
+      "x": 853,
+      "y": 445,
+      "x_norm": 0.5582,
+      "y_norm": 0.5711,
+      "u": 0.586,
+      "v": 0.5711,
+      "on_image": true
+    },
+    {
+      "t": 11.774,
+      "x": 880,
+      "y": 507,
+      "x_norm": 0.5757,
+      "y_norm": 0.651,
+      "u": 0.6118,
+      "v": 0.651,
+      "on_image": true
+    },
+    {
+      "t": 11.958,
+      "x": 892,
+      "y": 619,
+      "x_norm": 0.5836,
+      "y_norm": 0.7946,
+      "u": 0.6235,
+      "v": 0.7946,
+      "on_image": true
+    },
+    {
+      "t": 12.184,
+      "x": 817,
+      "y": 642,
+      "x_norm": 0.5348,
+      "y_norm": 0.8237,
+      "u": 0.5515,
+      "v": 0.8237,
+      "on_image": true
+    },
+    {
+      "t": 12.462,
+      "x": 738,
+      "y": 681,
+      "x_norm": 0.4829,
+      "y_norm": 0.8736,
+      "u": 0.4748,
+      "v": 0.8736,
+      "on_image": true
+    }
+  ]
+}

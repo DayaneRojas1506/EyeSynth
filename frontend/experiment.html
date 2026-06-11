@@ -11,7 +11,8 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: var(--bg); color: var(--text);
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif; overflow: hidden; }
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif; overflow: hidden;
+    font-size: 20.8px; /* base 16px +30%: escala todo el texto en rem */ }
   #app { width: 100vw; height: 100vh; position: relative; }
   .screen { position: absolute; inset: 0; display: none; flex-direction: column;
     align-items: center; justify-content: center; text-align: center; padding: 20px; }
@@ -23,8 +24,14 @@
     padding: 2rem 2.4rem; max-width: 680px; margin-top: 1.6rem; }
   .card ol, .card ul { text-align: left; color: var(--text-dim); line-height: 1.8; padding-left: 1.2rem; }
   .card b { color: var(--text); }
+  .card-wide { max-width: 980px; }
   input[type=text] { margin-top: 1rem; padding: 0.7rem 1rem; border-radius: 8px;
     border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 1rem; width: 260px; }
+  .form-row { display: flex; gap: 10px; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .form-row select, .form-row input[type=number] { padding: 0.7rem 1rem; border-radius: 8px;
+    border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 1rem; }
+  .form-row select { width: 170px; cursor: pointer; }
+  .form-row input[type=number] { width: 120px; }
   button { margin-top: 1.4rem; background: linear-gradient(180deg, var(--accent), var(--accent-dim));
     color: #04181c; font-weight: 700; letter-spacing: 0.06em; border: none; border-radius: 10px;
     padding: 0.9rem 2.2rem; font-size: 1rem; cursor: pointer; text-transform: uppercase;
@@ -35,8 +42,7 @@
   .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 460px; }
 
   /* Consentimiento */
-  .consent-text { text-align: left; color: var(--text-dim); line-height: 1.7; font-size: 0.92rem;
-    max-height: 38vh; overflow-y: auto; padding-right: 8px; }
+  .consent-text { text-align: left; color: var(--text-dim); line-height: 1.7; font-size: 0.92rem; }
   .consent-text b { color: var(--text); }
   .consent-check { display: flex; align-items: center; gap: 10px; margin-top: 1.2rem;
     color: var(--text); cursor: pointer; justify-content: center; }
@@ -48,6 +54,10 @@
   .frame-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%;
     background: var(--warn); margin-right: 8px; vertical-align: middle; }
   .frame-dot.ok { background: var(--ok); }
+  .head-warn { margin-top: 1.2rem; max-width: 520px; line-height: 1.6; font-size: 0.92rem;
+    color: var(--text); background: rgba(255,77,94,0.10); border: 1px solid var(--warn);
+    border-radius: 10px; padding: 0.9rem 1.1rem; }
+  .head-warn b { color: var(--warn); }
 
   /* Calibración */
   #calibScreen { background: var(--bg); }
@@ -101,6 +111,54 @@
   .expand-view-timer { position: absolute; top: 16px; right: 20px; z-index: 34; color: var(--text-dim);
     font-size: 0.85rem; background: rgba(7,9,15,0.7); padding: 6px 12px; border-radius: 8px; }
 
+  /* Prueba de precisión (temporal) */
+  #testOverlay { position: absolute; inset: 0; background: #000; display: none; z-index: 35; }
+  #testImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+    background: #000; pointer-events: none; }
+  #testGazeDot { position: absolute; width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(0,212,240,0.35); border: 2px solid var(--accent); transform: translate(-50%,-50%);
+    pointer-events: none; z-index: 37; box-shadow: 0 0 16px rgba(0,212,240,0.8); display: none; }
+  .test-banner { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 37;
+    color: var(--text); background: rgba(7,9,15,0.78); padding: 8px 16px; border-radius: 8px;
+    font-size: 0.9rem; max-width: 90vw; text-align: center; }
+  /* Punto objetivo durante la medición de precisión */
+  #testTarget { position: absolute; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--warn); border: 3px solid #fff; transform: translate(-50%,-50%);
+    pointer-events: none; z-index: 38; display: none; box-shadow: 0 0 14px rgba(255,77,94,0.9); }
+  #testTarget.sampling { background: var(--ok); box-shadow: 0 0 18px rgba(47,224,137,0.95); }
+  #testResult { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 39;
+    display: none; background: rgba(7,9,15,0.92); border: 1px solid #1c2530; border-radius: 14px;
+    padding: 1.6rem 2rem; text-align: center; max-width: 90vw; }
+  #testResult .res-big { font-size: 1.6rem; font-weight: 700; }
+  #testResult .res-sub { color: var(--text-dim); margin-top: 0.5rem; line-height: 1.6; }
+  .test-filters { position: absolute; bottom: 78px; left: 0; right: 0; z-index: 37;
+    display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .test-filters-lbl { color: var(--text-dim); font-size: 0.85rem; }
+  .filter-btn { margin-top: 0; padding: 0.4rem 0.9rem; font-size: 0.8rem; text-transform: none;
+    letter-spacing: 0; background: rgba(7,9,15,0.8); color: var(--text-dim);
+    border: 1px solid #1c2530; border-radius: 8px; }
+  .filter-btn:hover { transform: none; box-shadow: none; color: var(--text); }
+  .filter-btn.active { background: var(--accent); color: #04181c; border-color: var(--accent); font-weight: 700; }
+
+  /* Panel de ajustes finos del tracking (en la prueba de precisión) */
+  .tune-panel { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
+    z-index: 38; background: rgba(7,9,15,0.94); border: 1px solid #1c2530; border-radius: 12px;
+    padding: 14px 18px; width: min(560px, 92vw); display: none; }
+  .tune-panel.show { display: block; }
+  .tune-grid { display: flex; flex-direction: column; gap: 10px; }
+  .tune-row { display: grid; grid-template-columns: 1fr 140px 48px; align-items: center; gap: 12px;
+    color: var(--text); font-size: 0.82rem; }
+  .tune-row .tune-lbl { text-align: left; }
+  .tune-row .tune-lbl small { color: var(--text-dim); }
+  .tune-row input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+  .tune-row .tune-val { text-align: right; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .tune-row select { grid-column: 2 / 4; padding: 0.35rem 0.5rem; border-radius: 6px;
+    border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 0.82rem; cursor: pointer; }
+  .tune-row.tune-check { grid-template-columns: 20px 1fr; }
+  .tune-row.tune-check input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+  .tune-presets { display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    margin-top: 12px; padding-top: 10px; border-top: 1px solid #1c2530; }
+
   /* Feedback */
   #feedback { position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
     z-index: 40; background: rgba(7,9,15,0.92); }
@@ -108,6 +166,40 @@
   #feedback .fb.ok { color: var(--ok); }
   #feedback .fb.no { color: var(--warn); }
   #feedback .sub { color: var(--text-dim); margin-top: 0.6rem; }
+  #feedback .fb-inner { text-align: center; max-width: 98vw; }
+  .fb-compare { display: none; gap: 16px; justify-content: center; margin-top: 1.4rem; flex-wrap: wrap; }
+  .fb-compare figure { margin: 0; }
+  .fb-compare img { width: 720px; max-width: 48vw; max-height: 64vh; height: auto; border-radius: 10px;
+    border: 2px solid var(--warn); display: block; }
+  .fb-compare figure:last-child img { border-color: var(--ok); }
+  .fb-compare figcaption { margin-top: 0.5rem; color: var(--warn); font-weight: 600; font-size: 0.9rem; }
+  .fb-compare figcaption.real { color: var(--ok); }
+  #fbContinue { display: none; }
+
+  /* Revisión final (galería de respuestas) */
+  #reviewScreen { padding: 0 24px 24px; }
+  .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px; width: 100%; max-width: 1200px; margin: 1.4rem 0; }
+  .review-card { background: var(--panel); border: 1px solid #1c2530; border-radius: 12px;
+    overflow: hidden; display: flex; flex-direction: column; }
+  .review-card .rc-head { padding: 10px 14px; display: flex; justify-content: space-between;
+    align-items: center; gap: 10px; border-bottom: 1px solid #1c2530; }
+  .review-card .rc-num { color: var(--text-dim); font-size: 0.8rem; letter-spacing: 0.06em; }
+  .review-card .rc-verdict { font-size: 0.8rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .review-card .rc-verdict.ok { color: var(--ok); background: rgba(47,224,137,0.12); }
+  .review-card .rc-verdict.no { color: var(--warn); background: rgba(255,77,94,0.12); }
+  .review-card .rc-verdict.skip { color: var(--text-dim); background: rgba(125,138,153,0.12); }
+  .review-card .rc-canvas-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1;
+    background: #000; display: flex; align-items: center; justify-content: center; }
+  .review-card canvas { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .review-card .rc-noheat { color: var(--text-dim); font-size: 0.82rem; padding: 1rem; text-align: center; }
+  .review-card .rc-body { padding: 12px 14px; }
+  .review-card .rc-row { display: flex; justify-content: space-between; gap: 10px;
+    font-size: 0.85rem; padding: 3px 0; }
+  .review-card .rc-row .lbl { color: var(--text-dim); }
+  .review-card .rc-row .val { color: var(--text); text-align: right; }
+  .review-card .rc-row .val.real { color: var(--ok); font-weight: 600; }
+  .review-card .rc-row .val.edited { color: var(--accent); font-weight: 600; }
 
   /* Resumen final */
   .summary-stat { display: flex; gap: 2.4rem; margin-top: 1.4rem; }
@@ -120,7 +212,12 @@
     opacity: 0; transition: opacity 0.3s; z-index: 50; pointer-events: none; max-width: 80vw; }
   .toast.show { opacity: 1; }
   .toast.err { border-color: var(--warn); color: var(--warn); }
-  #webgazerVideoContainer { z-index: 2 !important; }
+  /* Recuadro de la cámara de WebGazer: visible por encima de todo, en una esquina.
+     Así el participante ve su rostro y la caja de detección (verde = detectado). */
+  #webgazerVideoContainer { z-index: 9998 !important; top: auto !important;
+    bottom: 14px !important; left: 14px !important; right: auto !important;
+    border: 2px solid var(--accent-dim); border-radius: 10px; overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5); }
 </style>
 </head>
 <body>
@@ -129,7 +226,7 @@
   <!-- CONSENTIMIENTO (primera pantalla, antes de la camara) -->
   <section id="consentScreen" class="screen active">
     <h1 style="font-size:1.8rem;">Consentimiento informado</h1>
-    <div class="card">
+    <div class="card card-wide">
       <div class="consent-text" id="consentText">
         <!-- TEXTO DE EJEMPLO — reemplazar por el aprobado por tu asesor / comite de etica -->
         <p>Te invitamos a participar en un estudio que forma parte de un <b>proyecto de tesis</b> sobre
@@ -162,9 +259,21 @@
         <li>Haz clic en cualquier imagen para <b>ampliarla</b> y observarla con calma.</li>
         <li>Cuando decidas, en la vista ampliada pulsa <b>"Es la original"</b>.</li>
         <li>Tienes <b>60 s</b> por set. Habrá una breve calibración de la cámara al inicio.</li>
+        <li><b style="color:var(--warn);">Mantén la cabeza quieta</b> durante toda la prueba: la cámara estima tu mirada y se descalibra si te mueves.</li>
       </ul>
-      <div><input id="pid" type="text" placeholder="Tu nombre o código" autocomplete="off" /></div>
+      <div class="form-row">
+        <select id="gender">
+          <option value="" disabled selected>Género</option>
+          <option value="femenino">Femenino</option>
+          <option value="masculino">Masculino</option>
+          <option value="otro">Otro</option>
+          <option value="prefiero_no_decir">Prefiero no decir</option>
+        </select>
+        <input id="age" type="number" min="1" max="120" placeholder="Edad" autocomplete="off" />
+      </div>
+      <div class="hint" id="autoIdHint">Se te asignará un ID anónimo automáticamente.</div>
       <button id="btnStart">Comenzar</button>
+      <button id="btnTest" class="secondary">🎯 Probar precisión del tracking</button>
       <div class="hint">Al continuar se pedirá acceso a la cámara. Usa buena luz frontal.</div>
     </div>
   </section>
@@ -174,6 +283,11 @@
     <h1 style="font-size:1.6rem;">Colócate bien</h1>
     <div class="tagline">Ubica tu rostro dentro del recuadro verde de la cámara y mantente quieto</div>
     <div class="frame-status" id="frameStatus"><span class="frame-dot" id="frameDot"></span>Buscando rostro…</div>
+    <div class="head-warn">
+      ⚠ Acomódate en una postura <b>cómoda que puedas mantener</b>: la prueba se realiza
+      <b>sin mover la cabeza</b>. Conserva esta misma posición durante <b>todo el experimento</b>,
+      no solo al calibrar.
+    </div>
     <button id="btnFrameGo" disabled>Calibrar</button>
     <div class="hint">Si no aparece tu cámara, revisa el permiso del navegador (candado junto a la URL).</div>
   </section>
@@ -183,6 +297,7 @@
     <div class="calib-hud">
       <div class="big" id="calibTitle">Calibración — punto 1 / 9</div>
       <div class="small" id="calibMsg">Fija la mirada en el punto y haz clic</div>
+      <div class="small" style="color:var(--warn);">Mantén la cabeza quieta — no la muevas durante la prueba</div>
       <div class="calib-progress"><i id="calibBar"></i></div>
     </div>
   </section>
@@ -208,8 +323,74 @@
     </div>
   </div>
 
+  <!-- PRUEBA DE PRECISIÓN (temporal) -->
+  <div id="testOverlay">
+    <img id="testImg" src="/dataset/images/original/ADE_00000823.jpg" alt="Imagen de ejemplo" />
+    <div id="testGazeDot"></div>
+    <div id="testTarget"></div>
+    <div class="test-banner" id="testBanner">Mira distintas zonas de la imagen: el punto debería seguir tu mirada.</div>
+    <div id="testResult"></div>
+    <div class="test-filters">
+      <span class="test-filters-lbl">Estabilización:</span>
+      <button class="filter-btn active" data-filter="oneeuro">Filtro 1€</button>
+      <button class="filter-btn" data-filter="ema">Exponencial</button>
+      <button class="filter-btn" data-filter="avg">Promedio</button>
+      <button class="filter-btn" data-filter="none">Sin filtro</button>
+      <button class="filter-btn" id="btnTuneToggle" title="Ajustes avanzados">⚙ Ajustes</button>
+    </div>
+
+    <!-- Panel de ajustes finos del tracking (experimentar en vivo) -->
+    <div class="tune-panel" id="tunePanel">
+      <div class="tune-grid">
+        <label class="tune-row" id="tuneMinCutoffRow">
+          <span class="tune-lbl">Suavizado en reposo <small>(1€ minCutoff)</small></span>
+          <input type="range" id="tuneMinCutoff" min="0.1" max="3" step="0.1" value="1.0" />
+          <span class="tune-val" id="tuneMinCutoffVal">1.0</span>
+        </label>
+        <label class="tune-row" id="tuneBetaRow">
+          <span class="tune-lbl">Respuesta al moverse <small>(1€ beta)</small></span>
+          <input type="range" id="tuneBeta" min="0" max="0.05" step="0.001" value="0.007" />
+          <span class="tune-val" id="tuneBetaVal">0.007</span>
+        </label>
+        <label class="tune-row">
+          <span class="tune-lbl">Puntos de calibración</span>
+          <select id="tuneCalibPoints">
+            <option value="9">9 puntos (rápida)</option>
+            <option value="13" selected>13 puntos (precisa)</option>
+          </select>
+        </label>
+        <label class="tune-row tune-check">
+          <input type="checkbox" id="tuneRejectBad" checked />
+          <span class="tune-lbl">Descartar muestras malas <small>(fuera de pantalla / rostro perdido)</small></span>
+        </label>
+        <label class="tune-row tune-check">
+          <input type="checkbox" id="tuneGateCalib" checked />
+          <span class="tune-lbl">Exigir buena calibración antes del test <small>(error &lt; umbral)</small></span>
+        </label>
+      </div>
+      <div class="tune-presets">
+        <span class="test-filters-lbl">Presets:</span>
+        <button class="filter-btn" data-preset="stable">Imagen estática (recomendado)</button>
+        <button class="filter-btn" data-preset="responsive">Más reactivo</button>
+        <button class="filter-btn" data-preset="default">Por defecto</button>
+      </div>
+    </div>
+
+    <div class="expand-controls">
+      <button id="btnTestMeasure">Medir precisión</button>
+      <button id="btnTestBack" class="secondary">Volver al inicio</button>
+    </div>
+  </div>
+
   <!-- FEEDBACK -->
-  <div id="feedback"><div><div class="fb" id="fbText"></div><div class="sub" id="fbSub"></div></div></div>
+  <div id="feedback"><div class="fb-inner">
+    <div class="fb" id="fbText"></div><div class="sub" id="fbSub"></div>
+    <div id="fbCompare" class="fb-compare">
+      <figure><img id="fbPicked" alt="Tu elección" /><figcaption id="fbPickedCap">Tu elección</figcaption></figure>
+      <figure><img id="fbReal" alt="La original" /><figcaption class="real">La original</figcaption></figure>
+    </div>
+    <button id="fbContinue" class="secondary">Continuar</button>
+  </div></div>
 
   <!-- RECALIBRACIÓN -->
   <section id="recalibScreen" class="screen">
@@ -221,6 +402,14 @@
     </div>
   </section>
 
+  <!-- REVISIÓN FINAL (galería de los sets vistos) -->
+  <section id="reviewScreen" class="screen" style="justify-content:flex-start; overflow-y:auto;">
+    <h1 style="font-size:1.6rem; margin-top:1.2rem;">Tus respuestas</h1>
+    <div class="tagline">Esto fue lo que elegiste en cada imagen, qué era en realidad y dónde miraste.</div>
+    <div id="reviewGrid" class="review-grid"></div>
+    <button id="btnReviewNext">Ver resumen</button>
+  </section>
+
   <!-- RESUMEN -->
   <section id="endScreen" class="screen">
     <h1 style="font-size:1.8rem;">Resumen</h1>
@@ -229,6 +418,7 @@
       <div><div class="num" id="sumTime">0.0 s</div><div class="lbl">Tiempo medio</div></div>
       <div><div class="num" id="sumDone">0</div><div class="lbl">Sets respondidos</div></div>
     </div>
+    <div class="hint" id="idMsg" style="margin-bottom:0.6rem;"></div>
     <div style="display:flex;gap:14px;">
       <button id="btnCSV">Descargar CSV</button>
       <button id="btnFinish" class="secondary">Finalizar</button>
@@ -272,19 +462,47 @@
     [0.10,0.50],[0.50,0.50],[0.90,0.50],
     [0.10,0.88],[0.50,0.88],[0.90,0.88],
   ];
+  // calibración densa: 13 puntos (9 de la rejilla + 4 puntos medios) -> menos error
+  const CALIB_DENSE = [
+    [0.10,0.12],[0.50,0.12],[0.90,0.12],
+    [0.30,0.30],[0.70,0.30],
+    [0.10,0.50],[0.50,0.50],[0.90,0.50],
+    [0.30,0.70],[0.70,0.70],
+    [0.10,0.88],[0.50,0.88],[0.90,0.88],
+  ];
   // recalibración rápida: 5 puntos (esquinas + centro)
   const CALIB_SHORT = [
     [0.12,0.12],[0.88,0.12],[0.50,0.50],[0.12,0.88],[0.88,0.88],
   ];
 
+  // Calibrar dentro del ÁREA donde se ven las imágenes (no en los bordes de la
+  // pantalla): concentra la precisión donde el participante realmente mira.
+  // Las imágenes del dataset varían de proporción (verticales y horizontales),
+  // así que NO atamos la calibración a una proporción fija; usamos un rectángulo
+  // central seguro que toda imagen (en object-fit:contain) cubre con holgura.
+  // Márgenes en fracción de pantalla (lo que se recorta por lado):
+  const CALIB_AREA = { left:0.10, right:0.10, top:0.10, bottom:0.10 };
+  // Proyecta puntos [0,1]x[0,1] al rectángulo central de calibración.
+  function mapPointsToArea(points){
+    const x0=CALIB_AREA.left, w=1-CALIB_AREA.left-CALIB_AREA.right;
+    const y0=CALIB_AREA.top,  h=1-CALIB_AREA.top -CALIB_AREA.bottom;
+    return points.map(p=>[ +(x0 + p[0]*w).toFixed(4), +(y0 + p[1]*h).toFixed(4) ]);
+  }
+
   // ===================== ESTADO =====================
   const state = {
     phase: "consent",
     participant: "",
+    gender: "",
+    age: null,
     manifest: null,
     sessionSets: [],
     setIndex: 0,
     current: null,
+    afterFrame: null,
+    testValidating: false,
+    valSamples: [],
+    gazeOffset: { x: 0, y: 0 },   // corrección de sesgo aplicada a cada predicción
     expandVersion: null,
     expandStart: 0,
     calibPoints: CALIB_FULL,
@@ -295,6 +513,7 @@
     results: [],
     lastGaze: null,
     lastGazeTime: 0,
+    gazeReady: false,   // true tras la primera mirada real (tracking calentado)
   };
 
   // ===================== UTILIDADES =====================
@@ -308,27 +527,159 @@
   function shuffle(arr, rnd){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
   // ===================== WEBGAZER =====================
-  function startWebgazer(){
-    if(typeof webgazer==="undefined"){ toast("No se pudo cargar WebGazer.js",true); return; }
-    webgazer.setRegression("ridge").setTracker("TFFacemesh").setGazeListener(onGaze).begin()
-      .catch(e=>toast("Error de cámara: "+e,true));
-    webgazer.showVideoPreview(true).showPredictionPoints(false);
-    webgazer.applyKalmanFilter(true);
+  // Uso ESTÁNDAR y mínimo de WebGazer: el gazeListener interno entrega los datos
+  // desde el propio loop de WebGazer. NO llamamos getCurrentPrediction() en un
+  // bucle aparte: eso lanza una segunda detección facial por TensorFlow en cada
+  // tick, duplica el trabajo y satura la CPU/GPU (de ahí las demoras de 20 s).
+  let webgazerStarted = false;
+  let lastRealGaze = 0;   // marca de tiempo de la última mirada real recibida (0 = ninguna)
+
+  function gazeListener(data, ts){
+    if(!data) return;
+    if(typeof data.x!=="number" || typeof data.y!=="number") return;
+    if(!isFinite(data.x) || !isFinite(data.y)) return;
+    onGaze(data);
   }
+
+  function beginWebgazer(){
+    lastRealGaze = 0;
+    webgazer.setRegression("weightedRidge").setTracker("TFFacemesh")
+      .setGazeListener(gazeListener).begin()
+      .then(()=>{ webgazerStarted = true; })
+      .catch(e=>toast("Error de cámara: "+e,true));
+    // Recuadro de la cámara + caja de detección de rostro (verde si detecta).
+    try { webgazer.setVideoViewerSize(240, 180); } catch(e) {}   // recuadro a la mitad (def. 320x240)
+    webgazer.showVideoPreview(true).showPredictionPoints(false);
+    try { webgazer.showFaceOverlay(true); } catch(e) {}
+    try { webgazer.showFaceFeedbackBox(true); } catch(e) {}
+    webgazer.applyKalmanFilter(true);
+    webgazerStarted = true;
+  }
+  function startWebgazer(){
+    resetFilters();
+    if(typeof webgazer==="undefined"){ toast("No se pudo cargar WebGazer.js",true); return; }
+    if(webgazerStarted){
+      try { webgazer.setGazeListener(gazeListener); showWebgazerVideo(true); webgazer.resume(); } catch(e){}
+      return;
+    }
+    beginWebgazer();
+  }
+  function showWebgazerVideo(on){
+    try { if(typeof webgazer!=="undefined" && webgazerStarted) webgazer.showVideoPreview(!!on); } catch(e) {}
+  }
+  function pauseWebgazer(){ showWebgazerVideo(false); }
+  function stopWebgazer(){
+    try { if(typeof webgazer!=="undefined" && webgazerStarted) webgazer.end(); } catch(e) {}
+    webgazerStarted = false;
+  }
+  // ===================== SUAVIZADO (filtros intercambiables) =====================
+  // Reducen el jitter de WebGazer. Se puede cambiar en vivo desde la prueba.
+  // "oneeuro" (adaptativo), "ema" (media exponencial) o "avg" (promedio móvil).
+  let filterMode = "oneeuro";
+  const SMOOTH_N = 5;          // ventana del promedio móvil
+  const EMA_ALPHA = 0.3;       // peso de la muestra nueva (EMA)
+
+  // Ajustes de tracking modificables en vivo desde la prueba de precisión.
+  const tune = {
+    calibPoints: 13,      // 9 o 13 puntos de calibración inicial
+    rejectBad: true,      // descartar muestras sin rostro / fuera de pantalla
+    gateCalib: true,      // exigir error de calibración bajo antes del test
+    gateThresholdPct: 12, // umbral (% de la diagonal) para aprobar la calibración
+  };
+
+  // -- Promedio móvil simple --
+  const gazeBuf = [];
+  function filterAvg(x, y){
+    gazeBuf.push([x, y]);
+    if(gazeBuf.length > SMOOTH_N) gazeBuf.shift();
+    let sx=0, sy=0;
+    for(const p of gazeBuf){ sx+=p[0]; sy+=p[1]; }
+    return [sx/gazeBuf.length, sy/gazeBuf.length];
+  }
+
+  // -- Media exponencial (EMA) --
+  let emaX=null, emaY=null;
+  function filterEma(x, y){
+    emaX = (emaX===null) ? x : EMA_ALPHA*x + (1-EMA_ALPHA)*emaX;
+    emaY = (emaY===null) ? y : EMA_ALPHA*y + (1-EMA_ALPHA)*emaY;
+    return [emaX, emaY];
+  }
+
+  // -- Filtro 1€ (One Euro Filter): suaviza fuerte en reposo, poco al moverse --
+  const OE = { minCutoff:1.0, beta:0.007, dcutoff:1.0 };
+  const oe = { xPrev:null, yPrev:null, dxPrev:0, dyPrev:0, tPrev:null };
+  function oeAlpha(cutoff, dt){ const tau=1/(2*Math.PI*cutoff); return 1/(1+tau/dt); }
+  function oeAxis(val, prev, dPrev, dt){
+    const dVal = (val - prev) / dt;
+    const aD = oeAlpha(OE.dcutoff, dt);
+    const dHat = aD*dVal + (1-aD)*dPrev;
+    const cutoff = OE.minCutoff + OE.beta*Math.abs(dHat);
+    const a = oeAlpha(cutoff, dt);
+    const hat = a*val + (1-a)*prev;
+    return [hat, dHat];
+  }
+  function filterOneEuro(x, y){
+    const now = performance.now()/1000;
+    if(oe.tPrev===null){ oe.tPrev=now; oe.xPrev=x; oe.yPrev=y; return [x, y]; }
+    let dt = now - oe.tPrev; if(dt<=0) dt = 1/30;
+    const [hx, dx] = oeAxis(x, oe.xPrev, oe.dxPrev, dt);
+    const [hy, dy] = oeAxis(y, oe.yPrev, oe.dyPrev, dt);
+    oe.xPrev=hx; oe.yPrev=hy; oe.dxPrev=dx; oe.dyPrev=dy; oe.tPrev=now;
+    return [hx, hy];
+  }
+
+  function resetFilters(){
+    gazeBuf.length = 0;
+    emaX=emaY=null;
+    oe.xPrev=oe.yPrev=null; oe.dxPrev=oe.dyPrev=0; oe.tPrev=null;
+  }
+
+  function smoothGaze(x, y){
+    if(filterMode==="none") return [x, y];
+    if(filterMode==="ema") return filterEma(x, y);
+    if(filterMode==="avg") return filterAvg(x, y);
+    return filterOneEuro(x, y);
+  }
+
   function onGaze(data){
     if(!data) return;
     state.lastGazeTime = performance.now();
-    const w=window.innerWidth,h=window.innerHeight, x=data.x,y=data.y, xn=x/w, yn=y/h;
+    lastRealGaze = performance.now();   // mirada real confirmada
+    // Primera mirada real: ocultar el aviso de "preparando" y mostrar el punto.
+    if(!state.gazeReady){ state.gazeReady = true; onGazeReady(); }
+    const w=window.innerWidth, h=window.innerHeight;
+    const [rx, ry] = smoothGaze(data.x, data.y);   // mirada suavizada (cruda)
+    // Corrección de sesgo: resta el desvío medio medido en la validación.
+    const x = rx + state.gazeOffset.x, y = ry + state.gazeOffset.y;
+    const xn=x/w, yn=y/h;
     state.lastGaze={x,y,xn,yn};
+    if(state.phase==="test"){
+      const dot=$("testGazeDot");
+      if(state.testValidating){
+        dot.style.display="none";        // durante la medición mostramos solo el objetivo
+        collectValidationSample(rx, ry); // se mide la mirada CRUDA para calcular el offset
+      } else {
+        dot.style.display="block";
+        dot.style.left=x+"px"; dot.style.top=y+"px";
+      }
+    }
     if(state.phase==="expanded" && state.expandVersion){
       const img=state.current.images[state.expandVersion];
       if(img && img.rect){
+        // Control de calidad: descarta predicciones que caen muy fuera de la
+        // pantalla (el modelo de regresión se disparó: muestra poco fiable).
+        // El "rostro perdido" se traduce en ausencia de muestras, no en una mala.
+        const MARGIN = 0.15;   // tolerancia fuera del borde de pantalla
+        const onScreen = (xn>=-MARGIN && xn<=1+MARGIN && yn>=-MARGIN && yn<=1+MARGIN);
+        const bad = !onScreen;
+        if(tune.rejectBad && bad){ state.qcDropped=(state.qcDropped||0)+1; return; }
         const r=img.rect; const u=(xn-r.x_norm)/r.w_norm, v=(yn-r.y_norm)/r.h_norm;
         img.gaze_samples.push({
           t:+((performance.now()-state.current.startTime)/1000).toFixed(3),
           x:Math.round(x), y:Math.round(y), x_norm:+xn.toFixed(4), y_norm:+yn.toFixed(4),
           u:+u.toFixed(4), v:+v.toFixed(4),
-          on_image: (u>=0&&u<1&&v>=0&&v<1)
+          on_image: (u>=0&&u<1&&v>=0&&v<1),
+          ok: !bad   // bandera de calidad, por si quieres filtrar en el análisis
         });
       }
     }
@@ -352,10 +703,75 @@
     },250);
   }
 
+  // ===================== GATE DE CALIBRACIÓN =====================
+  // Tras calibrar para el experimento, medimos el error real con unos pocos
+  // puntos objetivo. Si es alto, aplicamos corrección de sesgo y, si aun así
+  // queda por encima del umbral, ofrecemos recalibrar antes de empezar.
+  function runCalibGate(after){
+    if(!tune.gateCalib){ after(); return; }
+    show("calibScreen");
+    // Reutiliza el punto objetivo del overlay de test sobre la pantalla de calib.
+    const target=$("testTarget");
+    const scr=$("calibScreen");
+    if(target.parentElement!==scr) scr.appendChild(target);
+    $("calibTitle").textContent="Comprobando precisión…";
+    $("calibMsg").textContent="Sigue el punto con la mirada";
+    $("calibBar").style.width="0%";
+    state.gazeOffset={ x:0, y:0 };
+    // Medir dentro del área de calibración (coherente con dónde se calibró).
+    const PTS=mapPointsToArea([[0.5,0.5],[0.15,0.15],[0.85,0.15],[0.15,0.85],[0.85,0.85]]);
+    const errs=[], dxs=[], dys=[]; let i=0, samples=[], sampling=false;
+    const gi=setInterval(()=>{ if(sampling && state.lastGaze) samples.push([state.lastGaze.x,state.lastGaze.y]); },30);
+    function step(){
+      if(i>=PTS.length){ clearInterval(gi); target.style.display="none";
+        $("testOverlay").appendChild(target);   // devolver a su contenedor original
+        decide(); return; }
+      const w=window.innerWidth,h=window.innerHeight, tx=PTS[i][0]*w, ty=PTS[i][1]*h;
+      target.style.left=tx+"px"; target.style.top=ty+"px"; target.style.display="block";
+      target.classList.remove("sampling");
+      $("calibBar").style.width=(i/PTS.length)*100+"%";
+      setTimeout(()=>{ target.classList.add("sampling"); samples=[]; sampling=true;
+        setTimeout(()=>{ sampling=false;
+          if(samples.length){ let sx=0,sy=0; for(const p of samples){sx+=p[0];sy+=p[1];}
+            const mx=sx/samples.length,my=sy/samples.length;
+            errs.push(Math.hypot(mx-tx,my-ty)); dxs.push(mx-tx); dys.push(my-ty); }
+          i++; step();
+        }, 800);
+      }, 700);
+    }
+    function decide(){
+      $("calibBar").style.width="100%";
+      const diag=Math.hypot(window.innerWidth,window.innerHeight);
+      if(!errs.length){ after(); return; }   // sin datos: no bloqueamos
+      const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;
+      // Corrección de sesgo a partir del desvío medido.
+      state.gazeOffset={ x:-avg(dxs), y:-avg(dys) };
+      const residual=dxs.map((d,k)=>Math.hypot(d+state.gazeOffset.x, dys[k]+state.gazeOffset.y));
+      const pct=100*avg(residual)/diag;
+      state.calibration.gate_error_pct=+pct.toFixed(1);
+      if(pct<=tune.gateThresholdPct){
+        toast("Calibración OK ("+pct.toFixed(1)+"% error)");
+        after();
+      } else {
+        // Demasiado error: ofrecer recalibrar.
+        $("calibTitle").textContent="Precisión baja ("+pct.toFixed(1)+"%)";
+        $("calibMsg").innerHTML='Conviene recalibrar. <b>Clic para repetir</b> o espera 4 s para continuar igual.';
+        let go=false;
+        const cont=setTimeout(()=>{ if(!go){ scr.onclick=null; after(); } }, 4000);
+        scr.onclick=()=>{ go=true; clearTimeout(cont); scr.onclick=null;
+          startCalibration(()=>runCalibGate(after), false); };
+      }
+    }
+    step();
+  }
+
   // ===================== CALIBRACIÓN =====================
   function startCalibration(after, short){
     state.phase="calib"; state.afterCalib=after||null;
-    state.calibPoints = short ? CALIB_SHORT : CALIB_FULL;
+    state.gazeOffset={ x:0, y:0 };   // una recalibración invalida el sesgo previo
+    const base = short ? CALIB_SHORT : (tune.calibPoints>=13 ? CALIB_DENSE : CALIB_FULL);
+    // Calibrar en el área central donde se ven las imágenes, no en los bordes.
+    state.calibPoints = mapPointsToArea(base);
     state.calibClicksNeeded = short ? CLICKS_SHORT : CLICKS_FULL;
     state.calibIndex=0;
     state.calibration={ n_points:state.calibPoints.length, points:[], completed:false, short:!!short };
@@ -368,7 +784,9 @@
       el.innerHTML='<div class="fill"></div><div class="ring"></div><div class="core"></div>';
       el.addEventListener("click",()=>onCalibClick(i,el)); scr.appendChild(el); });
   }
+  let trackInt=null;
   function showCalibPoint(i){
+    clearInterval(trackInt);
     document.querySelectorAll(".calib-point").forEach(n=>n.style.display="none");
     const el=document.querySelector('.calib-point[data-idx="'+i+'"]'); if(!el) return;
     const total=state.calibPoints.length, need=state.calibClicksNeeded;
@@ -378,7 +796,16 @@
     $("calibMsg").textContent="Fija la mirada en el punto…";
     $("calibBar").style.width=(i/total)*100+"%";
     setTimeout(()=>{ state.calibLocked=false; el.classList.add("active");
-      $("calibMsg").textContent=`Haz clic ${need} veces mirando el punto`; }, LOCK_MS);
+      $("calibMsg").textContent=`Haz clic ${need} veces mirando el punto`;
+      // Calibración por seguimiento: mientras la persona mira el punto activo,
+      // registramos su posición como dato de entrenamiento continuo.
+      clearInterval(trackInt);
+      trackInt=setInterval(()=>{
+        const r=el.getBoundingClientRect();
+        const px=r.left+el.offsetWidth/2, py=r.top+el.offsetHeight/2;
+        if(typeof webgazer!=="undefined") webgazer.recordScreenPosition(px,py,"move");
+      }, 200);
+    }, LOCK_MS);
   }
   function onCalibClick(i,el){
     if(state.calibLocked || i!==state.calibIndex) return;
@@ -390,6 +817,7 @@
       const p=state.calibPoints[i]; state.calibration.points.push({x_norm:p[0],y_norm:p[1],clicks:state.calibClicks});
       el.style.display="none"; state.calibIndex++;
       if(state.calibIndex>=state.calibPoints.length){ state.calibration.completed=true; $("calibBar").style.width="100%";
+        clearInterval(trackInt);
         const cb=state.afterCalib; state.afterCalib=null; if(cb) cb(); }
       else showCalibPoint(state.calibIndex);
     }
@@ -415,6 +843,122 @@
     state.phase="exp"; state.setIndex=0; state.results=[];
     $("setTotal").textContent=state.sessionSets.length;
     show("expScreen"); loadSet(0);
+  }
+
+  // ===================== PRUEBA DE PRECISIÓN (temporal) =====================
+  // Botón de la pantalla inicial: enciende la cámara, encuadra, calibra y luego
+  // muestra una imagen de ejemplo con un punto que sigue la mirada en vivo.
+  async function startTest(){
+    $("btnTest").disabled=true; toast("Iniciando cámara…");
+    startWebgazer();
+    state.afterFrame = showTestImage;   // tras encuadrar y calibrar -> imagen
+    setTimeout(()=>{ startFraming(); $("btnTest").disabled=false; }, 1200);
+  }
+  function showTestImage(){
+    state.phase="test";
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    $("testGazeDot").style.display="none";
+    $("testResult").style.display="none";
+    $("testTarget").style.display="none";
+    state.testValidating=false;
+    $("testOverlay").style.display="block";
+    // WebGazer tarda un poco en dar la primera predicción tras calibrar.
+    state.gazeReady = false;
+    $("testBanner").textContent="⏳ Preparando el tracking… mira a la pantalla unos segundos.";
+  }
+  // Se llama en la primera mirada real: tracking listo.
+  function onGazeReady(){
+    if(state.phase==="test"){
+      $("testBanner").textContent="Mira distintas zonas de la imagen: el punto debería seguir tu mirada.";
+    }
+  }
+  function endTest(){
+    $("testOverlay").style.display="none";
+    clearInterval(frameInt); clearTimeout(measureTest._t);
+    state.testValidating=false;
+    pauseWebgazer();   // pausa (no end): permite volver a la prueba o al experimento
+    state.phase="intro"; state.afterFrame=null;
+    show("introScreen");
+  }
+
+  // --- Medición de precisión (dentro de la prueba) ---
+  // Muestra una serie de puntos objetivo; en cada uno acumula muestras de mirada
+  // y mide la distancia al objetivo. Reporta el error medio en px y en % de pantalla.
+  // Puntos de medición, dentro del área de calibración (no en los bordes).
+  const VAL_POINTS = mapPointsToArea([
+    [0.5,0.5],[0.15,0.15],[0.85,0.15],[0.15,0.85],[0.85,0.85],
+  ]);
+  const VAL_SETTLE_MS = 800;    // tiempo para fijar la mirada antes de medir
+  const VAL_SAMPLE_MS = 900;    // ventana de muestreo por punto
+  function collectValidationSample(x, y){
+    state.valSamples.push([x, y]);
+  }
+  function measureTest(){
+    if(state.phase!=="test") return;
+    $("btnTestMeasure").disabled=true;
+    $("testGazeDot").style.display="none";
+    $("testResult").style.display="none";
+    // Antes de medir quitamos el offset previo, para medir el error real "crudo".
+    state.gazeOffset={ x:0, y:0 };
+    const errors=[], dx=[], dy=[];   // errores absolutos y desvíos con signo
+    const target=$("testTarget");
+    let i=0;
+    function nextPoint(){
+      if(i>=VAL_POINTS.length){ finishMeasure(errors, dx, dy); return; }
+      const w=window.innerWidth, h=window.innerHeight;
+      const tx=VAL_POINTS[i][0]*w, ty=VAL_POINTS[i][1]*h;
+      target.style.left=tx+"px"; target.style.top=ty+"px";
+      target.style.display="block"; target.classList.remove("sampling");
+      $("testBanner").textContent=`Mira el punto rojo… (${i+1} / ${VAL_POINTS.length})`;
+      // 1) tiempo para fijar la mirada; 2) abrir ventana de muestreo
+      measureTest._t=setTimeout(()=>{
+        target.classList.add("sampling");
+        state.valSamples=[]; state.testValidating=true;
+        measureTest._t=setTimeout(()=>{
+          state.testValidating=false;
+          if(state.valSamples.length){
+            let sx=0, sy=0;
+            for(const p of state.valSamples){ sx+=p[0]; sy+=p[1]; }
+            const mx=sx/state.valSamples.length, my=sy/state.valSamples.length;
+            errors.push(Math.hypot(mx-tx, my-ty));
+            dx.push(mx-tx); dy.push(my-ty);   // desvío: mirada - objetivo
+          }
+          i++; nextPoint();
+        }, VAL_SAMPLE_MS);
+      }, VAL_SETTLE_MS);
+    }
+    nextPoint();
+  }
+  function finishMeasure(errors, dx, dy){
+    $("testTarget").style.display="none";
+    $("testBanner").textContent="Mira distintas zonas de la imagen: el punto debería seguir tu mirada.";
+    $("btnTestMeasure").disabled=false;
+    state.phase="test"; // sigue en prueba; el punto en vivo vuelve a moverse al mirar
+    if(!errors.length){
+      $("testResult").innerHTML='<div class="res-big" style="color:var(--warn)">Sin datos</div>'+
+        '<div class="res-sub">No se registró mirada. Revisa la cámara y la luz.</div>';
+      $("testResult").style.display="block"; return;
+    }
+    // Corrección de sesgo: el offset es el negativo del desvío medio.
+    const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;
+    const ox=-avg(dx), oy=-avg(dy);
+    state.gazeOffset={ x:ox, y:oy };
+
+    // Error residual: el que quedará YA aplicada la corrección de sesgo.
+    const residual=dx.map((d,k)=>Math.hypot(d+ox, dy[k]+oy));
+    const avgPx=avg(residual);
+    const diag=Math.hypot(window.innerWidth, window.innerHeight);
+    const pct=100*avgPx/diag;
+    let label, color;
+    if(pct<5){ label="Buena precisión"; color="var(--ok)"; }
+    else if(pct<10){ label="Precisión aceptable"; color="var(--accent)"; }
+    else { label="Precisión baja — conviene recalibrar"; color="var(--warn)"; }
+    $("testResult").innerHTML=
+      '<div class="res-big" style="color:'+color+'">'+label+'</div>'+
+      '<div class="res-sub">Error medio: <b>'+Math.round(avgPx)+' px</b> (≈ '+pct.toFixed(1)+'% de la pantalla)<br>'+
+      'Corrección de sesgo aplicada: '+Math.round(state.gazeOffset.x)+', '+Math.round(state.gazeOffset.y)+' px.<br>'+
+      'Si sigue siendo baja: mejora la luz, acércate y mantén la cabeza quieta.</div>';
+    $("testResult").style.display="block";
   }
   let timerInt=null, timerLeft=0;
   function loadSet(idx){
@@ -489,15 +1033,35 @@
       grid_order:state.current.grid_order, answer_version:answerVersion, correct:correct,
       response_time_s:timedOut?null:rt, timed_out:timedOut, images:imagesArr
     });
-    showFeedback(correct, timedOut);
+    const realVersion=state.sessionSets[state.setIndex].correct;
+    showFeedback(correct, timedOut, answerVersion, realVersion);
   }
-  function showFeedback(correct, timedOut){
+  function hideFeedback(){
+    clearTimeout(showFeedback._t);
+    $("feedback").style.display="none"; afterSet();
+  }
+  function showFeedback(correct, timedOut, answerVersion, realVersion){
     const fb=$("feedback"), txt=$("fbText"), sub=$("fbSub");
+    const compare=$("fbCompare"), cont=$("fbContinue");
+    compare.style.display="none"; cont.style.display="none";
     if(timedOut){ txt.textContent="⏱ Tiempo agotado"; txt.className="fb no"; sub.textContent="Sin respuesta registrada"; }
     else if(correct){ txt.textContent="✓ Correcto"; txt.className="fb ok"; sub.textContent="Era la imagen original"; }
     else { txt.textContent="✗ Incorrecto"; txt.className="fb no"; sub.textContent="Esa estaba editada por IA"; }
     fb.style.display="flex";
-    setTimeout(()=>{ fb.style.display="none"; afterSet(); }, 1400);
+
+    // Si fue incorrecto, mostramos la imagen elegida junto a la real y dejamos
+    // que la persona avance con el botón (sin prisa).
+    if(!correct && !timedOut && answerVersion && realVersion){
+      const picked=state.current.images[answerVersion];
+      const real=state.current.images[realVersion];
+      if(picked && real){
+        $("fbPicked").src=picked.url; $("fbReal").src=real.url;
+        compare.style.display="flex"; cont.style.display="inline-block";
+        return; // sin auto-avance: espera el clic en "Continuar"
+      }
+    }
+    // Correcto o sin par de imágenes: avanza solo tras una breve pausa.
+    showFeedback._t=setTimeout(hideFeedback, 1400);
   }
   function afterSet(){
     const next=state.setIndex+1;
@@ -506,8 +1070,167 @@
     } else { loadSet(next); }
   }
 
+  // ===================== REVISIÓN FINAL =====================
+  // Nombres legibles para cada versión de imagen.
+  const VERSION_LABELS = {
+    original: "Imagen original (real)",
+    semantic_aware: "Editada por IA — Semantic Aware",
+    semantic_agnostic: "Editada por IA — Semantic Agnostic",
+    pix2pix_magicbrush: "Editada por IA — Pix2Pix MagicBrush",
+  };
+  function versionLabel(v){ return VERSION_LABELS[v] || ("Editada por IA — "+v); }
+
+  // Dibuja la imagen elegida con un heatmap de la mirada superpuesto, replicando
+  // (de forma ligera) lo que hace render_attention_heatmaps.py pero en el navegador.
+  const HEAT_GRID = 120, HEAT_SIGMA = 6;
+  function buildHeatGrid(samples){
+    const g = new Float32Array(HEAT_GRID*HEAT_GRID);
+    let n = 0;
+    for(const s of samples){
+      let u = (s.u!=null)?s.u:s.x_norm, v = (s.v!=null)?s.v:s.y_norm;
+      if(u==null || v==null) continue;
+      if(!(u>=0 && u<1 && v>=0 && v<1)) continue;
+      const col = Math.min(HEAT_GRID-1, (u*HEAT_GRID)|0);
+      const row = Math.min(HEAT_GRID-1, (v*HEAT_GRID)|0);
+      g[row*HEAT_GRID+col] += 1; n++;
+    }
+    if(!n) return null;
+    // Difuminado gaussiano separable (dos pasadas 1D).
+    const kr = Math.max(1, Math.round(3*HEAT_SIGMA));
+    const kern = [];
+    let ks = 0;
+    for(let i=-kr;i<=kr;i++){ const w=Math.exp(-(i*i)/(2*HEAT_SIGMA*HEAT_SIGMA)); kern.push(w); ks+=w; }
+    for(let i=0;i<kern.length;i++) kern[i]/=ks;
+    const blur = dir => {
+      const out = new Float32Array(HEAT_GRID*HEAT_GRID);
+      for(let r=0;r<HEAT_GRID;r++) for(let c=0;c<HEAT_GRID;c++){
+        let acc=0;
+        for(let k=-kr;k<=kr;k++){
+          const rr = dir==='v'? r+k : r, cc = dir==='h'? c+k : c;
+          if(rr<0||rr>=HEAT_GRID||cc<0||cc>=HEAT_GRID) continue;
+          acc += g[rr*HEAT_GRID+cc]*kern[k+kr];
+        }
+        out[r*HEAT_GRID+c]=acc;
+      }
+      g.set(out);
+    };
+    blur('h'); blur('v');
+    let max=0; for(let i=0;i<g.length;i++) if(g[i]>max) max=g[i];
+    if(max>0) for(let i=0;i<g.length;i++) g[i]/=max;
+    return { grid:g, n };
+  }
+  // Paleta tipo "inferno" simplificada para el heatmap.
+  function heatColor(t){
+    t = Math.max(0, Math.min(1, t));
+    const stops = [
+      [0,0,4],[40,11,84],[101,21,110],[159,42,99],[212,72,66],[245,125,21],[250,193,39],[252,255,164]
+    ];
+    const x = t*(stops.length-1), i = Math.floor(x), f = x-i;
+    const a = stops[i], b = stops[Math.min(stops.length-1,i+1)];
+    return [a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f];
+  }
+  function renderHeatCanvas(canvas, imgUrl, rect, samples){
+    const heat = buildHeatGrid(samples);
+    const ctx = canvas.getContext("2d");
+    const W = 360, H = 360; canvas.width = W; canvas.height = H;
+    const bg = new Image();
+    bg.onload = () => {
+      // Fondo: la imagen, en formato "contain" sobre el cuadrado.
+      ctx.fillStyle = "#000"; ctx.fillRect(0,0,W,H);
+      const sc = Math.min(W/bg.naturalWidth, H/bg.naturalHeight);
+      const dw = bg.naturalWidth*sc, dh = bg.naturalHeight*sc;
+      const ox = (W-dw)/2, oy = (H-dh)/2;
+      ctx.drawImage(bg, ox, oy, dw, dh);
+      if(heat){
+        // Capa de calor sobre el área de la imagen (las muestras u,v ya son
+        // relativas a la imagen mostrada en su momento).
+        const layer = ctx.createImageData(Math.round(dw), Math.round(dh));
+        const lw = layer.width, lh = layer.height, d = layer.data;
+        for(let py=0; py<lh; py++) for(let px=0; px<lw; px++){
+          const gc = Math.min(HEAT_GRID-1, (px/lw*HEAT_GRID)|0);
+          const gr = Math.min(HEAT_GRID-1, (py/lh*HEAT_GRID)|0);
+          const val = heat.grid[gr*HEAT_GRID+gc];
+          const idx = (py*lw+px)*4;
+          if(val<=0.02){ d[idx+3]=0; continue; }
+          const [r,g,b] = heatColor(val);
+          d[idx]=r; d[idx+1]=g; d[idx+2]=b; d[idx+3]=Math.round(190*val);
+        }
+        // Pinta la capa en un canvas temporal para poder posicionarla.
+        const tmp = document.createElement("canvas");
+        tmp.width = lw; tmp.height = lh; tmp.getContext("2d").putImageData(layer, 0, 0);
+        ctx.drawImage(tmp, ox, oy);
+      }
+    };
+    bg.src = imgUrl;
+    return heat ? heat.n : 0;
+  }
+  function buildReview(){
+    const grid = $("reviewGrid"); grid.innerHTML = "";
+    state.results.forEach((r, i) => {
+      const card = document.createElement("div"); card.className = "review-card";
+      const correctV = state.sessionSets[i] ? state.sessionSets[i].correct : "original";
+      const pickedV = r.answer_version;
+      // Veredicto
+      let vClass, vText;
+      if(r.timed_out){ vClass="skip"; vText="Sin respuesta"; }
+      else if(r.correct){ vClass="ok"; vText="✓ Acertaste"; }
+      else { vClass="no"; vText="✗ Te equivocaste"; }
+      // Imagen sobre la que mostramos el heatmap: la que el usuario eligió;
+      // si no respondió, la que más observó.
+      let heatV = pickedV;
+      if(!heatV){
+        let best=null, bestN=-1;
+        for(const im of r.images){ const ns=im.n_samples||0; if(ns>bestN){ bestN=ns; best=im.version; } }
+        heatV = best;
+      }
+      const heatImg = r.images.find(im=>im.version===heatV);
+
+      card.innerHTML =
+        '<div class="rc-head">'+
+          '<span class="rc-num">Imagen '+(i+1)+' / '+state.results.length+'</span>'+
+          '<span class="rc-verdict '+vClass+'">'+vText+'</span>'+
+        '</div>'+
+        '<div class="rc-canvas-wrap"></div>'+
+        '<div class="rc-body">'+
+          '<div class="rc-row"><span class="lbl">Tu elección</span>'+
+            '<span class="val '+(!pickedV?'':(pickedV==='original'?'real':'edited'))+'">'+
+            (pickedV ? versionLabel(pickedV) : 'No respondiste')+'</span></div>'+
+          '<div class="rc-row"><span class="lbl">La original era</span>'+
+            '<span class="val real">'+versionLabel(correctV)+'</span></div>'+
+        '</div>';
+
+      const wrap = card.querySelector(".rc-canvas-wrap");
+      if(heatImg && heatImg.gaze_samples && heatImg.gaze_samples.length){
+        const cv = document.createElement("canvas");
+        wrap.appendChild(cv);
+        renderHeatCanvas(cv, heatImg.url, heatImg.rect, heatImg.gaze_samples);
+      } else if(heatImg){
+        const im = document.createElement("img");
+        im.src = heatImg.url; im.style.cssText="width:100%;height:100%;object-fit:contain;";
+        wrap.appendChild(im);
+        const note = document.createElement("div");
+        note.className="rc-noheat"; note.style.cssText="position:absolute;bottom:6px;left:0;right:0;background:rgba(7,9,15,0.7);";
+        note.textContent="(sin datos de mirada en esta imagen)";
+        wrap.appendChild(note);
+      } else {
+        wrap.innerHTML='<div class="rc-noheat">Sin imagen para mostrar</div>';
+      }
+      grid.appendChild(card);
+    });
+    show("reviewScreen");
+  }
+
   // ===================== FIN / EXPORTACIÓN =====================
+  // Al acabar los sets: detener cámara/temporizadores y mostrar la revisión.
+  // El resumen (endScreen) se muestra después, desde el botón de la revisión.
   function endExperiment(){
+    state.phase="review";
+    clearInterval(timerInt); clearInterval(frameInt); clearInterval(openExpand._vt);
+    stopWebgazer();   // el experimento terminó: liberar la cámara
+    buildReview();
+    saveExperiment();   // guarda ya, por si cierran la pestaña en la revisión
+  }
+  function showSummary(){
     state.phase="end";
     const answered=state.results.filter(r=>!r.timed_out);
     const correct=answered.filter(r=>r.correct).length;
@@ -516,11 +1239,14 @@
     $("sumAcc").textContent=acc+"%";
     $("sumTime").textContent=avgT.toFixed(1)+" s";
     $("sumDone").textContent=answered.length+" / "+state.results.length;
-    show("endScreen"); saveExperiment();
+    $("idMsg").textContent="Tu ID de participante: "+state.participant;
+    show("endScreen");   // los datos ya se guardaron al entrar en la revisión
   }
   function buildPayload(){
     return {
       participant_id: state.participant,
+      gender: state.gender,
+      age: state.age,
       timestamp: new Date().toISOString(),
       consent: true,
       screen: { width: window.innerWidth, height: window.innerHeight },
@@ -562,25 +1288,93 @@
   $("consentChk").addEventListener("change", e=>{ $("btnConsent").disabled = !e.target.checked; });
   $("btnConsent").addEventListener("click", ()=>{ state.phase="intro"; show("introScreen"); });
 
+  // ID anónimo automático: P + fecha-hora + sufijo aleatorio (sin datos personales).
+  function genParticipantId(){
+    const d=new Date();
+    const p=n=>String(n).padStart(2,"0");
+    const stamp=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+    const rnd=Math.random().toString(36).slice(2,6);
+    return `P${stamp}_${rnd}`;
+  }
+
   $("btnStart").addEventListener("click", async ()=>{
-    const pid=$("pid").value.trim();
-    if(!pid){ toast("Escribe tu nombre o código primero.",true); return; }
-    state.participant=pid;
+    const gender=$("gender").value;
+    const age=parseInt($("age").value,10);
+    if(!gender){ toast("Selecciona tu género primero.",true); return; }
+    if(!age || age<1 || age>120){ toast("Ingresa una edad válida.",true); return; }
+    state.gender=gender;
+    state.age=age;
+    state.participant=genParticipantId();
     $("btnStart").disabled=true; toast("Cargando…");
     try{ await loadManifest(); }catch(e){ toast("No se pudo cargar sets_manifest.json",true); $("btnStart").disabled=false; return; }
     pickSessionSets();
     startWebgazer();
     setTimeout(()=>{ startFraming(); $("btnStart").disabled=false; }, 1200);
   });
-  $("btnFrameGo").addEventListener("click", ()=> startCalibration(startExperiment, false) );
+  $("btnFrameGo").addEventListener("click", ()=>{
+    const after = state.afterFrame || startExperiment; state.afterFrame=null;
+    // En el experimento real, tras calibrar pasamos por el gate de precisión.
+    // En la prueba de tracking (afterFrame=showTestImage) no, porque allí ya
+    // hay un botón propio de "Medir precisión".
+    const isExperiment = (after === startExperiment);
+    startCalibration(isExperiment ? (()=>runCalibGate(after)) : after, false);
+  });
+  $("btnTest").addEventListener("click", startTest);
+  $("btnTestMeasure").addEventListener("click", measureTest);
+  $("btnTestBack").addEventListener("click", endTest);
+  document.querySelectorAll(".filter-btn[data-filter]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      filterMode = btn.dataset.filter;
+      resetFilters();   // el nuevo filtro arranca limpio
+      document.querySelectorAll(".filter-btn[data-filter]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      toast("Estabilización: "+btn.textContent);
+    });
+  });
+
+  // --- Panel de ajustes finos del tracking ---
+  $("btnTuneToggle").addEventListener("click", ()=>{
+    const p=$("tunePanel"); p.classList.toggle("show");
+    $("btnTuneToggle").classList.toggle("active", p.classList.contains("show"));
+  });
+  function bindSlider(id, valId, apply){
+    const el=$(id), out=$(valId);
+    el.addEventListener("input", ()=>{ out.textContent=el.value; apply(parseFloat(el.value)); });
+  }
+  bindSlider("tuneMinCutoff","tuneMinCutoffVal", v=>{ OE.minCutoff=v; });
+  bindSlider("tuneBeta","tuneBetaVal", v=>{ OE.beta=v; });
+  $("tuneCalibPoints").addEventListener("change", e=>{
+    tune.calibPoints=parseInt(e.target.value,10);
+    toast("Calibración: "+tune.calibPoints+" puntos");
+  });
+  $("tuneRejectBad").addEventListener("change", e=>{ tune.rejectBad=e.target.checked; });
+  $("tuneGateCalib").addEventListener("change", e=>{ tune.gateCalib=e.target.checked; });
+  // Presets: ajustan los sliders del filtro 1€ y reflejan los valores en la UI.
+  const PRESETS = {
+    stable:     { minCutoff:0.4, beta:0.004 },  // imagen estática: menos jitter en reposo
+    responsive: { minCutoff:1.5, beta:0.02  },  // sigue mejor movimientos rápidos
+    default:    { minCutoff:1.0, beta:0.007 },
+  };
+  document.querySelectorAll(".tune-presets [data-preset]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const p=PRESETS[btn.dataset.preset]; if(!p) return;
+      OE.minCutoff=p.minCutoff; OE.beta=p.beta;
+      $("tuneMinCutoff").value=p.minCutoff; $("tuneMinCutoffVal").textContent=p.minCutoff;
+      $("tuneBeta").value=p.beta; $("tuneBetaVal").textContent=p.beta;
+      resetFilters();
+      toast("Preset aplicado: "+btn.textContent);
+    });
+  });
   $("btnClose").addEventListener("click", closeExpand);
   $("btnChoose").addEventListener("click", chooseOriginal);
+  $("fbContinue").addEventListener("click", hideFeedback);
   $("btnRecalibGo").addEventListener("click", ()=> startCalibration(()=> loadSet(state.setIndex+1), true) );
+  $("btnReviewNext").addEventListener("click", showSummary);
   $("btnCSV").addEventListener("click", downloadCSV);
   function finishAll(){
     // detener todo: temporizadores, cronómetro de vista, encuadre y cámara
     clearInterval(timerInt); clearInterval(frameInt); clearInterval(openExpand._vt);
-    try { if(typeof webgazer!=="undefined") webgazer.end(); } catch(e) {}
+    stopWebgazer();   // cierre definitivo: libera la cámara
     $("expandOverlay").style.display="none";
     state.phase="done";
     show("doneScreen");

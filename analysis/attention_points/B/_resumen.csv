@@ -1,0 +1,13 @@
+participant_id,session_id,set_id,image_id,version,source,n_points,n_on_image,n_off_image,archivo
+B,exp_B_20260605_133856,set_051,COCO_000000162589,semantic_agnostic,COCO,12,5,7,B\COCO_000000162589__semantic_agnostic.json
+B,exp_B_20260605_133856,set_009,ADE_00004217,semantic_agnostic,ADE,12,12,0,B\ADE_00004217__semantic_agnostic.json
+B,exp_B_20260605_133856,set_066,COCO_000000511002,semantic_agnostic,COCO,20,20,0,B\COCO_000000511002__semantic_agnostic.json
+B,exp_B_20260605_133856,set_066,COCO_000000511002,original,COCO,10,10,0,B\COCO_000000511002__original.json
+B,exp_B_20260605_133856,set_069,COCO_000000567093,original,COCO,7,7,0,B\COCO_000000567093__original.json
+B,exp_B_20260605_133856,set_004,ADE_00003333,semantic_agnostic,ADE,23,21,2,B\ADE_00003333__semantic_agnostic.json
+B,exp_B_20260605_133856,set_004,ADE_00003333,original,ADE,10,9,1,B\ADE_00003333__original.json
+B,exp_B_20260605_133856,set_024,ADE_00011244,semantic_agnostic,ADE,11,11,0,B\ADE_00011244__semantic_agnostic.json
+B,exp_B_20260605_133856,set_046,COCO_000000087593,original,COCO,8,8,0,B\COCO_000000087593__original.json
+B,exp_B_20260605_133856,set_014,ADE_00007141,semantic_agnostic,ADE,12,12,0,B\ADE_00007141__semantic_agnostic.json
+B,exp_B_20260605_133856,set_056,COCO_000000237390,original,COCO,11,11,0,B\COCO_000000237390__original.json
+B,exp_B_20260605_133856,set_035,ADE_00019754,original,ADE,7,7,0,B\ADE_00019754__original.json

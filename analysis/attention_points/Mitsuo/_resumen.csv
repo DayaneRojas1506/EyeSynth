@@ -1,0 +1,17 @@
+participant_id,session_id,set_id,image_id,version,source,n_points,n_on_image,n_off_image,archivo
+Mitsuo,exp_Mitsuo_20260603_173803,set_054,COCO_000000226383,original,COCO,51,37,14,Mitsuo\COCO_000000226383__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_100,LHQ_0086923,original,LHQ,9,9,0,Mitsuo\LHQ_0086923__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_008,ADE_00004113,original,ADE,7,7,0,Mitsuo\ADE_00004113__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_016,ADE_00008672,original,ADE,37,37,0,Mitsuo\ADE_00008672__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_016,ADE_00008672,semantic_aware,ADE,79,79,0,Mitsuo\ADE_00008672__semantic_aware.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_068,COCO_000000545849,original,COCO,5,5,0,Mitsuo\COCO_000000545849__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_094,LHQ_0075457,original,LHQ,11,11,0,Mitsuo\LHQ_0075457__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_053,COCO_000000201770,original,COCO,97,93,4,Mitsuo\COCO_000000201770__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_053,COCO_000000201770,semantic_aware,COCO,14,14,0,Mitsuo\COCO_000000201770__semantic_aware.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_053,COCO_000000201770,semantic_agnostic,COCO,28,26,2,Mitsuo\COCO_000000201770__semantic_agnostic.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_069,COCO_000000567093,semantic_aware,COCO,41,35,6,Mitsuo\COCO_000000567093__semantic_aware.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_069,COCO_000000567093,original,COCO,36,36,0,Mitsuo\COCO_000000567093__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_071,LHQ_0000046,semantic_agnostic,LHQ,126,125,1,Mitsuo\LHQ_0000046__semantic_agnostic.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_071,LHQ_0000046,original,LHQ,140,138,2,Mitsuo\LHQ_0000046__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_031,ADE_00017634,original,ADE,18,17,1,Mitsuo\ADE_00017634__original.json
+Mitsuo,exp_Mitsuo_20260603_173803,set_031,ADE_00017634,semantic_agnostic,ADE,22,21,1,Mitsuo\ADE_00017634__semantic_agnostic.json

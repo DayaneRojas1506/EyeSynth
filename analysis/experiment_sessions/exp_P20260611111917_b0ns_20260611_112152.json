@@ -1,0 +1,608 @@
+{
+  "participant_id": "P20260611111917_b0ns",
+  "gender": "masculino",
+  "age": 23,
+  "timestamp": "2026-06-11T16:21:52.197Z",
+  "consent": true,
+  "screen": {
+    "width": 1920,
+    "height": 911
+  },
+  "config": {
+    "sets_per_session": 10,
+    "same_for_all": true,
+    "selection_seed": 42,
+    "set_time_s": 60,
+    "recalib_every": 5
+  },
+  "calibration": {
+    "n_points": 5,
+    "points": [
+      {
+        "x_norm": 0.196,
+        "y_norm": 0.196,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.804,
+        "y_norm": 0.196,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.5,
+        "y_norm": 0.5,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.196,
+        "y_norm": 0.804,
+        "clicks": 3
+      },
+      {
+        "x_norm": 0.804,
+        "y_norm": 0.804,
+        "clicks": 3
+      }
+    ],
+    "completed": true,
+    "short": true
+  },
+  "sets": [
+    {
+      "set_id": "set_004",
+      "image_id": "ADE_00003333",
+      "source": "ADE",
+      "grid_order": [
+        "original",
+        "semantic_aware",
+        "pix2pix_magicbrush",
+        "semantic_agnostic"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 25.41,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00003333.jpg",
+          "rect": {
+            "x_norm": 0.3214,
+            "y_norm": 0,
+            "w_norm": 0.3573,
+            "h_norm": 1
+          },
+          "view_duration_s": 2.46,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00003333.jpg",
+          "rect": {
+            "x_norm": 0.3214,
+            "y_norm": 0,
+            "w_norm": 0.3573,
+            "h_norm": 1
+          },
+          "view_duration_s": 3.27,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00003333.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00003333.jpg",
+          "rect": {
+            "x_norm": 0.3214,
+            "y_norm": 0,
+            "w_norm": 0.3573,
+            "h_norm": 1
+          },
+          "view_duration_s": 3.1399999999999997,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_035",
+      "image_id": "ADE_00019754",
+      "source": "ADE",
+      "grid_order": [
+        "pix2pix_magicbrush",
+        "semantic_agnostic",
+        "semantic_aware",
+        "original"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 5.24,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00019754.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00019754.jpg",
+          "rect": {
+            "x_norm": 0.1849,
+            "y_norm": 0,
+            "w_norm": 0.6302,
+            "h_norm": 1
+          },
+          "view_duration_s": 2.61,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_051",
+      "image_id": "COCO_000000162589",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_aware",
+        "pix2pix_magicbrush",
+        "semantic_agnostic",
+        "original"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 20.49,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000162589.jpg",
+          "rect": {
+            "x_norm": 0.3221,
+            "y_norm": 0,
+            "w_norm": 0.3559,
+            "h_norm": 1
+          },
+          "view_duration_s": 2.13,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000162589.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_024",
+      "image_id": "ADE_00011244",
+      "source": "ADE",
+      "grid_order": [
+        "original",
+        "semantic_agnostic",
+        "pix2pix_magicbrush",
+        "semantic_aware"
+      ],
+      "answer_version": "semantic_aware",
+      "correct": false,
+      "response_time_s": 1.54,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00011244.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00011244.jpg",
+          "rect": {
+            "x_norm": 0.1849,
+            "y_norm": 0,
+            "w_norm": 0.6302,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.53,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_066",
+      "image_id": "COCO_000000511002",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_aware",
+        "semantic_agnostic",
+        "pix2pix_magicbrush",
+        "original"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 1.15,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000511002.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000511002.jpg",
+          "rect": {
+            "x_norm": 0.1837,
+            "y_norm": 0,
+            "w_norm": 0.6326,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.64,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000511002.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000511002.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_009",
+      "image_id": "ADE_00004217",
+      "source": "ADE",
+      "grid_order": [
+        "original",
+        "semantic_aware",
+        "pix2pix_magicbrush",
+        "semantic_agnostic"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 3.82,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00004217.jpg",
+          "rect": {
+            "x_norm": 0.1441,
+            "y_norm": 0,
+            "w_norm": 0.7117,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.6,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00004217.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_014",
+      "image_id": "ADE_00007141",
+      "source": "ADE",
+      "grid_order": [
+        "semantic_aware",
+        "semantic_agnostic",
+        "original",
+        "pix2pix_magicbrush"
+      ],
+      "answer_version": "semantic_agnostic",
+      "correct": false,
+      "response_time_s": 1.79,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/ADE_00007141.jpg",
+          "rect": {
+            "x_norm": 0.1441,
+            "y_norm": 0,
+            "w_norm": 0.7117,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.76,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/ADE_00007141.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_056",
+      "image_id": "COCO_000000237390",
+      "source": "COCO",
+      "grid_order": [
+        "pix2pix_magicbrush",
+        "semantic_aware",
+        "semantic_agnostic",
+        "original"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 0.97,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000237390.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000237390.jpg",
+          "rect": {
+            "x_norm": 0.1837,
+            "y_norm": 0,
+            "w_norm": 0.6326,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.55,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_069",
+      "image_id": "COCO_000000567093",
+      "source": "COCO",
+      "grid_order": [
+        "semantic_agnostic",
+        "original",
+        "semantic_aware",
+        "pix2pix_magicbrush"
+      ],
+      "answer_version": "semantic_aware",
+      "correct": false,
+      "response_time_s": 1.3,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000567093.jpg",
+          "rect": {
+            "x_norm": 0.3221,
+            "y_norm": 0,
+            "w_norm": 0.3559,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.71,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000567093.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    },
+    {
+      "set_id": "set_046",
+      "image_id": "COCO_000000087593",
+      "source": "COCO",
+      "grid_order": [
+        "original",
+        "pix2pix_magicbrush",
+        "semantic_aware",
+        "semantic_agnostic"
+      ],
+      "answer_version": "original",
+      "correct": true,
+      "response_time_s": 5.15,
+      "timed_out": false,
+      "images": [
+        {
+          "version": "original",
+          "url": "/dataset/images/original/COCO_000000087593.jpg",
+          "rect": {
+            "x_norm": 0.1837,
+            "y_norm": 0,
+            "w_norm": 0.6326,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.7,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "pix2pix_magicbrush",
+          "url": "/dataset/images/pix2pix_magicbrush/COCO_000000087593.jpg",
+          "rect": {
+            "x_norm": 0.1837,
+            "y_norm": 0,
+            "w_norm": 0.6326,
+            "h_norm": 1
+          },
+          "view_duration_s": 0.95,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_aware",
+          "url": "/dataset/images/semantic_aware/COCO_000000087593.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        },
+        {
+          "version": "semantic_agnostic",
+          "url": "/dataset/images/semantic_agnostic/COCO_000000087593.jpg",
+          "rect": null,
+          "view_duration_s": 0,
+          "n_samples": 0,
+          "gaze_samples": []
+        }
+      ]
+    }
+  ],
+  "session_id": "exp_P20260611111917_b0ns_20260611_112152"
+}
