@@ -392,6 +392,22 @@
     <button id="fbContinue" class="secondary">Continuar</button>
   </div></div>
 
+  <!-- RESUMEN DE CALIBRACIÓN (vista previa antes de comenzar los sets) -->
+  <section id="gateScreen" class="screen">
+    <h1 style="font-size:1.6rem;">Calibración completada</h1>
+    <div class="card">
+      <div class="summary-stat">
+        <div><div class="num" id="gateAcc">0%</div><div class="lbl">Precisión</div></div>
+        <div><div class="num" id="gateErr">0%</div><div class="lbl">Error medio</div></div>
+      </div>
+      <p id="gateMsg" style="color:var(--text-dim);margin-top:1.2rem;line-height:1.6;max-width:520px;"></p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button id="btnGateStart">Comenzar experimento</button>
+        <button id="btnGateRecalib" class="secondary">Recalibrar</button>
+      </div>
+    </div>
+  </section>
+
   <!-- RECALIBRACIÓN -->
   <section id="recalibScreen" class="screen">
     <div class="card">
@@ -543,7 +559,10 @@
 
   function beginWebgazer(){
     lastRealGaze = 0;
-    webgazer.setRegression("weightedRidge").setTracker("TFFacemesh")
+    // "ridge" (no "weightedRidge"): el regresor ponderado de WebGazer 2.1.0
+    // lanza un TypeError interno (ridgeWeightedReg.mjs) que deja de producir
+    // predicciones y congela el flujo en la fase de encuadre -> 0 muestras.
+    webgazer.setRegression("ridge").setTracker("TFFacemesh")
       .setGazeListener(gazeListener).begin()
       .then(()=>{ webgazerStarted = true; })
       .catch(e=>toast("Error de cámara: "+e,true));
@@ -672,7 +691,11 @@
         const MARGIN = 0.15;   // tolerancia fuera del borde de pantalla
         const onScreen = (xn>=-MARGIN && xn<=1+MARGIN && yn>=-MARGIN && yn<=1+MARGIN);
         const bad = !onScreen;
-        if(tune.rejectBad && bad){ state.qcDropped=(state.qcDropped||0)+1; return; }
+        // Las muestras malas se MARCAN (ok:false) pero NO se descartan: así nunca
+        // perdemos la sesión entera si la regresión o el offset se desvían. El
+        // análisis puede filtrar por `ok`. (Antes un `return` aquí podía vaciar
+        // todos los sets cuando el tracking caía un poco fuera de pantalla.)
+        if(bad) state.qcDropped=(state.qcDropped||0)+1;
         const r=img.rect; const u=(xn-r.x_norm)/r.w_norm, v=(yn-r.y_norm)/r.h_norm;
         img.gaze_samples.push({
           t:+((performance.now()-state.current.startTime)/1000).toFixed(3),
@@ -749,20 +772,26 @@
       const residual=dxs.map((d,k)=>Math.hypot(d+state.gazeOffset.x, dys[k]+state.gazeOffset.y));
       const pct=100*avg(residual)/diag;
       state.calibration.gate_error_pct=+pct.toFixed(1);
-      if(pct<=tune.gateThresholdPct){
-        toast("Calibración OK ("+pct.toFixed(1)+"% error)");
-        after();
-      } else {
-        // Demasiado error: ofrecer recalibrar.
-        $("calibTitle").textContent="Precisión baja ("+pct.toFixed(1)+"%)";
-        $("calibMsg").innerHTML='Conviene recalibrar. <b>Clic para repetir</b> o espera 4 s para continuar igual.';
-        let go=false;
-        const cont=setTimeout(()=>{ if(!go){ scr.onclick=null; after(); } }, 4000);
-        scr.onclick=()=>{ go=true; clearTimeout(cont); scr.onclick=null;
-          startCalibration(()=>runCalibGate(after), false); };
-      }
+      // Vista previa: muestra precisión + error y deja decidir antes de empezar.
+      showGateSummary(pct, diag, after);
     }
     step();
+  }
+  // Pantalla de resumen tras el gate: precisión, error y botones Comenzar / Recalibrar.
+  function showGateSummary(pct, diag, after){
+    const accuracy=Math.max(0, Math.min(100, 100-pct));
+    const accEl=$("gateAcc"), msg=$("gateMsg");
+    let color, text;
+    if(pct<5){ color="var(--ok)"; text="Buena precisión. Puedes comenzar el experimento."; }
+    else if(pct<=tune.gateThresholdPct){ color="var(--accent)"; text="Precisión aceptable. Puedes comenzar, o recalibrar si quieres afinarla."; }
+    else { color="var(--warn)"; text="Precisión baja. Se recomienda recalibrar antes de comenzar para obtener mejores datos de mirada."; }
+    accEl.textContent=accuracy.toFixed(1)+"%"; accEl.style.color=color;
+    $("gateErr").textContent=pct.toFixed(1)+"%";
+    msg.textContent=text;
+    show("gateScreen");
+    $("btnGateStart").onclick=()=>{ $("btnGateStart").onclick=null; $("btnGateRecalib").onclick=null; after(); };
+    $("btnGateRecalib").onclick=()=>{ $("btnGateStart").onclick=null; $("btnGateRecalib").onclick=null;
+      startCalibration(()=>runCalibGate(after), false); };
   }
 
   // ===================== CALIBRACIÓN =====================
@@ -949,13 +978,16 @@
     const avgPx=avg(residual);
     const diag=Math.hypot(window.innerWidth, window.innerHeight);
     const pct=100*avgPx/diag;
+    // Precisión = qué tan cerca apunta, como % (100 menos el % de error), acotado a [0,100].
+    const accuracy=Math.max(0, Math.min(100, 100-pct));
     let label, color;
     if(pct<5){ label="Buena precisión"; color="var(--ok)"; }
     else if(pct<10){ label="Precisión aceptable"; color="var(--accent)"; }
     else { label="Precisión baja — conviene recalibrar"; color="var(--warn)"; }
     $("testResult").innerHTML=
       '<div class="res-big" style="color:'+color+'">'+label+'</div>'+
-      '<div class="res-sub">Error medio: <b>'+Math.round(avgPx)+' px</b> (≈ '+pct.toFixed(1)+'% de la pantalla)<br>'+
+      '<div class="res-sub"><b style="color:'+color+'">Precisión: '+accuracy.toFixed(1)+'%</b><br>'+
+      'Error medio: <b>'+Math.round(avgPx)+' px</b> (≈ '+pct.toFixed(1)+'% de la pantalla)<br>'+
       'Corrección de sesgo aplicada: '+Math.round(state.gazeOffset.x)+', '+Math.round(state.gazeOffset.y)+' px.<br>'+
       'Si sigue siendo baja: mejora la luz, acércate y mantén la cabeza quieta.</div>';
     $("testResult").style.display="block";
