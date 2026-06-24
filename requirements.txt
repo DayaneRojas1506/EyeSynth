@@ -4,3 +4,16 @@ numpy
 scipy
 matplotlib
 opencv-python
+pillow
+
+# --- Inferencia de los detectores de fakes (server en WSL/Linux) ---
+# 4 modelos: SIMPLE (logístico), NPR (ResNet-50 sobre residuos de píxeles),
+# Swin-B (Swin Transformer) y UnivFD (CLIP ViT-L/14 + cabeza lineal).
+# Entrenamiento: server/train_{npr,swin,univfd}_fakereal.py.
+# torch/torchvision: instalar con la rueda CUDA adecuada, p.ej.:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+torch
+torchvision
+
+# CLIP de OpenAI (lo usa UnivFD). Se instala desde GitHub; arrastra ftfy/regex.
+clip @ git+https://github.com/openai/CLIP.git

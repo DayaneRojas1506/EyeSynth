@@ -22,16 +22,17 @@
   .tagline { color: var(--text-dim); margin-top: 0.5rem; }
   .card { background: var(--panel); border: 1px solid #1c2530; border-radius: 14px;
     padding: 2rem 2.4rem; max-width: 680px; margin-top: 1.6rem; }
-  .card ol, .card ul { text-align: left; color: var(--text-dim); line-height: 1.8; padding-left: 1.2rem; }
+  .card ol, .card ul { text-align: center; color: var(--text-dim); line-height: 1.8; padding-left: 0; list-style-position: inside; }
   .card b { color: var(--text); }
   .card-wide { max-width: 980px; }
   input[type=text] { margin-top: 1rem; padding: 0.7rem 1rem; border-radius: 8px;
     border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 1rem; width: 260px; }
   .form-row { display: flex; gap: 10px; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
-  .form-row select, .form-row input[type=number] { padding: 0.7rem 1rem; border-radius: 8px;
-    border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 1rem; }
-  .form-row select { width: 170px; cursor: pointer; }
-  .form-row input[type=number] { width: 120px; }
+  .form-row select, .form-row input[type=number] { padding: 0.665rem 0.95rem; border-radius: 8px;
+    border: 1px solid #1c2530; background: var(--bg); color: var(--text); font-size: 0.95rem; }
+  .form-row select { width: 162px; cursor: pointer; padding-right: 1.9rem; }
+  .form-row #glasses { width: 200px; }
+  .form-row input[type=number] { width: 114px; }
   button { margin-top: 1.4rem; background: linear-gradient(180deg, var(--accent), var(--accent-dim));
     color: #04181c; font-weight: 700; letter-spacing: 0.06em; border: none; border-radius: 10px;
     padding: 0.9rem 2.2rem; font-size: 1rem; cursor: pointer; text-transform: uppercase;
@@ -39,7 +40,7 @@
   button:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(0,212,240,0.25); }
   button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent-dim); box-shadow: none; }
   button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-  .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 460px; }
+  .hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 1rem; max-width: 460px; margin-left: auto; margin-right: auto; text-align: center; }
 
   /* Consentimiento */
   .consent-text { text-align: left; color: var(--text-dim); line-height: 1.7; font-size: 0.92rem; }
@@ -58,6 +59,12 @@
     color: var(--text); background: rgba(255,77,94,0.10); border: 1px solid var(--warn);
     border-radius: 10px; padding: 0.9rem 1.1rem; }
   .head-warn b { color: var(--warn); }
+  .calib-tips { margin-top: 0.9rem; max-width: 520px; line-height: 1.55; font-size: 0.88rem;
+    color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid #1c2530;
+    border-radius: 10px; padding: 0.9rem 1.1rem 0.9rem 1.3rem; text-align: left; }
+  .calib-tips strong { color: var(--text); }
+  .calib-tips ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+  .calib-tips li { margin-top: 0.35rem; }
 
   /* Calibración */
   #calibScreen { background: var(--bg); }
@@ -90,26 +97,19 @@
   @keyframes blink { 50% { opacity: 0.2; } }
   .grid2x2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
     gap: 12px; width: min(84vh, 92vw); height: min(84vh, 92vw); margin-top: 16px; }
+  /* Modo 2 imágenes (real vs fake): una sola fila de 2 celdas, apaisado. */
+  .grid2x2.grid-pair { grid-template-rows: 1fr; width: min(92vw, 150vh); height: min(56vh, 46vw); }
   .cell { position: relative; border: 2px solid #1c2530; border-radius: 10px; overflow: hidden;
     cursor: pointer; background: #000; transition: border-color 0.15s, box-shadow 0.15s; }
   .cell:hover { border-color: var(--accent); box-shadow: 0 0 16px rgba(0,212,240,0.3); }
   .cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cell .tag { position: absolute; top: 8px; left: 8px; background: rgba(7,9,15,0.8); color: var(--text-dim);
     font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; pointer-events: none; }
-  .cell .expand-ic { position: absolute; bottom: 8px; right: 8px; background: rgba(7,9,15,0.8);
-    color: var(--accent); font-size: 0.72rem; padding: 3px 8px; border-radius: 6px; pointer-events: none; }
 
-  /* Vista expandida (captura de mirada) */
-  #expandOverlay { position: absolute; inset: 0; background: #000; display: none; z-index: 30; }
-  #expandImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
-    background: #000; pointer-events: none; }
-  /* El punto de mirada permanece OCULTO al participante (los datos se registran igual) */
-  #gazeDot { display: none; }
+  /* Controles compartidos (usados en la pantalla de prueba de precisión) */
   .expand-controls { position: absolute; bottom: 22px; left: 0; right: 0; display: flex; gap: 14px;
     justify-content: center; z-index: 34; }
   .expand-controls button { margin-top: 0; }
-  .expand-view-timer { position: absolute; top: 16px; right: 20px; z-index: 34; color: var(--text-dim);
-    font-size: 0.85rem; background: rgba(7,9,15,0.7); padding: 6px 12px; border-radius: 8px; }
 
   /* Prueba de precisión (temporal) */
   #testOverlay { position: absolute; inset: 0; background: #000; display: none; z-index: 35; }
@@ -178,6 +178,17 @@
 
   /* Revisión final (galería de respuestas) */
   #reviewScreen { padding: 0 24px 24px; }
+  /* Marcador de aciertos: humano vs. cada modelo, en la parte superior */
+  .scoreboard { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    width: 100%; max-width: 1200px; margin: 1.4rem 0 0; }
+  .score-card { background: var(--panel); border: 1px solid #1c2530; border-radius: 12px;
+    padding: 0.9rem 1.4rem; min-width: 150px; text-align: center; }
+  .score-card.human { border-color: var(--accent); }
+  .score-card .sc-name { font-size: 0.82rem; color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: 0.04em; }
+  .score-card .sc-num { font-size: 1.7rem; font-weight: 800; color: var(--accent); margin-top: 0.2rem; }
+  .score-card .sc-sub { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.1rem; }
+  .score-card.human .sc-num { color: var(--ok); }
   .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 18px; width: 100%; max-width: 1200px; margin: 1.4rem 0; }
   .review-card { background: var(--panel); border: 1px solid #1c2530; border-radius: 12px;
@@ -200,6 +211,24 @@
   .review-card .rc-row .val { color: var(--text); text-align: right; }
   .review-card .rc-row .val.real { color: var(--ok); font-weight: 600; }
   .review-card .rc-row .val.edited { color: var(--accent); font-weight: 600; }
+
+  /* Comparación con los modelos de IA (Simple / NPR / Swin-B / UnivFD) */
+  .rc-models { border-top: 1px solid #1c2530; padding: 10px 14px 12px; }
+  .rc-models-title { color: var(--text-dim); font-size: 0.78rem; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 8px; }
+  .rc-models-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .rc-model { display: flex; flex-direction: column; gap: 4px; }
+  .rc-model img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px;
+    background: #000; display: block; }
+  .rc-model .rcm-name { color: var(--accent); font-size: 0.72rem; font-weight: 700;
+    text-align: center; letter-spacing: 0.04em; }
+  .rc-model .rcm-pred { color: var(--text); font-size: 0.7rem; text-align: center; }
+  .rc-model .rcm-metrics { color: var(--text-dim); font-size: 0.68rem; text-align: center;
+    line-height: 1.35; font-variant-numeric: tabular-nums; }
+  .rc-model .rcm-metrics b { color: var(--text); }
+  .rc-models-status { color: var(--text-dim); font-size: 0.78rem; text-align: center;
+    padding: 10px 0; }
+  .rc-models-status.err { color: var(--warn); }
 
   /* Resumen final */
   .summary-stat { display: flex; gap: 2.4rem; margin-top: 1.4rem; }
@@ -253,14 +282,15 @@
   <section id="introScreen" class="screen">
     <h1>Eye<span class="sub">Synth</span></h1>
     <div class="tagline">Experimento de detección de imágenes editadas</div>
-    <div class="card">
+    <div class="card card-wide">
       <ul>
-        <li>Verás <b>4 imágenes</b> de la misma escena: una es la <b>original</b>, tres están <b>editadas por IA</b>.</li>
-        <li>Haz clic en cualquier imagen para <b>ampliarla</b> y observarla con calma.</li>
-        <li>Cuando decidas, en la vista ampliada pulsa <b>"Es la original"</b>.</li>
+        <li>Verás <b>2 imágenes</b> de la misma escena: una es <b>real</b>, la otra fue <b>generada por IA</b>.</li>
+        <li>Obsérvalas con calma: la cámara registra tu mirada sobre cada imagen.</li>
+        <li>Haz clic sobre la imagen que creas que es la <b>real</b> para responder.</li>
         <li>Tienes <b>60 s</b> por set. Habrá una breve calibración de la cámara al inicio.</li>
         <li><b style="color:var(--warn);">Mantén la cabeza quieta</b> durante toda la prueba: la cámara estima tu mirada y se descalibra si te mueves.</li>
       </ul>
+      <div class="hint" style="margin-bottom:0.2rem;">Ingrese sus datos:</div>
       <div class="form-row">
         <select id="gender">
           <option value="" disabled selected>Género</option>
@@ -270,8 +300,29 @@
           <option value="prefiero_no_decir">Prefiero no decir</option>
         </select>
         <input id="age" type="number" min="1" max="120" placeholder="Edad" autocomplete="off" />
+        <select id="glasses">
+          <option value="" disabled selected>¿Usas lentes?</option>
+          <option value="si">Sí, uso lentes</option>
+          <option value="no">No uso lentes</option>
+        </select>
       </div>
-      <div class="hint" id="autoIdHint">Se te asignará un ID anónimo automáticamente.</div>
+      <div class="form-row" style="margin-top:0.7rem;">
+        <select id="blockSelect">
+          <option value="0" selected>Bloque 1 (sets 1–10)</option>
+          <option value="1">Bloque 2 (sets 11–20)</option>
+          <option value="2">Bloque 3 (sets 21–30)</option>
+          <option value="3">Bloque 4 (sets 31–40)</option>
+          <option value="4">Bloque 5 (sets 41–50)</option>
+          <option value="5">Bloque 6 (sets 51–60)</option>
+          <option value="6">Bloque 7 (sets 61–70)</option>
+          <option value="7">Bloque 8 (sets 71–80)</option>
+          <option value="8">Bloque 9 (sets 81–90)</option>
+          <option value="9">Bloque 10 (sets 91–100)</option>
+        </select>
+      </div>
+      <input type="hidden" id="trackMode" value="zonal" />
+      <div class="hint" id="autoIdHint">Se te asignará un ID anónimo automáticamente. La mirada se
+        corrige en modo de <b>alta precisión</b> (por zonas de la pantalla).</div>
       <button id="btnStart">Comenzar</button>
       <button id="btnTest" class="secondary">🎯 Probar precisión del tracking</button>
       <div class="hint">Al continuar se pedirá acceso a la cámara. Usa buena luz frontal.</div>
@@ -287,6 +338,16 @@
       ⚠ Acomódate en una postura <b>cómoda que puedas mantener</b>: la prueba se realiza
       <b>sin mover la cabeza</b>. Conserva esta misma posición durante <b>todo el experimento</b>,
       no solo al calibrar.
+    </div>
+    <div class="calib-tips">
+      Para obtener la <strong>máxima precisión</strong> antes de calibrar:
+      <ul>
+        <li><strong>Distancia:</strong> mantén la cara a <strong>50–70 cm</strong> de la cámara y no la cambies después.</li>
+        <li><strong>Altura:</strong> coloca los ojos a la <strong>altura de la cámara</strong> (sube la pantalla o el asiento).</li>
+        <li><strong>Luz:</strong> usa <strong>luz frontal uniforme</strong>; evita ventanas o lámparas detrás de ti.</li>
+        <li><strong>Lentes:</strong> si usas, inclínalos para <strong>evitar reflejos</strong> sobre los cristales.</li>
+        <li><strong>Quietud:</strong> apoya la espalda y mantén la cabeza fija; el movimiento es lo que más descalibra.</li>
+      </ul>
     </div>
     <button id="btnFrameGo" disabled>Calibrar</button>
     <div class="hint">Si no aparece tu cámara, revisa el permiso del navegador (candado junto a la URL).</div>
@@ -306,26 +367,15 @@
   <section id="expScreen" class="screen">
     <div class="exp-top">
       <div class="progress">Set <b id="setNum">1</b> / <span id="setTotal">10</span></div>
-      <div class="question">¿Cuál es la imagen original?</div>
+      <div class="question">¿Cuál es la imagen real?</div>
       <div class="timer" id="timer">60</div>
     </div>
     <div class="grid2x2" id="grid"></div>
   </section>
 
-  <!-- OVERLAY EXPANDIDO -->
-  <div id="expandOverlay">
-    <img id="expandImg" alt="" />
-    <div id="gazeDot"></div>
-    <div class="expand-view-timer" id="viewTimer">observando…</div>
-    <div class="expand-controls">
-      <button id="btnChoose">✓ Es la original</button>
-      <button id="btnClose" class="secondary">Volver a la grilla</button>
-    </div>
-  </div>
-
   <!-- PRUEBA DE PRECISIÓN (temporal) -->
   <div id="testOverlay">
-    <img id="testImg" src="/dataset/images/original/ADE_00000823.jpg" alt="Imagen de ejemplo" />
+    <img id="testImg" src="/dataset/images/real/0003.png" alt="Imagen de ejemplo" />
     <div id="testGazeDot"></div>
     <div id="testTarget"></div>
     <div class="test-banner" id="testBanner">Mira distintas zonas de la imagen: el punto debería seguir tu mirada.</div>
@@ -422,6 +472,7 @@
   <section id="reviewScreen" class="screen" style="justify-content:flex-start; overflow-y:auto;">
     <h1 style="font-size:1.6rem; margin-top:1.2rem;">Tus respuestas</h1>
     <div class="tagline">Esto fue lo que elegiste en cada imagen, qué era en realidad y dónde miraste.</div>
+    <div id="scoreboard" class="scoreboard"></div>
     <div id="reviewGrid" class="review-grid"></div>
     <button id="btnReviewNext">Ver resumen</button>
   </section>
@@ -511,6 +562,8 @@
     participant: "",
     gender: "",
     age: null,
+    glasses: "",
+    block: 0,
     manifest: null,
     sessionSets: [],
     setIndex: 0,
@@ -518,13 +571,18 @@
     afterFrame: null,
     testValidating: false,
     valSamples: [],
-    gazeOffset: { x: 0, y: 0 },   // corrección de sesgo aplicada a cada predicción
+    gazeOffset: { x: 0, y: 0 },   // corrección de sesgo GLOBAL (modo "global")
+    correctionMode: "zonal",      // "zonal" (por zonas, IDW) o "global" (offset único)
+    gazeField: null,              // anclas {tx,ty,dx,dy} para corrección por zonas
     expandVersion: null,
     expandStart: 0,
     calibPoints: CALIB_FULL,
     calibClicksNeeded: CLICKS_FULL,
     calibIndex: 0, calibLocked: true, calibClicks: 0,
     calibration: { n_points: 0, points: [], completed: false },
+    // Métricas de precisión del tracking medidas en el gate (persisten aunque se
+    // recalibre; se actualizan con el último gate ejecutado antes de los sets).
+    tracking: { accuracy_pct: null, error_pct: null, error_px: null, n_recalibrations: 0, correction_mode: "zonal" },
     afterCalib: null,
     results: [],
     lastGaze: null,
@@ -590,6 +648,19 @@
   function stopWebgazer(){
     try { if(typeof webgazer!=="undefined" && webgazerStarted) webgazer.end(); } catch(e) {}
     webgazerStarted = false;
+    // webgazer.end() detiene el bucle de predicción pero NO libera la cámara:
+    // el MediaStream sigue activo (LED de la webcam encendido). Apagamos a mano
+    // todos los tracks del video que crea WebGazer y quitamos su contenedor del
+    // DOM, para que en la pantalla de resultados la cámara quede liberada.
+    try {
+      document.querySelectorAll("#webgazerVideoFeed, #webgazerVideoCanvas").forEach(v=>{
+        const s = v && v.srcObject;
+        if(s && s.getTracks){ s.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} }); }
+        if(v){ try{ v.srcObject = null; }catch(e){} }
+      });
+      const cont = document.getElementById("webgazerVideoContainer");
+      if(cont && cont.parentNode){ cont.parentNode.removeChild(cont); }
+    } catch(e) {}
   }
   // ===================== SUAVIZADO (filtros intercambiables) =====================
   // Reducen el jitter de WebGazer. Se puede cambiar en vivo desde la prueba.
@@ -660,6 +731,25 @@
     return filterOneEuro(x, y);
   }
 
+  // -- Corrección de sesgo --
+  // "global": resta un único offset medio (state.gazeOffset).
+  // "zonal": interpola el desvío medido en varias anclas del gate según dónde
+  //   cae la mirada (IDW, inverse-distance weighting). Corrige el error NO
+  //   uniforme de WebGazer (pequeño al centro, mayor en esquinas). Si solo hay
+  //   una ancla, equivale al offset global -> sin regresión respecto al modo previo.
+  function correctGaze(rx, ry){
+    if(state.correctionMode==="zonal" && state.gazeField && state.gazeField.length){
+      let wsum=0, cx=0, cy=0;
+      for(const a of state.gazeField){
+        const d2=(rx-a.tx)*(rx-a.tx)+(ry-a.ty)*(ry-a.ty);
+        const w=1/(d2+1);   // +1: evita dividir por cero si la mirada cae sobre un ancla
+        wsum+=w; cx+=w*(-a.dx); cy+=w*(-a.dy);
+      }
+      return [rx + cx/wsum, ry + cy/wsum];
+    }
+    return [rx + state.gazeOffset.x, ry + state.gazeOffset.y];
+  }
+
   function onGaze(data){
     if(!data) return;
     state.lastGazeTime = performance.now();
@@ -668,8 +758,8 @@
     if(!state.gazeReady){ state.gazeReady = true; onGazeReady(); }
     const w=window.innerWidth, h=window.innerHeight;
     const [rx, ry] = smoothGaze(data.x, data.y);   // mirada suavizada (cruda)
-    // Corrección de sesgo: resta el desvío medio medido en la validación.
-    const x = rx + state.gazeOffset.x, y = ry + state.gazeOffset.y;
+    // Corrección de sesgo (global u por zonas según el modo elegido al iniciar).
+    const [x, y] = correctGaze(rx, ry);
     const xn=x/w, yn=y/h;
     state.lastGaze={x,y,xn,yn};
     if(state.phase==="test"){
@@ -682,28 +772,29 @@
         dot.style.left=x+"px"; dot.style.top=y+"px";
       }
     }
-    if(state.phase==="expanded" && state.expandVersion){
-      const img=state.current.images[state.expandVersion];
-      if(img && img.rect){
-        // Control de calidad: descarta predicciones que caen muy fuera de la
-        // pantalla (el modelo de regresión se disparó: muestra poco fiable).
-        // El "rostro perdido" se traduce en ausencia de muestras, no en una mala.
-        const MARGIN = 0.15;   // tolerancia fuera del borde de pantalla
-        const onScreen = (xn>=-MARGIN && xn<=1+MARGIN && yn>=-MARGIN && yn<=1+MARGIN);
-        const bad = !onScreen;
-        // Las muestras malas se MARCAN (ok:false) pero NO se descartan: así nunca
-        // perdemos la sesión entera si la regresión o el offset se desvían. El
-        // análisis puede filtrar por `ok`. (Antes un `return` aquí podía vaciar
-        // todos los sets cuando el tracking caía un poco fuera de pantalla.)
-        if(bad) state.qcDropped=(state.qcDropped||0)+1;
-        const r=img.rect; const u=(xn-r.x_norm)/r.w_norm, v=(yn-r.y_norm)/r.h_norm;
-        img.gaze_samples.push({
-          t:+((performance.now()-state.current.startTime)/1000).toFixed(3),
-          x:Math.round(x), y:Math.round(y), x_norm:+xn.toFixed(4), y_norm:+yn.toFixed(4),
-          u:+u.toFixed(4), v:+v.toFixed(4),
-          on_image: (u>=0&&u<1&&v>=0&&v<1),
-          ok: !bad   // bandera de calidad, por si quieres filtrar en el análisis
-        });
+    // Tracking directo sobre la grilla: asigna cada muestra a la imagen (celda)
+    // sobre la que cae la mirada. Ya no hace falta ampliar para registrar datos.
+    if(state.phase==="exp" && state.current && state.current.images && !state.current.answered){
+      // Control de calidad: marca (no descarta) muestras que caen muy fuera de
+      // pantalla; así nunca se pierde la sesión por una regresión/offset desviado.
+      const MARGIN = 0.15;
+      const onScreen = (xn>=-MARGIN && xn<=1+MARGIN && yn>=-MARGIN && yn<=1+MARGIN);
+      const bad = !onScreen;
+      if(bad) state.qcDropped=(state.qcDropped||0)+1;
+      // ¿Sobre qué celda cae la mirada? La que contiene (xn,yn) en su rect.
+      for(const im of Object.values(state.current.images)){
+        const r=im.rect; if(!r) continue;
+        const u=(xn-r.x_norm)/r.w_norm, v=(yn-r.y_norm)/r.h_norm;
+        if(u>=0 && u<1 && v>=0 && v<1){
+          im.gaze_samples.push({
+            t:+((performance.now()-state.current.startTime)/1000).toFixed(3),
+            x:Math.round(x), y:Math.round(y), x_norm:+xn.toFixed(4), y_norm:+yn.toFixed(4),
+            u:+u.toFixed(4), v:+v.toFixed(4),
+            on_image: true,
+            ok: !bad   // bandera de calidad, por si quieres filtrar en el análisis
+          });
+          break;   // cada muestra pertenece a una sola imagen
+        }
       }
     }
   }
@@ -738,12 +829,16 @@
     const scr=$("calibScreen");
     if(target.parentElement!==scr) scr.appendChild(target);
     $("calibTitle").textContent="Comprobando precisión…";
-    $("calibMsg").textContent="Sigue el punto con la mirada";
+    $("calibMsg").innerHTML="Sigue el punto con la mirada — <b style=\"color:var(--warn)\">evita parpadear</b> mientras mides";
     $("calibBar").style.width="0%";
     state.gazeOffset={ x:0, y:0 };
+    state.gazeField=null;
     // Medir dentro del área de calibración (coherente con dónde se calibró).
-    const PTS=mapPointsToArea([[0.5,0.5],[0.15,0.15],[0.85,0.15],[0.15,0.85],[0.85,0.85]]);
-    const errs=[], dxs=[], dys=[]; let i=0, samples=[], sampling=false;
+    // 5 puntos (centro + esquinas): medición rápida y menos expuesta a que un
+    // parpadeo del usuario contamine muchas mediciones.
+    const PTS=mapPointsToArea([ [0.5,0.5],[0.15,0.15],[0.85,0.15],[0.15,0.85],[0.85,0.85] ]);
+    // anclas: posición objetivo (px) y desvío medido (predicho - objetivo).
+    const anchors=[]; let i=0, samples=[], sampling=false;
     const gi=setInterval(()=>{ if(sampling && state.lastGaze) samples.push([state.lastGaze.x,state.lastGaze.y]); },30);
     function step(){
       if(i>=PTS.length){ clearInterval(gi); target.style.display="none";
@@ -757,7 +852,7 @@
         setTimeout(()=>{ sampling=false;
           if(samples.length){ let sx=0,sy=0; for(const p of samples){sx+=p[0];sy+=p[1];}
             const mx=sx/samples.length,my=sy/samples.length;
-            errs.push(Math.hypot(mx-tx,my-ty)); dxs.push(mx-tx); dys.push(my-ty); }
+            anchors.push({ tx, ty, dx:mx-tx, dy:my-ty }); }
           i++; step();
         }, 800);
       }, 700);
@@ -765,12 +860,32 @@
     function decide(){
       $("calibBar").style.width="100%";
       const diag=Math.hypot(window.innerWidth,window.innerHeight);
-      if(!errs.length){ after(); return; }   // sin datos: no bloqueamos
+      if(!anchors.length){ after(); return; }   // sin datos: no bloqueamos
       const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;
-      // Corrección de sesgo a partir del desvío medido.
-      state.gazeOffset={ x:-avg(dxs), y:-avg(dys) };
-      const residual=dxs.map((d,k)=>Math.hypot(d+state.gazeOffset.x, dys[k]+state.gazeOffset.y));
-      const pct=100*avg(residual)/diag;
+      let pct;
+      if(state.correctionMode==="zonal"){
+        // Campo de corrección por zonas. Error reportado con validación
+        // leave-one-out: para cada ancla, se corrige con las OTRAS y se mide el
+        // residual -> cifra honesta (no inflada por ajustar y medir en el mismo punto).
+        state.gazeField=anchors;
+        const resid=anchors.map((a)=>{
+          const others=anchors.filter(o=>o!==a);
+          let wsum=0,cx=0,cy=0;
+          for(const o of others){
+            const d2=(a.tx-o.tx)*(a.tx-o.tx)+(a.ty-o.ty)*(a.ty-o.ty);
+            const w=1/(d2+1); wsum+=w; cx+=w*(-o.dx); cy+=w*(-o.dy);
+          }
+          // posición predicha cruda en este ancla = tx+dx ; corregida = +cx/wsum
+          return Math.hypot(a.dx + cx/wsum, a.dy + cy/wsum);
+        });
+        pct=100*avg(resid)/diag;
+      } else {
+        // Corrección de sesgo global a partir del desvío medio.
+        const dxs=anchors.map(a=>a.dx), dys=anchors.map(a=>a.dy);
+        state.gazeOffset={ x:-avg(dxs), y:-avg(dys) };
+        const residual=dxs.map((d,k)=>Math.hypot(d+state.gazeOffset.x, dys[k]+state.gazeOffset.y));
+        pct=100*avg(residual)/diag;
+      }
       state.calibration.gate_error_pct=+pct.toFixed(1);
       // Vista previa: muestra precisión + error y deja decidir antes de empezar.
       showGateSummary(pct, diag, after);
@@ -780,6 +895,10 @@
   // Pantalla de resumen tras el gate: precisión, error y botones Comenzar / Recalibrar.
   function showGateSummary(pct, diag, after){
     const accuracy=Math.max(0, Math.min(100, 100-pct));
+    // Guarda las métricas de precisión para incluirlas en los datos de la sesión.
+    state.tracking.accuracy_pct=+accuracy.toFixed(1);
+    state.tracking.error_pct=+pct.toFixed(1);
+    state.tracking.error_px=Math.round(pct*diag/100);
     const accEl=$("gateAcc"), msg=$("gateMsg");
     let color, text;
     if(pct<5){ color="var(--ok)"; text="Buena precisión. Puedes comenzar el experimento."; }
@@ -791,6 +910,7 @@
     show("gateScreen");
     $("btnGateStart").onclick=()=>{ $("btnGateStart").onclick=null; $("btnGateRecalib").onclick=null; after(); };
     $("btnGateRecalib").onclick=()=>{ $("btnGateStart").onclick=null; $("btnGateRecalib").onclick=null;
+      state.tracking.n_recalibrations++;
       startCalibration(()=>runCalibGate(after), false); };
   }
 
@@ -798,6 +918,7 @@
   function startCalibration(after, short){
     state.phase="calib"; state.afterCalib=after||null;
     state.gazeOffset={ x:0, y:0 };   // una recalibración invalida el sesgo previo
+    state.gazeField=null;            // ...y también el campo de corrección por zonas
     const base = short ? CALIB_SHORT : (tune.calibPoints>=13 ? CALIB_DENSE : CALIB_FULL);
     // Calibrar en el área central donde se ven las imágenes, no en los bordes.
     state.calibPoints = mapPointsToArea(base);
@@ -858,12 +979,10 @@
   }
   function pickSessionSets(){
     const all=state.manifest.sets.slice();
-    let chosen;
-    if(SAME_FOR_ALL){
-      chosen = shuffle(all, mulberry32(SELECTION_SEED)).slice(0, SETS_PER_SESSION);
-    } else {
-      chosen = shuffle(all, mulberry32((Math.random()*1e9)|0)).slice(0, SETS_PER_SESSION);
-    }
+    // Cada bloque es una franja fija y no solapada de SETS_PER_SESSION imágenes.
+    // El orden dentro del bloque se aleatoriza para cada participante.
+    const start = state.block * SETS_PER_SESSION;
+    const chosen = all.slice(start, start + SETS_PER_SESSION);
     state.sessionSets = shuffle(chosen, mulberry32((Date.now()&0x7fffffff)));
   }
 
@@ -871,6 +990,7 @@
   function startExperiment(){
     state.phase="exp"; state.setIndex=0; state.results=[];
     $("setTotal").textContent=state.sessionSets.length;
+    $("feedback").style.display="none";
     show("expScreen"); loadSet(0);
   }
 
@@ -927,8 +1047,18 @@
     $("btnTestMeasure").disabled=true;
     $("testGazeDot").style.display="none";
     $("testResult").style.display="none";
-    // Antes de medir quitamos el offset previo, para medir el error real "crudo".
+    // Aviso previo: indica al usuario que siga los puntos con la mirada antes de
+    // que aparezca el primer objetivo, para que no pierda el primer punto.
+    $("testTarget").style.display="none";
+    $("testBanner").textContent="👁 Sigue cada punto rojo con la mirada y evita parpadear. Vamos a empezar…";
+    clearTimeout(measureTest._t);
+    measureTest._t=setTimeout(()=>runMeasure(), 2000);
+  }
+  function runMeasure(){
+    if(state.phase!=="test") return;
+    // Antes de medir quitamos toda corrección previa, para medir el error "crudo".
     state.gazeOffset={ x:0, y:0 };
+    state.gazeField=null;
     const errors=[], dx=[], dy=[];   // errores absolutos y desvíos con signo
     const target=$("testTarget");
     let i=0;
@@ -995,6 +1125,9 @@
   let timerInt=null, timerLeft=0;
   function loadSet(idx){
     if(idx>=state.sessionSets.length){ endExperiment(); return; }
+    // Garantizar que el feedback esté oculto antes de mostrar el set
+    $("feedback").style.display="none";
+    clearTimeout(showFeedback._t);
     state.setIndex=idx;
     const s=state.sessionSets[idx];
     const versions=shuffle(Object.keys(s.images), mulberry32((Date.now()+idx)&0x7fffffff));
@@ -1002,17 +1135,41 @@
       set_id:s.set_id, image_id:s.image_id, source:s.source,
       grid_order:versions, startTime:performance.now(), answered:false, images:{}
     };
-    versions.forEach(v=>{ state.current.images[v]={version:v, url:s.images[v], rect:null, view_duration_s:0, gaze_samples:[]}; });
+    versions.forEach(v=>{ state.current.images[v]={version:v, url:s.images[v], rect:null, cellEl:null, view_duration_s:0, gaze_samples:[]}; });
     $("setNum").textContent=idx+1;
     const grid=$("grid"); grid.innerHTML="";
+    // 2 versiones (real/fake) -> fila apaisada; 4 -> grilla 2x2 clásica.
+    grid.classList.toggle("grid-pair", versions.length===2);
     versions.forEach((v,pos)=>{
       const cell=document.createElement("div"); cell.className="cell"; cell.dataset.version=v;
-      cell.innerHTML='<img src="'+s.images[v]+'" alt=""><span class="tag">'+(pos+1)+'</span><span class="expand-ic">⤢ ampliar</span>';
-      cell.addEventListener("click",()=>openExpand(v));
+      cell.innerHTML='<img src="'+s.images[v]+'" alt=""><span class="tag">'+(pos+1)+'</span>';
+      // Clic en una imagen = respuesta directa ("elijo esta como la real").
+      cell.addEventListener("click",()=>{ if(state.phase==="exp" && !state.current.answered) recordAnswer(v, false); });
+      state.current.images[v].cellEl=cell;
       grid.appendChild(cell);
     });
     show("expScreen");
+    // Mide los rects inmediatamente (el DOM ya está actualizado tras show()) y
+    // también en el siguiente frame para capturar el layout final post-paint.
+    // Así se evita perder las muestras de mirada que llegan antes del primer rAF.
+    updateCellRects();
+    requestAnimationFrame(()=>updateCellRects());
     startTimer();
+  }
+  // Calcula, por celda, el rectángulo NORMALIZADO (0..1 sobre la ventana) del
+  // área visible de la imagen, para asignar cada muestra de mirada a la imagen
+  // sobre la que cae y obtener coords (u,v) internas a esa imagen.
+  function updateCellRects(){
+    if(!state.current || !state.current.images) return;
+    const EW=window.innerWidth, EH=window.innerHeight;
+    Object.values(state.current.images).forEach(im=>{
+      const cell=im.cellEl; if(!cell) return;
+      const rc=cell.getBoundingClientRect();
+      // La imagen usa object-fit: cover -> llena toda la celda; el área de imagen
+      // coincide con el rect de la celda.
+      im.rect={ x_norm:+(rc.left/EW).toFixed(4), y_norm:+(rc.top/EH).toFixed(4),
+                w_norm:+(rc.width/EW).toFixed(4), h_norm:+(rc.height/EH).toFixed(4) };
+    });
   }
   function startTimer(){
     clearInterval(timerInt); timerLeft=SET_TIME_S;
@@ -1028,27 +1185,6 @@
     const sc=Math.min(EW/nw,EH/nh), dw=nw*sc, dh=nh*sc, ox=(EW-dw)/2, oy=(EH-dh)/2;
     return { x_norm:+(ox/EW).toFixed(4), y_norm:+(oy/EH).toFixed(4), w_norm:+(dw/EW).toFixed(4), h_norm:+(dh/EH).toFixed(4) };
   }
-  function openExpand(v){
-    state.phase="expanded"; state.expandVersion=v; state.expandStart=performance.now();
-    const img=$("expandImg");
-    img.onload=()=>{ const r=computeRect(img); if(r) state.current.images[v].rect=r; };
-    img.src=state.current.images[v].url;
-    if(img.complete && img.naturalWidth){ const r=computeRect(img); if(r) state.current.images[v].rect=r; }
-    $("expandOverlay").style.display="block";
-    const vt=$("viewTimer"); let secs=0; vt.textContent="observando 0.0 s";
-    clearInterval(openExpand._vt); openExpand._vt=setInterval(()=>{ secs+=0.1; vt.textContent="observando "+secs.toFixed(1)+" s"; },100);
-  }
-  function closeExpand(){
-    if(state.phase!=="expanded") return;
-    const v=state.expandVersion;
-    state.current.images[v].view_duration_s += +((performance.now()-state.expandStart)/1000).toFixed(2);
-    clearInterval(openExpand._vt);
-    $("expandOverlay").style.display="none"; state.phase="exp"; state.expandVersion=null;
-  }
-  function chooseOriginal(){
-    if(state.phase!=="expanded") return;
-    const v=state.expandVersion; closeExpand(); recordAnswer(v, false);
-  }
   function timeoutSet(){ recordAnswer(null, true); }
   function recordAnswer(answerVersion, timedOut){
     if(state.current.answered) return;
@@ -1057,8 +1193,18 @@
     const rt = +((performance.now()-state.current.startTime)/1000).toFixed(2);
     const imagesArr=state.current.grid_order.map(v=>{
       const im=state.current.images[v];
-      return { version:v, url:im.url, rect:im.rect, view_duration_s:im.view_duration_s,
-               n_samples:im.gaze_samples.length, gaze_samples:im.gaze_samples };
+      // Tiempo de observación: suma de los intervalos entre muestras consecutivas
+      // sobre esta imagen. Más preciso que (last.t - first.t) cuando el usuario
+      // alterna la mirada entre imágenes, ya que excluye las ausencias.
+      const gs=im.gaze_samples;
+      let dur=0;
+      if(gs.length>1){
+        const dt=30/1000;   // intervalo de muestreo ~30 ms (1 muestra cada ~30 ms)
+        for(let k=1;k<gs.length;k++) dur+=Math.min(gs[k].t-gs[k-1].t, dt*4);
+        dur=+dur.toFixed(2);
+      }
+      return { version:v, url:im.url, rect:im.rect, view_duration_s:dur,
+               n_samples:gs.length, gaze_samples:gs };
     });
     state.results.push({
       set_id:state.current.set_id, image_id:state.current.image_id, source:state.current.source,
@@ -1077,8 +1223,8 @@
     const compare=$("fbCompare"), cont=$("fbContinue");
     compare.style.display="none"; cont.style.display="none";
     if(timedOut){ txt.textContent="⏱ Tiempo agotado"; txt.className="fb no"; sub.textContent="Sin respuesta registrada"; }
-    else if(correct){ txt.textContent="✓ Correcto"; txt.className="fb ok"; sub.textContent="Era la imagen original"; }
-    else { txt.textContent="✗ Incorrecto"; txt.className="fb no"; sub.textContent="Esa estaba editada por IA"; }
+    else if(correct){ txt.textContent="✓ Correcto"; txt.className="fb ok"; sub.textContent="Era la imagen real"; }
+    else { txt.textContent="✗ Incorrecto"; txt.className="fb no"; sub.textContent="Esa fue generada por IA"; }
     fb.style.display="flex";
 
     // Si fue incorrecto, mostramos la imagen elegida junto a la real y dejamos
@@ -1105,6 +1251,9 @@
   // ===================== REVISIÓN FINAL =====================
   // Nombres legibles para cada versión de imagen.
   const VERSION_LABELS = {
+    real: "Imagen real",
+    fake: "Imagen generada por IA",
+    // Versiones del dataset anterior (compatibilidad):
     original: "Imagen original (real)",
     semantic_aware: "Editada por IA — Semantic Aware",
     semantic_agnostic: "Editada por IA — Semantic Agnostic",
@@ -1151,15 +1300,16 @@
     if(max>0) for(let i=0;i<g.length;i++) g[i]/=max;
     return { grid:g, n };
   }
-  // Paleta tipo "inferno" simplificada para el heatmap.
+  // Paleta "jet" (azul->cian->amarillo->rojo), igual que el COLORMAP_JET de
+  // OpenCV que usan los mapas de los modelos en el backend (overlay() de
+  // models_infer.py), para que el heatmap humano se vea con el mismo estilo:
+  // fondo azul en valor 0 y calor encima, mezclado 50/50 con la imagen.
   function heatColor(t){
     t = Math.max(0, Math.min(1, t));
-    const stops = [
-      [0,0,4],[40,11,84],[101,21,110],[159,42,99],[212,72,66],[245,125,21],[250,193,39],[252,255,164]
-    ];
-    const x = t*(stops.length-1), i = Math.floor(x), f = x-i;
-    const a = stops[i], b = stops[Math.min(stops.length-1,i+1)];
-    return [a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f];
+    const r = Math.max(0, Math.min(1, 1.5 - Math.abs(4*t - 3)));
+    const g = Math.max(0, Math.min(1, 1.5 - Math.abs(4*t - 2)));
+    const b = Math.max(0, Math.min(1, 1.5 - Math.abs(4*t - 1)));
+    return [r*255, g*255, b*255];
   }
   function renderHeatCanvas(canvas, imgUrl, rect, samples){
     const heat = buildHeatGrid(samples);
@@ -1178,14 +1328,16 @@
         // relativas a la imagen mostrada en su momento).
         const layer = ctx.createImageData(Math.round(dw), Math.round(dh));
         const lw = layer.width, lh = layer.height, d = layer.data;
+        // Pinta TODO el área (no solo donde hay mirada): el valor 0 da azul, y
+        // el calor encima, con alfa fijo del 50% -> mezcla 50/50 con la imagen
+        // de fondo, igual que overlay() del backend para los modelos.
         for(let py=0; py<lh; py++) for(let px=0; px<lw; px++){
           const gc = Math.min(HEAT_GRID-1, (px/lw*HEAT_GRID)|0);
           const gr = Math.min(HEAT_GRID-1, (py/lh*HEAT_GRID)|0);
           const val = heat.grid[gr*HEAT_GRID+gc];
           const idx = (py*lw+px)*4;
-          if(val<=0.02){ d[idx+3]=0; continue; }
           const [r,g,b] = heatColor(val);
-          d[idx]=r; d[idx+1]=g; d[idx+2]=b; d[idx+3]=Math.round(190*val);
+          d[idx]=r; d[idx+1]=g; d[idx+2]=b; d[idx+3]=128;
         }
         // Pinta la capa en un canvas temporal para poder posicionarla.
         const tmp = document.createElement("canvas");
@@ -1196,8 +1348,37 @@
     bg.src = imgUrl;
     return heat ? heat.n : 0;
   }
+  // Marcador de aciertos (humano + modelos). El humano se sabe al instante; los
+  // modelos se rellenan a medida que llegan sus comparaciones (asíncronas).
+  // `total` cuenta cuántas imágenes se evaluaron con cada modelo (las que tuvieron
+  // comparación con éxito), para que el % sea honesto si alguna falla.
+  const MODEL_KEYS = ["simple","npr","swin","univfd"];
+  const SCORE_LABELS = { human:"Tú (humano)", simple:"Modelo Simple", npr:"Modelo NPR", swin:"Modelo Swin-B", univfd:"Modelo UnivFD" };
+  function renderScoreboard(score){
+    const sb = $("scoreboard"); if(!sb) return;
+    const order = ["human", ...MODEL_KEYS];
+    sb.innerHTML = order.map(k=>{
+      const s = score[k] || { hits:0, total:0 };
+      const pct = s.total ? Math.round(100*s.hits/s.total) : null;
+      const isHuman = k==="human";
+      const sub = isHuman ? "respuestas correctas"
+                : (s.total ? "coincidió con la verdad" : "sin datos aún");
+      return '<div class="score-card'+(isHuman?' human':'')+'">'+
+        '<div class="sc-name">'+SCORE_LABELS[k]+'</div>'+
+        '<div class="sc-num">'+(pct===null?'—':pct+'%')+'</div>'+
+        '<div class="sc-sub">'+(s.total? s.hits+' / '+s.total+' · '+sub : sub)+'</div>'+
+      '</div>';
+    }).join("");
+  }
   function buildReview(){
     const grid = $("reviewGrid"); grid.innerHTML = "";
+    // Conteo de aciertos para el marcador superior.
+    const score = { human:{hits:0,total:0}, simple:{hits:0,total:0}, npr:{hits:0,total:0}, swin:{hits:0,total:0}, univfd:{hits:0,total:0} };
+    state.reviewScore = score;
+    // Cola de comparaciones con IA: se ejecutan una tras otra para no saturar el
+    // servidor (que carga/serializa los modelos por petición). Disparar las 10 a
+    // la vez provocaba que la primera tarjeta fallara por pico de RAM/timeout.
+    const compareQueue = [];
     state.results.forEach((r, i) => {
       const card = document.createElement("div"); card.className = "review-card";
       const correctV = state.sessionSets[i] ? state.sessionSets[i].correct : "original";
@@ -1207,6 +1388,9 @@
       if(r.timed_out){ vClass="skip"; vText="Sin respuesta"; }
       else if(r.correct){ vClass="ok"; vText="✓ Acertaste"; }
       else { vClass="no"; vText="✗ Te equivocaste"; }
+      // Acierto humano: cuenta solo los sets respondidos (los sin respuesta no
+      // suman ni a favor ni en contra, igual que en el resumen final).
+      if(!r.timed_out){ score.human.total++; if(r.correct) score.human.hits++; }
       // Imagen sobre la que mostramos el heatmap: la que el usuario eligió;
       // si no respondió, la que más observó.
       let heatV = pickedV;
@@ -1225,9 +1409,9 @@
         '<div class="rc-canvas-wrap"></div>'+
         '<div class="rc-body">'+
           '<div class="rc-row"><span class="lbl">Tu elección</span>'+
-            '<span class="val '+(!pickedV?'':(pickedV==='original'?'real':'edited'))+'">'+
+            '<span class="val '+(!pickedV?'':(pickedV===correctV?'real':'edited'))+'">'+
             (pickedV ? versionLabel(pickedV) : 'No respondiste')+'</span></div>'+
-          '<div class="rc-row"><span class="lbl">La original era</span>'+
+          '<div class="rc-row"><span class="lbl">La real era</span>'+
             '<span class="val real">'+versionLabel(correctV)+'</span></div>'+
         '</div>';
 
@@ -1247,9 +1431,93 @@
       } else {
         wrap.innerHTML='<div class="rc-noheat">Sin imagen para mostrar</div>';
       }
+
+      // Comparación con el modelo de IA: contenedor con placeholder; se
+      // rellena de forma asíncrona desde el servidor (/compare-models).
+      const models = document.createElement("div");
+      models.className = "rc-models";
+      models.innerHTML = '<div class="rc-models-title">Comparación con modelos de IA</div>'+
+        '<div class="rc-models-status">⏳ Comparando con IA…</div>';
+      card.appendChild(models);
+      if(heatImg){
+        // Verdad FAKE/REAL de la imagen evaluada por los modelos (la del heatmap):
+        // REAL si es la versión correcta del set (la real); FAKE en cualquier otra.
+        const truth = (heatV===correctV) ? "REAL" : "FAKE";
+        // No se dispara aquí: se encola para ejecutarse de forma secuencial.
+        compareQueue.push(() => fetchModelCompare(heatV, r.image_id, heatImg.gaze_samples || [], models, truth, score));
+      } else {
+        models.querySelector(".rc-models-status").textContent = "(sin imagen para comparar)";
+      }
+
       grid.appendChild(card);
     });
+    renderScoreboard(score);   // pinta el humano ya; los modelos se irán llenando
     show("reviewScreen");
+    // Procesa las comparaciones de a una: espera a que termine cada petición
+    // (con éxito o error) antes de lanzar la siguiente.
+    (async () => {
+      for(const task of compareQueue){ await task(); }
+    })();
+  }
+
+  // Pide al servidor el mapa del modelo para la imagen elegida y lo
+  // pinta en la tarjeta, junto con la predicción y las métricas de similitud.
+  async function fetchModelCompare(version, imageId, gazeSamples, container, truth, score){
+    const status = container.querySelector(".rc-models-status");
+    const MODEL_LABELS = { simple:"Modelo Simple · Suavidad", npr:"Modelo NPR · GradCAM", swin:"Modelo Swin-B · GradCAM", univfd:"Modelo UnivFD · GradCAM" };
+    // La inferencia se serializa con lock y libera modelos por petición (puede
+    // dar fallos transitorios por memoria/timeout). Reintentamos un par de veces
+    // antes de rendirnos, y si falla mostramos el motivo real (no un genérico).
+    const ATTEMPTS = 3;
+    let lastErr = "";
+    for(let attempt=1; attempt<=ATTEMPTS; attempt++){
+    try{
+      if(attempt>1 && status){ status.textContent = "⏳ Reintentando comparación con IA… ("+attempt+"/"+ATTEMPTS+")"; }
+      const res = await fetch("/compare-models", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ version, image_id: imageId, gaze_samples: gazeSamples })
+      });
+      const data = await res.json().catch(()=>({ ok:false, error:"respuesta no-JSON ("+res.status+")" }));
+      if(!res.ok || !data.ok){ throw new Error(data.error || ("HTTP "+res.status)); }
+
+      const order = ["simple","npr","swin","univfd"];
+      let html = '<div class="rc-models-title">Comparación con modelos de IA'+
+        ' <span style="color:var(--text-dim);font-weight:400;text-transform:none;letter-spacing:0;">'+
+        '(mirada vs. atención del modelo · '+data.n_points+' puntos)</span></div>'+
+        '<div class="rc-models-grid">';
+      for(const key of order){
+        const m = data.models[key]; if(!m) continue;
+        // Acierto del modelo: su predicción FAKE/REAL coincide con la verdad de
+        // la imagen evaluada. Se cuenta una sola vez por imagen (en el éxito).
+        let hitMark = "";
+        if(score && truth && score[key]){
+          const hit = (String(m.pred).toUpperCase() === truth);
+          score[key].total++; if(hit) score[key].hits++;
+          hitMark = hit ? ' <span style="color:var(--ok)">✓</span>'
+                        : ' <span style="color:var(--warn)">✗</span>';
+        }
+        html += '<div class="rc-model">'+
+          '<div class="rcm-name">'+(MODEL_LABELS[key]||key)+'</div>'+
+          '<img src="'+m.png+'" alt="'+key+'">'+
+          '<div class="rcm-pred">'+m.pred+' · '+Math.round(m.conf*100)+'%'+hitMark+'</div>'+
+          '<div class="rcm-metrics">CC <b>'+m.cc.toFixed(2)+'</b> · SIM <b>'+m.sim.toFixed(2)+'</b><br>'+
+          'KL <b>'+m.kl.toFixed(2)+'</b></div>'+
+        '</div>';
+      }
+      html += '</div>';
+      container.innerHTML = html;
+      if(score) renderScoreboard(score);   // refresca el marcador con este modelo
+      return;   // éxito: salimos del bucle de reintentos
+    }catch(e){
+      lastErr = (e && e.message) ? e.message : String(e);
+      if(attempt<ATTEMPTS){ await new Promise(r=>setTimeout(r, 600*attempt)); }   // backoff
+    }
+    }   // fin del for de reintentos
+    // Agotados los intentos: mostramos el motivo real para poder diagnosticar.
+    if(status){
+      status.classList.add("err");
+      status.textContent = "Comparación IA no disponible — " + lastErr;
+    }
   }
 
   // ===================== FIN / EXPORTACIÓN =====================
@@ -1257,7 +1525,7 @@
   // El resumen (endScreen) se muestra después, desde el botón de la revisión.
   function endExperiment(){
     state.phase="review";
-    clearInterval(timerInt); clearInterval(frameInt); clearInterval(openExpand._vt);
+    clearInterval(timerInt); clearInterval(frameInt);
     stopWebgazer();   // el experimento terminó: liberar la cámara
     buildReview();
     saveExperiment();   // guarda ya, por si cierran la pestaña en la revisión
@@ -1279,12 +1547,14 @@
       participant_id: state.participant,
       gender: state.gender,
       age: state.age,
+      glasses: state.glasses,   // "si" / "no": usa lentes (relevante para el tracking)
       timestamp: new Date().toISOString(),
       consent: true,
       screen: { width: window.innerWidth, height: window.innerHeight },
-      config: { sets_per_session:SETS_PER_SESSION, same_for_all:SAME_FOR_ALL,
-                selection_seed:SELECTION_SEED, set_time_s:SET_TIME_S, recalib_every:RECALIB_EVERY },
+      config: { sets_per_session:SETS_PER_SESSION, block:state.block,
+                set_time_s:SET_TIME_S, recalib_every:RECALIB_EVERY },
       calibration: state.calibration,
+      tracking: state.tracking,   // precisión y error medio medidos en el gate
       sets: state.results
     };
   }
@@ -1303,13 +1573,16 @@
     a.download="exp_"+(state.participant||"anon")+".json"; a.click(); URL.revokeObjectURL(a.href);
   }
   function downloadCSV(){
+    // Columnas de duración dinámicas: se derivan de las versiones reales del
+    // dataset (real/fake para el nuevo, original/... para el antiguo).
+    const versions = state.results.length ? state.results[0].images.map(x=>x.version) : [];
     const rows=[["participant","set_id","image_id","source","answer_version","correct","response_time_s","timed_out",
-                 "dur_original","dur_semantic_aware","dur_semantic_agnostic","dur_pix2pix_magicbrush"]];
+                 ...versions.map(v=>"dur_"+v)]];
     state.results.forEach(r=>{
       const d=v=>{ const im=r.images.find(x=>x.version===v); return im?im.view_duration_s:0; };
       rows.push([ state.participant, r.set_id, r.image_id, r.source, r.answer_version==null?"":r.answer_version,
         r.correct===null?"":(r.correct?1:0), r.response_time_s==null?"":r.response_time_s, r.timed_out?1:0,
-        d("original"), d("semantic_aware"), d("semantic_agnostic"), d("pix2pix_magicbrush") ]);
+        ...versions.map(d) ]);
     });
     const csv=rows.map(r=>r.join(",")).join("\n");
     const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement("a");
@@ -1332,10 +1605,16 @@
   $("btnStart").addEventListener("click", async ()=>{
     const gender=$("gender").value;
     const age=parseInt($("age").value,10);
+    const glasses=$("glasses").value;
     if(!gender){ toast("Selecciona tu género primero.",true); return; }
     if(!age || age<1 || age>120){ toast("Ingresa una edad válida.",true); return; }
+    if(!glasses){ toast("Indica si usas lentes.",true); return; }
+    state.block = parseInt($("blockSelect").value, 10) || 0;
     state.gender=gender;
     state.age=age;
+    state.glasses=glasses;
+    state.correctionMode = ($("trackMode").value==="global") ? "global" : "zonal";
+    state.tracking.correction_mode = state.correctionMode;
     state.participant=genParticipantId();
     $("btnStart").disabled=true; toast("Cargando…");
     try{ await loadManifest(); }catch(e){ toast("No se pudo cargar sets_manifest.json",true); $("btnStart").disabled=false; return; }
@@ -1397,17 +1676,14 @@
       toast("Preset aplicado: "+btn.textContent);
     });
   });
-  $("btnClose").addEventListener("click", closeExpand);
-  $("btnChoose").addEventListener("click", chooseOriginal);
   $("fbContinue").addEventListener("click", hideFeedback);
-  $("btnRecalibGo").addEventListener("click", ()=> startCalibration(()=> loadSet(state.setIndex+1), true) );
+  $("btnRecalibGo").addEventListener("click", ()=> startCalibration(()=>{ state.phase="exp"; loadSet(state.setIndex+1); }, true) );
   $("btnReviewNext").addEventListener("click", showSummary);
   $("btnCSV").addEventListener("click", downloadCSV);
   function finishAll(){
-    // detener todo: temporizadores, cronómetro de vista, encuadre y cámara
-    clearInterval(timerInt); clearInterval(frameInt); clearInterval(openExpand._vt);
+    // detener todo: temporizadores, encuadre y cámara
+    clearInterval(timerInt); clearInterval(frameInt);
     stopWebgazer();   // cierre definitivo: libera la cámara
-    $("expandOverlay").style.display="none";
     state.phase="done";
     show("doneScreen");
   }
@@ -1415,9 +1691,9 @@
   $("btnNew").addEventListener("click", ()=> location.reload());
 
   window.addEventListener("resize", ()=>{
-    if(state.phase==="expanded" && state.expandVersion){
-      const img=$("expandImg"); if(img.complete&&img.naturalWidth){ const r=computeRect(img); if(r) state.current.images[state.expandVersion].rect=r; }
-    }
+    // Si cambian las dimensiones durante un set, recalcula el rect de cada celda
+    // para que el mapeo de mirada siga siendo correcto.
+    if(state.phase==="exp"){ updateCellRects(); }
   });
 })();
 </script>

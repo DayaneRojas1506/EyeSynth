@@ -11,12 +11,38 @@ Luego abrir http://localhost:5000 en el navegador.
 
 import json
 import os
+import sys
 import threading
 import webbrowser
 from datetime import datetime
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+
+# --- Inferencia del modelo único de detección de fakes (obligatoria) ---
+# Por diseño el server "exige" torch: si falta, se aborta con un mensaje claro.
+# Debe correrse en WSL/Linux con el entorno que lo tiene instalado.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from models_infer import ModelBundle
+except ImportError as exc:  # noqa: BLE001
+    sys.stderr.write(
+        "\n[EyeSynth] ERROR: no se pudo importar la inferencia del modelo.\n"
+        f"  Detalle: {exc}\n"
+        "  Este server necesita torch y torchvision, y debe correrse en\n"
+        "  WSL/Linux (no en el venv ligero de Windows). Usa run-wsl.sh.\n\n"
+    )
+    raise
+
+# Instancia global. Los modelos se cargan explícitamente: bajo __main__ en el
+# arranque directo; bajo WSGI se debe llamar BUNDLE.load_all() en el punto de
+# entrada del runner (p.ej. en un módulo wsgi.py) antes de recibir peticiones.
+BUNDLE = ModelBundle()
+if __name__ != "__main__":
+    # Carga preventiva para despliegues WSGI (gunicorn, uWSGI, etc.) donde el
+    # bloque __main__ nunca se ejecuta. Si los pesos no están disponibles se
+    # lanza aquí al importar, no silenciosamente en la primera petición.
+    BUNDLE.load_all()
 
 # --- Rutas del proyecto (independientes del directorio de trabajo) ---
 SERVER_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +55,11 @@ os.makedirs(SESSIONS_DIR, exist_ok=True)
 os.makedirs(EXPERIMENT_SESSIONS_DIR, exist_ok=True)
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
+# JSON estricto: NaN/Infinity NO son JSON válido. Si una respuesta los contiene,
+# preferimos un 500 explícito (jsonify lanzará ValueError) antes que emitir el
+# literal `NaN` con HTTP 200 — eso rompe res.json() en el navegador y aparece
+# como "respuesta no-JSON (200)" sin pista del motivo real.
+app.json.allow_nan = False
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 
@@ -90,6 +121,53 @@ def save_experiment():
     print(f"[EyeSynth] Experimento guardado: {filename} ({n_sets} sets)")
 
     return jsonify({"ok": True, "filename": filename, "sets": n_sets})
+
+
+@app.route("/compare-models", methods=["POST"])
+def compare_models():
+    """Compara el heatmap de mirada humana con el mapa del modelo para la imagen
+    elegida en un set. Devuelve, por modelo, un overlay PNG (base64), la
+    predicción/confianza y las métricas de similitud (CC/SIM/KL)."""
+    data = request.get_json(silent=True)
+    if data is None:
+        return jsonify({"ok": False, "error": "JSON inválido o ausente"}), 400
+
+    version = data.get("version")
+    image_id = data.get("image_id")
+    gaze_samples = data.get("gaze_samples", [])
+    if not version or not image_id:
+        return jsonify({"ok": False, "error": "Faltan 'version' o 'image_id'"}), 400
+
+    # Lista blanca de versiones válidas: evita path traversal con valores como
+    # "../../etc". Solo se permiten los directorios conocidos bajo dataset/images/.
+    _VALID_VERSIONS = {"real", "fake", "original", "semantic_aware",
+                       "semantic_agnostic", "pix2pix_magicbrush"}
+    if version not in _VALID_VERSIONS:
+        return jsonify({"ok": False, "error": f"Versión no permitida: {version!r}"}), 400
+
+    # La imagen puede ser .jpg (dataset antiguo) o .png (sets real/fake del nuevo
+    # dataset). Probamos las extensiones soportadas y usamos la que exista.
+    version_dir = os.path.join(FRONTEND_DIR, "dataset", "images", version)
+    img_path = None
+    for ext in (".png", ".jpg", ".jpeg", ".webp"):
+        cand = os.path.join(version_dir, f"{image_id}{ext}")
+        if os.path.exists(cand):
+            img_path = cand
+            break
+    if img_path is None:
+        return jsonify({"ok": False, "error": f"Imagen no encontrada: {version}/{image_id}.*"}), 404
+
+    try:
+        from PIL import Image
+        pil_img = Image.open(img_path).convert("RGB")
+        result = BUNDLE.compare(pil_img, gaze_samples)
+    except Exception as exc:  # noqa: BLE001
+        return jsonify({"ok": False, "error": f"Error de inferencia: {exc}"}), 500
+
+    result["ok"] = True
+    result["version"] = version
+    result["image_id"] = image_id
+    return jsonify(result)
 
 
 @app.route("/stimuli")
@@ -163,11 +241,34 @@ if __name__ == "__main__":
     print(f"  Experimentos    : {EXPERIMENT_SESSIONS_DIR}")
     print("=" * 56)
 
+    # Verifica el entorno del modelo ANTES de servir (que exista el peso y que
+    # torch importe). Por defecto NO mantiene el modelo en memoria: se carga al
+    # pedir una comparación y se libera, para evitar picos de RAM (OOM en WSL con
+    # poca memoria). Exporta EYESYNTH_KEEP_MODELS=1 si tienes RAM de sobra y
+    # quieres más velocidad.
+    print("[EyeSynth] Verificando modelo de detección...")
+    BUNDLE.load_all()
+
     # Abre el navegador en el experimento tras un breve retraso, sin lanzar
     # procesos externos (evita ventanas de consola y alertas de antivirus).
     # Se usa localhost para que getUserMedia (cámara) tenga contexto seguro.
-    threading.Timer(
-        1.5, lambda: webbrowser.open("http://localhost:5000/experiment")
-    ).start()
+    # En WSL no hay navegador gráfico: webbrowser recurriría a gio/xdg-open y
+    # fallaría con "Operation not supported", así que ahí no se intenta abrir.
+    def _open_browser():
+        try:
+            with open("/proc/version") as fh:
+                is_wsl = "microsoft" in fh.read().lower()
+        except OSError:
+            is_wsl = False
+        if is_wsl:
+            print("[EyeSynth] WSL detectado: abre manualmente "
+                  "http://localhost:5000/experiment en tu navegador.")
+            return
+        try:
+            webbrowser.open("http://localhost:5000/experiment")
+        except Exception:
+            pass
+
+    threading.Timer(1.5, _open_browser).start()
 
     app.run(host="0.0.0.0", port=5000, debug=False)

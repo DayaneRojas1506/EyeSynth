@@ -1,107 +1,114 @@
 # EyeSynth
 
-Plataforma local de **eye-tracking en el navegador** (WebGazer.js) con análisis
-posterior en Python: heatmaps gaussianos, scanpaths y métricas de saliencia
-**NSS / CC / SSIM**.
+Plataforma de **eye-tracking en el navegador** (WebGazer.js) para un experimento de
+**detección de imágenes falsas (FAKE/REAL)**, con análisis posterior en Python y
+comparación de la **atención humana vs. la atención de modelos de IA** (Grad-CAM y
+mapas de saliencia).
+
+El participante ve grillas 2×2 con cuatro versiones de una misma imagen (una real y
+tres editadas/generadas) y debe elegir cuál es la original. Mientras decide, se
+registra su mirada. Después se contrastan esos patrones de atención con los de tres
+detectores de fakes.
+
+> 📖 **Documentación completa y detallada:** [DOCUMENTACION.md](DOCUMENTACION.md)
+> (arquitectura, técnicas de eye-tracking, los tres detectores, cómo se
+> entrenaron, formatos de datos y análisis).
+
+---
+
+## Estructura
 
 ```
-eyesynth/
-├── frontend/index.html          App web de eye-tracking (WebGazer.js)
-├── server/server.py             Servidor Flask (sirve la app + guarda sesiones)
-├── analysis/
-│   ├── eyesynth_analysis.py     Análisis y figuras
-│   └── sessions/                JSON de cada sesión (se generan solos)
-├── models/{npr,univfd}/         (espacio para modelos)
-├── results/figures/             PNG generados por el análisis
+EyeSynth/
+├── frontend/
+│   ├── experiment.html       Experimento principal (grilla 2×2 + eye-tracking)
+│   ├── index.html            App de estímulo único (versión antigua)
+│   ├── sets_manifest.json    Catálogo de sets de imágenes
+│   └── dataset/images/<version>/   Imágenes (4 versiones × 100)
+├── server/
+│   ├── server.py             Servidor Flask (sirve la app, guarda sesiones, inferencia)
+│   ├── models_infer.py       Inferencia + Grad-CAM + métricas de similitud
+│   ├── {simple,npr,coco}_model.py        Los 3 detectores FAKE/REAL
+│   └── train_{simple,npr,coco}_fakereal.py   Entrenamiento de cada detector
+├── analysis/                 Scripts de análisis + sesiones guardadas
+├── dataset_new_model/{fake,real}/   Dataset para (re)entrenar los detectores
 ├── requirements.txt
-├── run.sh / run.bat             Instala dependencias y arranca el servidor
-└── README.md
+├── run-wsl.sh                Arranque completo en WSL (con torch + detectores)
+└── run.sh / run.bat          Arranque simple (sin detectores)
 ```
 
-## Cómo usarlo en 3 pasos
+---
+
+## Cómo usarlo
 
 ### 1. Arrancar el servidor
 
-**Windows:**
-```bat
-./run.bat
-```
+El servidor **completo** (con los detectores de IA y la comparación humano-vs-IA)
+requiere `torch` y se ejecuta en **WSL/Linux**:
 
-**Mac / Linux:**
 ```bash
-chmod +x run.sh
-./run.sh
+# desde WSL
+cd /mnt/c/Users/mitsu/Desktop/EyeSynth
+bash run-wsl.sh            # crea .venv-wsl, instala dependencias y arranca
 ```
 
-> Esto crea un entorno virtual, instala las dependencias y levanta el servidor.
-> Si prefieres hacerlo a mano: `pip install -r requirements.txt` y luego
-> `python server/server.py`.
+> Esto crea el entorno virtual, instala las dependencias (torch puede tardar la
+> primera vez) y levanta el servidor. Usa `bash run-wsl.sh --reinstall` para forzar
+> la reinstalación.
 
 ### 2. Hacer la sesión de eye-tracking
 
 Abre **http://localhost:5000/experiment** en el navegador y:
 
-1. Permite el acceso a la **cámara web**.
-2. Completa la **calibración de 9 puntos** (mira cada punto y haz clic; hay un
-   bloqueo de 1.2 s antes de poder pulsar cada punto para que la mirada se
-   estabilice).
-3. Observa el estímulo durante la fase de **seguimiento**. Verás el cursor de
-   mirada, el heatmap acumulado en vivo y un indicador de calidad
-   (te avisa con *"GAZE FUERA DE RANGO · RECALIBRA"* si la señal se va al borde).
-4. Pulsa **GUARDAR SESIÓN**. El JSON se guarda automáticamente en
-   `analysis/sessions/session_AAAAMMDD_HHMMSS.json`.
+1. Acepta el **consentimiento** y completa tus datos (id, género, edad).
+2. Permite el acceso a la **cámara web** y encuadra tu rostro.
+3. Completa la **calibración** (13 puntos por defecto; mira cada punto y haz clic;
+   hay un bloqueo de 1.2 s antes de poder pulsar para que la mirada se estabilice).
+4. Pasa el **gate de precisión**: si el error es alto, recalibra antes de empezar.
+5. Resuelve los **sets**: en cada grilla 2×2, haz clic en la imagen que creas
+   original. Hay límite de tiempo por set y recalibración cada 5 sets.
+6. Al terminar, la sesión se guarda automáticamente en
+   `analysis/experiment_sessions/exp_<participante>_<fecha>.json`.
 
 ### 3. Analizar las sesiones
 
 ```bash
-python analysis/eyesynth_analysis.py
+python analysis/render_attention_heatmaps.py   # heatmaps de atención por imagen
+python analysis/render_attention_points.py      # scanpaths sobre cada imagen
+python analysis/export_attention_points.py       # exporta puntos por usuario/imagen
+python analysis/eyesynth_analysis.py             # análisis de sesiones de estímulo único
+python analysis/aoi_analysis.py                  # análisis por zonas (AOI)
 ```
 
-- Sin argumentos: procesa **todas** las sesiones y genera un PNG por sesión en
-  `results/figures/`, más un comparativo `resumen_sesiones.png`.
-- Con un archivo: `python analysis/eyesynth_analysis.py session_20260101_120000.json`
-  procesa solo esa sesión.
+Las salidas se generan en `analysis/attention_*/` y `results/figures/`.
 
-## Detalles técnicos
+---
 
-**Formato del JSON de sesión**
+## Los tres detectores FAKE/REAL
 
-```jsonc
-{
-  "session_id": "session_20260101_120000",
-  "timestamp": "2026-01-01T12:00:00.000Z",
-  "screen": { "width": 1920, "height": 1080 },
-  "calibration": { "n_points": 9, "completed": true, "points": [ ... ] },
-  "duration_s": 42.7,
-  "n_samples_raw": 1280,
-  "n_samples_filtered": 1190,
-  "gaze_samples": [ { "t": 0.12, "x": 940, "y": 510, "x_norm": 0.49, "y_norm": 0.47 } ],
-  "heatmap_64x64": [ [ ... 64 valores ... ], ... ]
-}
+| Modelo | Arquitectura | Señal | Mapa de atención |
+|---|---|---|---|
+| **SIMPLE** | Regresión logística (6 features globales) | Suavidad / alta frecuencia (~87 % val_acc) | Heatmap de detalle local |
+| **NPR** | ResNet-50 sobre residuos de píxeles | Artefactos de upsampling de generadores | Grad-CAM (`layer4[-1]`) |
+| **COCO** | ResNet-50 con backbone Faster R-CNN | Features semánticas de objeto (baseline) | Grad-CAM (`layer4[-1]`) |
+
+Entrenamiento (en WSL/Linux con torch; dataset en `dataset_new_model/{fake,real}`):
+
+```bash
+python server/train_simple_fakereal.py    # → simple_fakereal.json (rápido, sin GPU)
+python server/train_npr_fakereal.py       # → npr_fakereal_v2.pth
+python server/train_coco_fakereal.py      # → coco_fakereal.pth
 ```
 
-Las muestras pegadas a los bordes (`x_norm`/`y_norm` ≤ 0.01 o ≥ 0.99) se
-filtran en el navegador **antes** de guardar.
+Detalles de cómo se entrenó cada uno (hiperparámetros, anti-overfitting, linear
+probe): ver [DOCUMENTACION.md](DOCUMENTACION.md#4-bis-cómo-se-entrenaron-los-modelos).
 
-**Métricas del análisis**
-
-- **CC** — correlación de Pearson entre el heatmap de la sesión y el mapa
-  promedio del grupo.
-- **NSS** — Normalized Scanpath Saliency: valor medio del mapa de referencia
-  (normalizado a media 0, desv 1) en las posiciones de mirada de la sesión.
-- **SSIM** — índice de similitud estructural (ventana gaussiana) frente al mapa
-  de referencia.
-
-**Endpoints del servidor**
-
-| Método | Ruta            | Descripción                                   |
-|--------|-----------------|-----------------------------------------------|
-| GET    | `/`             | Sirve `frontend/index.html`                   |
-| POST   | `/save-session` | Guarda el JSON recibido con timestamp         |
-| GET    | `/sessions`     | Lista las sesiones guardadas con metadatos    |
+---
 
 ## Requisitos
 
-- Python 3.8+
-- Cámara web
-- Navegador con WebGL (Chrome / Edge / Firefox recomendados)
+- **Python 3.8+**; para los detectores: `torch`, `torchvision`, `opencv-python`.
+- Resto de dependencias en [requirements.txt](requirements.txt).
+- **Cámara web** y navegador con WebGL (Chrome / Edge / Firefox).
+- La inferencia de los modelos se corre en **WSL/Linux** (torch no se instala en el
+  venv ligero de Windows).
